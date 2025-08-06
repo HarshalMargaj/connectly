@@ -34,13 +34,9 @@ export default function RootLayout({
 				enableSystem
 				disableTransitionOnChange
 			>
-				<html
-					lang="en"
-					className="h-full
-				"
-				>
+				<html lang="en" className="h-full">
 					<body
-						className={`${geistSans.variable} ${geistMono.variable} antialiased h-full overflow-hidden`}
+						className={`${geistSans.variable} ${geistMono.variable} antialiased h-full overflow-hidden dark:bg-neutral-950`}
 					>
 						<Navbar />
 						<main className="flex h-full">
