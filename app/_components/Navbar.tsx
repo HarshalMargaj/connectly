@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
 	SignInButton,
@@ -8,8 +10,11 @@ import {
 } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
+import { useUser } from "@clerk/nextjs";
 
 const Navbar = () => {
+	const { user } = useUser();
+
 	return (
 		<div className="flex items-center justify-between h-16 border-b dark:border-neutral-700 p-5">
 			<div className="text-2xl font-bold text-neutral-800 dark:text-amber-100">
@@ -26,6 +31,9 @@ const Navbar = () => {
 					</SignUpButton>
 				</SignedOut>
 				<SignedIn>
+					<div className="text-amber-100">
+						u/{user?.fullName?.split(" ").join("")}
+					</div>
 					<UserButton />
 				</SignedIn>
 			</div>
