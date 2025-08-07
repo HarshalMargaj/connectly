@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import { ChevronDown, House, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { DialogDemo } from "@/components/reusable-dialog";
+import CommunityForm from "./CommunityForm";
 
 export const SidebarItems = [
 	{ id: 1, item: "Home", path: "/home", icon: <House /> },
@@ -16,6 +18,11 @@ const Sidebar = () => {
 	const router = useRouter();
 	const [selectedItem, setSelectedItem] = useState<number>(1);
 	const [visible, setVisible] = useState<boolean>(true);
+	const [isOpen, setIsOpen] = useState<boolean>(false);
+
+	const handleDialog = () => {
+		setIsOpen(!isOpen);
+	};
 
 	return (
 		<div className="w-[300px] border-r dark:border-neutral-900 p-5 space-y-2 select-none">
@@ -52,12 +59,21 @@ const Sidebar = () => {
 				{visible && (
 					<div className="p-2 space-y-2 ">
 						<Button
+							onClick={() => setIsOpen(true)}
 							className="w-full hover:bg-amber-100/5 rounded-md"
 							variant="ghost"
 						>
 							<Plus />
 							Create a Community
 						</Button>
+						<DialogDemo
+							open={isOpen}
+							setIsOpen={setIsOpen}
+							title="Tell us about your community"
+							description="A name and description help people understand what your community is all about."
+						>
+							<CommunityForm />
+						</DialogDemo>
 						<div>list of communities</div>
 					</div>
 				)}
