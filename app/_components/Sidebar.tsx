@@ -8,6 +8,9 @@ import { ChevronDown, House, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DialogDemo } from "@/components/reusable-dialog";
 import CommunityForm from "./CommunityForm";
+import { useQuery } from "@tanstack/react-query";
+
+import { get } from "@/actions/get-communities";
 
 export const SidebarItems = [
 	{ id: 1, item: "Home", path: "/home", icon: <House /> },
@@ -20,9 +23,10 @@ const Sidebar = () => {
 	const [visible, setVisible] = useState<boolean>(true);
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
-	const handleDialog = () => {
-		setIsOpen(!isOpen);
-	};
+	const { data: communities, isLoading } = useQuery({
+		queryFn: get,
+		queryKey: ["communities"],
+	});
 
 	return (
 		<div className="w-[300px] border-r dark:border-neutral-900 p-5 space-y-2 select-none">
@@ -74,7 +78,11 @@ const Sidebar = () => {
 						>
 							<CommunityForm />
 						</DialogDemo>
-						<div>list of communities</div>
+						<div>
+							{communities?.map(community => (
+								<div key={community.id}>{community.name}</div>
+							))}
+						</div>
 					</div>
 				)}
 			</div>

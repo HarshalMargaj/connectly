@@ -28,14 +28,14 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<ClerkProvider>
-			<ThemeProvider
-				attribute="class"
-				defaultTheme="system"
-				enableSystem
-				disableTransitionOnChange
-			>
-				<QueryProvider>
+		<QueryProvider>
+			<ClerkProvider>
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="system"
+					enableSystem
+					disableTransitionOnChange
+				>
 					<html lang="en" className="h-full">
 						<body
 							className={`${geistSans.variable} ${geistMono.variable} antialiased h-full overflow-hidden dark:bg-neutral-950`}
@@ -47,8 +47,8 @@ export default function RootLayout({
 							</main>
 						</body>
 					</html>
-				</QueryProvider>
-			</ThemeProvider>
-		</ClerkProvider>
+				</ThemeProvider>
+			</ClerkProvider>
+		</QueryProvider>
 	);
 }
