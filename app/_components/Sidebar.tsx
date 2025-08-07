@@ -27,7 +27,8 @@ const Sidebar = () => {
 
 	const { data: communities, isLoading } = useQuery({
 		queryFn: () => getByUser(user?.id as string),
-		queryKey: ["communities"],
+		queryKey: ["communities", user?.id],
+		enabled: !!user?.id,
 	});
 
 	return (

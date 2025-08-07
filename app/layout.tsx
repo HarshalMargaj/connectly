@@ -28,27 +28,27 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<QueryProvider>
-			<ClerkProvider>
-				<ThemeProvider
-					attribute="class"
-					defaultTheme="system"
-					enableSystem
-					disableTransitionOnChange
-				>
-					<html lang="en" className="h-full">
-						<body
-							className={`${geistSans.variable} ${geistMono.variable} antialiased h-full overflow-hidden dark:bg-neutral-950`}
+		<html lang="en" className="h-full">
+			<body
+				className={`${geistSans.variable} ${geistMono.variable} antialiased h-full overflow-hidden dark:bg-neutral-950`}
+			>
+				<ClerkProvider>
+					<QueryProvider>
+						<ThemeProvider
+							attribute="class"
+							defaultTheme="system"
+							enableSystem
+							disableTransitionOnChange
 						>
 							<Navbar />
 							<main className="flex h-full">
 								<Sidebar />
 								{children}
 							</main>
-						</body>
-					</html>
-				</ThemeProvider>
-			</ClerkProvider>
-		</QueryProvider>
+						</ThemeProvider>
+					</QueryProvider>
+				</ClerkProvider>
+			</body>
+		</html>
 	);
 }
