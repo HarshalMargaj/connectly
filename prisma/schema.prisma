@@ -17,4 +17,6 @@ model Community {
   description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  userId      String
 }

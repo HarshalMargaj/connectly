@@ -9,8 +9,9 @@ import { Button } from "@/components/ui/button";
 import { DialogDemo } from "@/components/reusable-dialog";
 import CommunityForm from "./CommunityForm";
 import { useQuery } from "@tanstack/react-query";
+import { useUser } from "@clerk/nextjs";
 
-import { get } from "@/actions/get-communities";
+import { getByUser } from "@/actions/get-community";
 
 export const SidebarItems = [
 	{ id: 1, item: "Home", path: "/home", icon: <House /> },
@@ -18,13 +19,14 @@ export const SidebarItems = [
 ];
 
 const Sidebar = () => {
+	const { user } = useUser();
 	const router = useRouter();
 	const [selectedItem, setSelectedItem] = useState<number>(1);
 	const [visible, setVisible] = useState<boolean>(true);
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
 	const { data: communities, isLoading } = useQuery({
-		queryFn: get,
+		queryFn: () => getByUser(user?.id),
 		queryKey: ["communities"],
 	});
 
