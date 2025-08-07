@@ -16,6 +16,7 @@ import { getByUser } from "@/actions/get-community";
 export const SidebarItems = [
 	{ id: 1, item: "Home", path: "/home", icon: <House /> },
 	{ id: 2, item: "Profile", path: "/profile" },
+	{ id: 3, item: "Communities", path: "/communities" },
 ];
 
 const Sidebar = () => {
