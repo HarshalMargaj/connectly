@@ -26,7 +26,7 @@ const Sidebar = () => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
 	const { data: communities, isLoading } = useQuery({
-		queryFn: () => getByUser(user?.id),
+		queryFn: () => getByUser(user?.id as string),
 		queryKey: ["communities"],
 	});
 
