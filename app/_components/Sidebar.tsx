@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { ChevronDown, House, Plus } from "lucide-react";
+import { ChevronDown, Handshake, House, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { DialogDemo } from "@/components/reusable-dialog";
@@ -65,7 +65,7 @@ const Sidebar = () => {
 				</div>
 
 				{visible && (
-					<div className="p-2 space-y-2 ">
+					<div className="space-y-2 ">
 						<Button
 							onClick={() => setIsOpen(true)}
 							className="w-full hover:bg-amber-100/5 rounded-md"
@@ -82,9 +82,20 @@ const Sidebar = () => {
 						>
 							<CommunityForm />
 						</DialogDemo>
-						<div>
+						<div className="space-y-2">
 							{communities?.map(community => (
-								<div key={community.id}>{community.name}</div>
+								<div
+									key={community.id}
+									className="flex items-center gap-2 hover:bg-amber-100/10 p-2 rounded-md cursor-pointer"
+								>
+									<div className="border border-neutral-700 rounded-full p-1 shadow-sm shadow-amber-100/10">
+										<Handshake
+											className="text-amber-100"
+											size={15}
+										/>
+									</div>
+									{community.name}
+								</div>
 							))}
 						</div>
 					</div>
