@@ -13,9 +13,13 @@ const page = () => {
 	const id = params?.id as string;
 
 	const { data: community, isLoading } = useQuery({
-		queryFn: () => getByComId(id),
 		queryKey: ["community", id],
+		queryFn: () => getByComId(id as string),
+		enabled: !!id,
 	});
+
+	if (isLoading) return <div>Loading...</div>;
+	if (!community) return <div>Community not found</div>;
 
 	return <CommunityPage community={community} />;
 };

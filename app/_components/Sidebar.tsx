@@ -85,6 +85,11 @@ const Sidebar = () => {
 						<div className="space-y-2">
 							{communities?.map(community => (
 								<div
+									onClick={() =>
+										router.push(
+											`/community/${community.id}`
+										)
+									}
 									key={community.id}
 									className="flex items-center gap-2 hover:bg-amber-100/10 p-2 rounded-md cursor-pointer"
 								>
