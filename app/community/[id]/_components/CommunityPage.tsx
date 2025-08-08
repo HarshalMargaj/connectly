@@ -34,7 +34,7 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 	});
 
 	return (
-		<div className="w-full relative">
+		<div className="relative">
 			<div className="h-[200px] w-full overflow-hidden">
 				<img
 					src="/banner.avif"

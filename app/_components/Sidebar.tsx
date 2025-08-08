@@ -24,7 +24,6 @@ export const SidebarItems = [
 const Sidebar = () => {
 	const { user } = useUser();
 	const router = useRouter();
-	const [selectedItem, setSelectedItem] = useState<number>(1);
 	const [visible, setVisible] = useState<boolean>(true);
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
