@@ -14,6 +14,7 @@ import { useUser } from "@clerk/nextjs";
 import { getByUser } from "@/actions/get-community";
 import { getJoinedCommunities } from "@/actions/joined-communities";
 import CommunityItem from "./CommunityItem";
+import { playSound } from "@/lib/PlaySound";
 
 export const SidebarItems = [
 	{ id: 1, item: "Home", path: "/home", icon: <House /> },
@@ -44,10 +45,13 @@ const Sidebar = () => {
 		<div
 			className={`${
 				isSidebarOpen ? "w-[300px]" : "w-10"
-			} border-r dark:border-neutral-900 p-5 space-y-2 select-none relative`}
+			} border-r dark:border-neutral-900 p-5 space-y-2 select-none relative transition-all ease-in-out duration-500`}
 		>
 			<div
-				onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+				onClick={() => {
+					setIsSidebarOpen(!isSidebarOpen);
+					playSound();
+				}}
 				className="absolute top-6 -right-[17px] border border-neutral-700 rounded-full bg-black p-2 hover:bg-neutral-600 cursor-pointer z-10"
 			>
 				<Menu size={15} />
@@ -87,7 +91,10 @@ const Sidebar = () => {
 						{visible && (
 							<div className="space-y-2 ">
 								<Button
-									onClick={() => setIsOpen(true)}
+									onClick={() => {
+										setIsOpen(true);
+										playSound();
+									}}
 									className="w-full hover:bg-amber-100/5 rounded-md"
 									variant="ghost"
 								>

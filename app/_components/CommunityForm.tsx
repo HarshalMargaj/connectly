@@ -14,6 +14,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { playSound } from "@/lib/PlaySound";
 
 const schema = z.object({
 	name: z
@@ -86,7 +87,7 @@ const CommunityForm = () => {
 					</div>
 				)}
 			</div>
-			<Button type="submit">
+			<Button type="submit" onClick={playSound}>
 				{isSubmitting ? "creating..." : "Create Community"}
 			</Button>
 		</form>

@@ -1,6 +1,7 @@
 import { joinCommunity } from "@/actions/join-community";
 import { getJoinedCommunities } from "@/actions/joined-communities";
 import { Button } from "@/components/ui/button";
+import { playSound } from "@/lib/PlaySound";
 
 import { Community } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -51,11 +52,18 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 				</div>
 			</div>
 			<div className="flex items-center justify-end p-5 gap-4">
-				<Button variant="outline" className="rounded-4xl">
+				<Button
+					onClick={playSound}
+					variant="outline"
+					className="rounded-4xl"
+				>
 					<Plus /> Create Post
 				</Button>
 				<Button
-					onClick={() => joinCommunityMutation(community.id)}
+					onClick={() => {
+						joinCommunityMutation(community.id);
+						playSound();
+					}}
 					className="bg-amber-100 rounded-4xl"
 					disabled={isJoined && true}
 				>
