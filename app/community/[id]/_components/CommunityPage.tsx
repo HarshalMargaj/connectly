@@ -20,6 +20,7 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 	});
 
 	const isJoined = joinedCommunities?.find(c => c.id === community.id);
+	console.log(isJoined);
 
 	const { mutate: joinCommunityMutation } = useMutation({
 		mutationFn: joinCommunity,
@@ -56,6 +57,7 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 				<Button
 					onClick={() => joinCommunityMutation(community.id)}
 					className="bg-amber-100 rounded-4xl"
+					disabled={isJoined && true}
 				>
 					{isJoined ? "Joined" : "Join"}
 				</Button>
