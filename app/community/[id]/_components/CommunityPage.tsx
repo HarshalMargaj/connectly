@@ -48,7 +48,9 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 					<div className="border border-neutral-700 rounded-full p-4 shadow-sm shadow-amber-100/10 bg-neutral-800 flex items-center justify-center">
 						<Handshake className="text-amber-100" size={100} />
 					</div>
-					<div className="text-2xl">{community.name}</div>
+					<div className="text-2xl tracking-wider">
+						{community.name}
+					</div>
 				</div>
 			</div>
 			<div className="flex items-center justify-end p-5 gap-4">
