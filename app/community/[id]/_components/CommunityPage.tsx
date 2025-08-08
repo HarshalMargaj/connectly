@@ -1,13 +1,32 @@
+import { joinCommunity } from "@/actions/join-community";
+import { getJoinedCommunities } from "@/actions/joined-communities";
 import { Button } from "@/components/ui/button";
+
 import { Community } from "@prisma/client";
 import { Handshake, Plus } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 interface CommunityPageProps {
 	community: Community;
 }
 
 const CommunityPage = ({ community }: CommunityPageProps) => {
+	const [isJoined, setIsJoined] = useState(false);
+
+	useEffect(() => {
+		const checkMembership = async () => {
+			try {
+				const joined = await getJoinedCommunities();
+				const found = joined.find(c => c.id === community.id);
+				setIsJoined(!!found);
+			} catch (error) {
+				console.error("Failed to fetch joined communities", error);
+			}
+		};
+
+		checkMembership();
+	}, [community.id]);
+
 	return (
 		<div className="w-full relative">
 			<div className="h-[200px] w-full overflow-hidden">
@@ -29,7 +48,12 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 				<Button variant="outline" className="rounded-4xl">
 					<Plus /> Create Post
 				</Button>
-				<Button className="bg-amber-100 rounded-4xl">Join</Button>
+				<Button
+					onClick={() => joinCommunity(community.id)}
+					className="bg-amber-100 rounded-4xl"
+				>
+					{isJoined ? "Joined" : "Join"}
+				</Button>
 			</div>
 		</div>
 	);

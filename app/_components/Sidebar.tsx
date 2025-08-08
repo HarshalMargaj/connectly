@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { ChevronDown, Handshake, House, Plus } from "lucide-react";
+import { ChevronDown, House, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { DialogDemo } from "@/components/reusable-dialog";
@@ -12,6 +12,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useUser } from "@clerk/nextjs";
 
 import { getByUser } from "@/actions/get-community";
+import { getJoinedCommunities } from "@/actions/joined-communities";
+import CommunityItem from "./CommunityItem";
 
 export const SidebarItems = [
 	{ id: 1, item: "Home", path: "/home", icon: <House /> },
@@ -26,10 +28,15 @@ const Sidebar = () => {
 	const [visible, setVisible] = useState<boolean>(true);
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
-	const { data: communities, isLoading } = useQuery({
+	const { data: communities } = useQuery({
 		queryFn: () => getByUser(user?.id as string),
 		queryKey: ["communities", user?.id],
 		enabled: !!user?.id,
+	});
+
+	const { data: joinedCommunities } = useQuery({
+		queryFn: getJoinedCommunities,
+		queryKey: ["joinedCommunities"],
 	});
 
 	return (
@@ -83,24 +90,25 @@ const Sidebar = () => {
 							<CommunityForm />
 						</DialogDemo>
 						<div className="space-y-2">
+							<div className="p-2 text-sm font-bold text-neutral-600 tracking-wide">
+								YOUR COMMUNITIES
+							</div>
 							{communities?.map(community => (
-								<div
-									onClick={() =>
-										router.push(
-											`/community/${community.id}`
-										)
-									}
+								<CommunityItem
+									community={community}
 									key={community.id}
-									className="flex items-center gap-2 hover:bg-amber-100/10 p-2 rounded-md cursor-pointer"
-								>
-									<div className="border border-neutral-700 rounded-full p-1 shadow-sm shadow-amber-100/10">
-										<Handshake
-											className="text-amber-100"
-											size={15}
-										/>
-									</div>
-									{community.name}
-								</div>
+								/>
+							))}
+						</div>
+						<div>
+							<div className="p-2 text-sm font-bold text-neutral-600 tracking-wide ">
+								JOINED COMMUNITIES
+							</div>
+							{joinedCommunities?.map(community => (
+								<CommunityItem
+									community={community}
+									key={community.id}
+								/>
 							))}
 						</div>
 					</div>
