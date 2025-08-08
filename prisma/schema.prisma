@@ -10,6 +10,15 @@ datasource db {
 }
 
 
+model User {
+  userId        String   @id @default(uuid())
+
+  // Communities this user has created
+  createdCommunities Community[] @relation("CreatedCommunities")
+
+  // Communities this user has joined
+  joinedCommunities  Community[] @relation("JoinedCommunities")
+}
 
 model Community {
   id          String   @id @default(uuid())
@@ -18,5 +27,12 @@ model Community {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  userId      String
+  // Owner of the community
+  userId      String?  
+  owner       User?     @relation("CreatedCommunities", fields: [userId], references: [userId])
+
+  // Users who have joined this community
+  joinedBy    User[]   @relation("JoinedCommunities")
 }
+
+
