@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { ChevronDown, House, Plus } from "lucide-react";
+import { ChevronDown, House, Menu, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { DialogDemo } from "@/components/reusable-dialog";
@@ -27,6 +27,8 @@ const Sidebar = () => {
 	const [selectedItem, setSelectedItem] = useState<number>(1);
 	const [visible, setVisible] = useState<boolean>(true);
 	const [isOpen, setIsOpen] = useState<boolean>(false);
+	const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
+	const [selectedCommunity, setSelectedCommunity] = useState<string>();
 
 	const { data: communities } = useQuery({
 		queryFn: () => getByUser(user?.id as string),
@@ -40,80 +42,106 @@ const Sidebar = () => {
 	});
 
 	return (
-		<div className="w-[300px] border-r dark:border-neutral-900 p-5 space-y-2 select-none">
-			{SidebarItems.map(item => (
-				<div
-					onClick={() => {
-						router.push(item.path);
-						setSelectedItem(item.id);
-					}}
-					key={item.id}
-					className={` rounded-md p-2 cursor-pointer ${
-						selectedItem === item.id
-							? "bg-amber-100 text-neutral-800"
-							: "hover:bg-amber-100/10"
-					} `}
-				>
-					{item.item}
-				</div>
-			))}
-			<div>
-				<div
-					onClick={() => setVisible(!visible)}
-					className="p-2 text-sm font-bold text-neutral-600 flex items-center justify-between hover:bg-amber-100/5 rounded-md tracking-wide"
-				>
-					COMMUNITIES
-					<ChevronDown
-						size={20}
-						className={` cursor-pointer transition-all ease-in-out duration-500 ${
-							visible ? "rotate-0" : "rotate-180"
-						}`}
-					/>
-				</div>
-
-				{visible && (
-					<div className="space-y-2 ">
-						<Button
-							onClick={() => setIsOpen(true)}
-							className="w-full hover:bg-amber-100/5 rounded-md"
-							variant="ghost"
-						>
-							<Plus />
-							Create a Community
-						</Button>
-						<DialogDemo
-							open={isOpen}
-							setIsOpen={setIsOpen}
-							title="Tell us about your community"
-							description="A name and description help people understand what your community is all about."
-						>
-							<CommunityForm />
-						</DialogDemo>
-						<div className="space-y-2">
-							<div className="p-2 text-sm font-bold text-neutral-600 tracking-wide">
-								YOUR COMMUNITIES
-							</div>
-							{communities?.map(community => (
-								<CommunityItem
-									community={community}
-									key={community.id}
-								/>
-							))}
-						</div>
-						<div>
-							<div className="p-2 text-sm font-bold text-neutral-600 tracking-wide ">
-								JOINED COMMUNITIES
-							</div>
-							{joinedCommunities?.map(community => (
-								<CommunityItem
-									community={community}
-									key={community.id}
-								/>
-							))}
-						</div>
-					</div>
-				)}
+		<div
+			className={`${
+				isSidebarOpen ? "w-[300px]" : "w-10"
+			} border-r dark:border-neutral-900 p-5 space-y-2 select-none relative`}
+		>
+			<div
+				onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+				className="absolute top-6 -right-[17px] border border-neutral-700 rounded-full bg-black p-2 hover:bg-neutral-600 cursor-pointer z-10"
+			>
+				<Menu size={15} />
 			</div>
+			{isSidebarOpen && (
+				<div>
+					{SidebarItems.map(item => (
+						<div
+							onClick={() => {
+								router.push(item.path);
+								setSelectedCommunity(item.id.toString());
+							}}
+							key={item.id}
+							className={` rounded-md p-2 cursor-pointer ${
+								selectedCommunity === item.id.toString()
+									? "bg-amber-100 text-neutral-800"
+									: "hover:bg-amber-100/10"
+							} `}
+						>
+							{item.item}
+						</div>
+					))}
+					<div>
+						<div
+							onClick={() => setVisible(!visible)}
+							className="p-2 text-sm font-bold text-neutral-600 flex items-center justify-between hover:bg-amber-100/5 rounded-md tracking-wide"
+						>
+							COMMUNITIES
+							<ChevronDown
+								size={20}
+								className={` cursor-pointer transition-all ease-in-out duration-500 ${
+									visible ? "rotate-0" : "rotate-180"
+								}`}
+							/>
+						</div>
+
+						{visible && (
+							<div className="space-y-2 ">
+								<Button
+									onClick={() => setIsOpen(true)}
+									className="w-full hover:bg-amber-100/5 rounded-md"
+									variant="ghost"
+								>
+									<Plus />
+									Create a Community
+								</Button>
+								<DialogDemo
+									open={isOpen}
+									setIsOpen={setIsOpen}
+									title="Tell us about your community"
+									description="A name and description help people understand what your community is all about."
+								>
+									<CommunityForm />
+								</DialogDemo>
+								<div className="space-y-2">
+									<div className="p-2 text-sm font-bold text-neutral-600 tracking-wide">
+										YOUR COMMUNITIES
+									</div>
+									{communities?.map(community => (
+										<CommunityItem
+											community={community}
+											key={community.id}
+											selectedCommunity={
+												selectedCommunity
+											}
+											setSelectedCommunity={
+												setSelectedCommunity
+											}
+										/>
+									))}
+								</div>
+								<div className="space-y-2">
+									<div className="p-2 text-sm font-bold text-neutral-600 tracking-wide ">
+										JOINED COMMUNITIES
+									</div>
+									{joinedCommunities?.map(community => (
+										<CommunityItem
+											community={community}
+											key={community.id}
+											selectedCommunity={
+												selectedCommunity
+											}
+											setSelectedCommunity={
+												setSelectedCommunity
+											}
+										/>
+									))}
+								</div>
+							</div>
+						)}
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };

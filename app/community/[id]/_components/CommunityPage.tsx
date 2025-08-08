@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Community } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Handshake, Plus } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 interface CommunityPageProps {
 	community: Community;
