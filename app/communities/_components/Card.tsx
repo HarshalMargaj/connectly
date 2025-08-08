@@ -13,16 +13,16 @@ const Card = ({ community }: CardProps) => {
 	return (
 		<div
 			onClick={() => router.push(`/community/${community.id}`)}
-			className="border border-neutral-700 p-4 rounded-md max-h-[80px] flex items-center gap-2"
+			className="border border-neutral-700 p-4 rounded-md h-[80px] flex items-center gap-2 w-full"
 		>
 			<div className="border border-neutral-700 rounded-full p-2 shadow-sm shadow-amber-100/10">
 				<Handshake className="text-amber-100" />
 			</div>
-			<div>
+			<div className="w-[80%]">
 				<div className="cursor-pointer hover:border-b hover:border-neutral-700 text-sm">
 					{community.name}
 				</div>
-				<div className="text-sm text-neutral-600 line-clamp-1 truncate">
+				<div className="text-sm text-neutral-600 truncate w-full">
 					{community.description}
 				</div>
 				<div className="text-sm text-neutral-600">0 Members</div>

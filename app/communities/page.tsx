@@ -13,7 +13,7 @@ const page = () => {
 	});
 
 	return (
-		<div className="p-5 grid grid-cols-4 h-full gap-4">
+		<div className="p-5 grid gap-4 grid-cols-4 w-full grid-rows-8">
 			{communities?.map(community => (
 				<Card key={community.id} community={community} />
 			))}
