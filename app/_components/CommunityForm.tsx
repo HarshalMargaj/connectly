@@ -13,6 +13,7 @@ import { useUser } from "@clerk/nextjs";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const schema = z.object({
 	name: z
@@ -29,6 +30,7 @@ type FieldValues = z.infer<typeof schema>;
 
 const CommunityForm = () => {
 	const { user } = useUser();
+	const queryClient = useQueryClient();
 
 	const {
 		register,
@@ -38,13 +40,21 @@ const CommunityForm = () => {
 		resolver: zodResolver(schema),
 	});
 
+	const { mutateAsync: createCommunityMutation } = useMutation({
+		mutationFn: create,
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["communities"] });
+			console.log("community has been created successfully");
+		},
+	});
+
 	const onSubmit: SubmitHandler<FieldValues> = async data => {
 		const formData = new FormData();
 		formData.append("name", data.name);
 		formData.append("description", data.description);
 		formData.append("userId", user?.id || "");
 
-		await create(formData);
+		await createCommunityMutation(formData);
 	};
 
 	return (

@@ -3,6 +3,7 @@ import { getJoinedCommunities } from "@/actions/joined-communities";
 import { Button } from "@/components/ui/button";
 
 import { Community } from "@prisma/client";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Handshake, Plus } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
@@ -11,21 +12,25 @@ interface CommunityPageProps {
 }
 
 const CommunityPage = ({ community }: CommunityPageProps) => {
-	const [isJoined, setIsJoined] = useState(false);
+	const queryClient = useQueryClient();
 
-	useEffect(() => {
-		const checkMembership = async () => {
-			try {
-				const joined = await getJoinedCommunities();
-				const found = joined.find(c => c.id === community.id);
-				setIsJoined(!!found);
-			} catch (error) {
-				console.error("Failed to fetch joined communities", error);
-			}
-		};
+	const { data: joinedCommunities } = useQuery({
+		queryKey: ["joinedCommunities"],
+		queryFn: getJoinedCommunities,
+	});
 
-		checkMembership();
-	}, [community.id]);
+	const isJoined = joinedCommunities?.find(c => c.id === community.id);
+
+	const { mutate: joinCommunityMutation } = useMutation({
+		mutationFn: joinCommunity,
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["joinedCommunities"] });
+			console.log("you have successfully join community");
+		},
+		onError: () => {
+			console.log("error joining community");
+		},
+	});
 
 	return (
 		<div className="w-full relative">
@@ -49,7 +54,7 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 					<Plus /> Create Post
 				</Button>
 				<Button
-					onClick={() => joinCommunity(community.id)}
+					onClick={() => joinCommunityMutation(community.id)}
 					className="bg-amber-100 rounded-4xl"
 				>
 					{isJoined ? "Joined" : "Join"}
