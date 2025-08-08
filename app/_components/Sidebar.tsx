@@ -57,7 +57,7 @@ const Sidebar = () => {
 				<Menu size={15} />
 			</div>
 			{isSidebarOpen && (
-				<div>
+				<div className="space-y-2">
 					{SidebarItems.map(item => (
 						<div
 							onClick={() => {
