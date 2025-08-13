@@ -37,8 +37,9 @@ const Sidebar = () => {
 	});
 
 	const { data: joinedCommunities } = useQuery({
-		queryFn: getJoinedCommunities,
-		queryKey: ["joinedCommunities"],
+		queryFn: () => getJoinedCommunities(user?.id as string),
+		queryKey: ["joinedCommunities", user?.id],
+		enabled: !!user?.id,
 	});
 
 	return (

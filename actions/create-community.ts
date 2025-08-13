@@ -11,20 +11,6 @@ export const create = async (formData: FormData) => {
 		redirect("/signin");
 	}
 
-	// const existingUser = await db.user.findUnique({
-	// 	where: {
-	// 		userId: userId,
-	// 	},
-	// });
-
-	// if (!existingUser) {
-	// 	await db.user.create({
-	// 		data: {
-	// 			userId: userId,
-	// 		},
-	// 	});
-	// }
-
 	const name = formData.get("name") as string;
 	const description = formData.get("description") as string;
 

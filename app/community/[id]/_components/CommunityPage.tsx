@@ -1,8 +1,11 @@
+"use client";
+
 import { joinCommunity } from "@/actions/join-community";
 import { getJoinedCommunities } from "@/actions/joined-communities";
 import { DialogDemo } from "@/components/reusable-dialog";
 import { Button } from "@/components/ui/button";
 import { playSound } from "@/lib/PlaySound";
+import { useUser } from "@clerk/nextjs";
 
 import { Community } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -16,10 +19,11 @@ interface CommunityPageProps {
 const CommunityPage = ({ community }: CommunityPageProps) => {
 	const [open, setOpen] = useState<boolean>(false);
 	const queryClient = useQueryClient();
+	const { user } = useUser();
 
 	const { data: joinedCommunities } = useQuery({
-		queryKey: ["joinedCommunities"],
-		queryFn: getJoinedCommunities,
+		queryFn: () => getJoinedCommunities(user?.id as string),
+		queryKey: ["joinedCommunities", user?.id],
 	});
 
 	const isJoined = joinedCommunities?.find(c => c.id === community.id);
