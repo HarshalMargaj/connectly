@@ -59,7 +59,7 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 					</div>
 				</div>
 			</div>
-			<div className="flex items-center justify-end p-5 gap-4">
+			<div className="flex items-center justify-end p-5 gap-2">
 				<Button
 					onClick={() => {
 						playSound();
