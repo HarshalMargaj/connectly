@@ -1,2 +1,3 @@
 "use server";
-export const createPost = () => {};
+
+export const createPost = async () => {};

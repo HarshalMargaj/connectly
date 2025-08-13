@@ -18,6 +18,8 @@ model User {
 
   // Communities this user has joined
   joinedCommunities  Community[] @relation("JoinedCommunities")
+
+  createdPosts       Post[] @relation("CreatedPosts")
 }
 
 model Community {
@@ -33,6 +35,17 @@ model Community {
 
   // Users who have joined this community
   joinedBy    User[]   @relation("JoinedCommunities")
+
+  posts       Post[]
 }
 
+model Post {
+  id          String   @id @default(uuid())
+  title       String   
+  description String
+  userId      String 
+  owner       User?     @relation("CreatedPosts", fields: [userId], references: [userId])
+  communityId String
+  community   Community @relation(fields: [communityId], references: [id])
+}
 
