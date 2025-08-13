@@ -5,14 +5,14 @@ import { Handshake } from "lucide-react";
 
 interface CommunityItemProps {
 	community: Community;
-	selectedCommunity: string | undefined;
-	setSelectedCommunity: (communityId: string) => void;
+	selectedItem: string | undefined;
+	setSelectedItem: (communityId: string) => void;
 }
 
 const CommunityItem = ({
 	community,
-	selectedCommunity,
-	setSelectedCommunity,
+	selectedItem,
+	setSelectedItem,
 }: CommunityItemProps) => {
 	const router = useRouter();
 
@@ -20,11 +20,11 @@ const CommunityItem = ({
 		<div
 			onClick={() => {
 				router.push(`/community/${community.id}`);
-				setSelectedCommunity(community.id);
+				setSelectedItem(community.id);
 			}}
 			key={community.id}
 			className={`flex items-center gap-2 ${
-				selectedCommunity === community.id
+				selectedItem === community.id
 					? "bg-amber-100 text-neutral-800"
 					: "hover:bg-amber-100/10"
 			} p-2 rounded-md cursor-pointer`}
@@ -32,7 +32,7 @@ const CommunityItem = ({
 			<div className="border border-neutral-700 rounded-full p-1 shadow-sm shadow-amber-100/10">
 				<Handshake
 					className={` ${
-						selectedCommunity === community.id
+						selectedItem === community.id
 							? "text-neutral-800"
 							: "text-amber-100"
 					}`}

@@ -28,7 +28,7 @@ const Sidebar = () => {
 	const [visible, setVisible] = useState<boolean>(true);
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
-	const [selectedCommunity, setSelectedCommunity] = useState<string>();
+	const [selectedItem, setSelectedItem] = useState<string>("1");
 
 	const { data: communities } = useQuery({
 		queryFn: () => getByUser(user?.id as string),
@@ -62,11 +62,11 @@ const Sidebar = () => {
 						<div
 							onClick={() => {
 								router.push(item.path);
-								setSelectedCommunity(item.id.toString());
+								setSelectedItem(item.id.toString());
 							}}
 							key={item.id}
 							className={` rounded-md p-2 cursor-pointer ${
-								selectedCommunity === item.id.toString()
+								selectedItem === item.id.toString()
 									? "bg-amber-100 text-neutral-800"
 									: "hover:bg-amber-100/10"
 							} `}
@@ -117,12 +117,8 @@ const Sidebar = () => {
 										<CommunityItem
 											community={community}
 											key={community.id}
-											selectedCommunity={
-												selectedCommunity
-											}
-											setSelectedCommunity={
-												setSelectedCommunity
-											}
+											selectedItem={selectedItem}
+											setSelectedItem={setSelectedItem}
 										/>
 									))}
 								</div>
@@ -134,12 +130,8 @@ const Sidebar = () => {
 										<CommunityItem
 											community={community}
 											key={community.id}
-											selectedCommunity={
-												selectedCommunity
-											}
-											setSelectedCommunity={
-												setSelectedCommunity
-											}
+											selectedItem={selectedItem}
+											setSelectedItem={setSelectedItem}
 										/>
 									))}
 								</div>
