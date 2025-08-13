@@ -12,6 +12,8 @@ datasource db {
 
 model User {
   userId        String   @id @default(uuid())
+  userName      String
+  userImage     String
 
   // Communities this user has created
   createdCommunities Community[] @relation("CreatedCommunities")

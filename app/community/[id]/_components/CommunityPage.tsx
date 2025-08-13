@@ -12,6 +12,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Handshake, Plus } from "lucide-react";
 import React, { useState } from "react";
 import CreatePostForm from "./CreatePostForm";
+import PostSection from "./PostSection";
 
 interface CommunityPageProps {
 	community: Community;
@@ -88,6 +89,9 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 				>
 					{isJoined ? "Joined" : "Join"}
 				</Button>
+			</div>
+			<div className="p-5">
+				<PostSection communityId={community.id} />
 			</div>
 		</div>
 	);
