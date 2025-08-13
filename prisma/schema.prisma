@@ -47,5 +47,7 @@ model Post {
   owner       User?     @relation("CreatedPosts", fields: [userId], references: [userId])
   communityId String
   community   Community @relation(fields: [communityId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
 }
 
