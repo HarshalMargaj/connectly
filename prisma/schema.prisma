@@ -50,6 +50,19 @@ model Post {
   communityId String
   community   Community @relation(fields: [communityId], references: [id])
   createdAt   DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
+  updatedAt   DateTime @updatedAt @default(now())
+  likes       Int
+  dislikes    Int
+  comments    Comment[]
+}
+
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  userId    String
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id])
+  createdAt DateTime @default(now())
 }
 
