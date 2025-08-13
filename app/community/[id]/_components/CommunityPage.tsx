@@ -11,6 +11,7 @@ import { Community } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Handshake, Plus } from "lucide-react";
 import React, { useState } from "react";
+import CreatePostForm from "./CreatePostForm";
 
 interface CommunityPageProps {
 	community: Community;
@@ -75,7 +76,7 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 					title="Create Post"
 					description={`Create post in ${community.name}`}
 				>
-					create post
+					<CreatePostForm />
 				</DialogDemo>
 				<Button
 					onClick={() => {

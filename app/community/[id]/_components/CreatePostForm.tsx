@@ -1,0 +1,73 @@
+import { createPost } from "@/actions/create-post";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import React from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import z from "zod";
+
+const schema = z.object({
+	title: z
+		.string()
+		.min(1, { message: "Title is required" })
+		.max(100, { message: "Title must be at most 100 characters" }),
+	description: z.string().min(1, { message: "Description is required" }),
+});
+
+type FieldValues = z.infer<typeof schema>;
+
+const CreatePostForm = () => {
+	const {
+		register,
+		handleSubmit,
+		formState: { errors, isSubmitting },
+	} = useForm({
+		resolver: zodResolver(schema),
+	});
+
+	const { mutate: createPostMutaiton } = useMutation({
+		mutationFn: createPost,
+		onSuccess: () => {
+			console.log("post created");
+		},
+	});
+
+	const onSubmit: SubmitHandler<FieldValues> = async data => {
+		const formData = new FormData();
+		formData.append("title", data.title);
+		formData.append("description", data.description);
+
+		await createPostMutaiton(formData);
+	};
+
+	return (
+		<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+			<label htmlFor="title">Title</label>
+			<Input
+				type="text"
+				{...register("title")}
+				id="title"
+				placeholder="Title"
+			/>
+			{errors.title && (
+				<div className="text-red-500">{errors.title.message}</div>
+			)}
+			<label htmlFor="description">Description</label>
+			<Input
+				type="text"
+				{...register("description")}
+				id="description"
+				placeholder="Description"
+			/>
+			{errors.description && (
+				<div className="text-red-500">{errors.description.message}</div>
+			)}
+			<Button type="submit">
+				{isSubmitting ? "Createing..." : "Create Post"}
+			</Button>
+		</form>
+	);
+};
+
+export default CreatePostForm;
