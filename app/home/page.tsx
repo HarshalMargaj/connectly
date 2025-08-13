@@ -12,9 +12,9 @@ const home = () => {
 	});
 
 	return (
-		<div className="p-5">
+		<div className="p-5 space-y-4 pb-20">
 			{posts?.map(post => (
-				<PostCard post={post} />
+				<PostCard key={post.id} post={post} />
 			))}
 		</div>
 	);

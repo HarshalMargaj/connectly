@@ -1,6 +1,6 @@
 import { getPostsById } from "@/actions/get-posts-by-id";
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useEffect } from "react";
 import PostCard from "./PostCard";
 
 interface PostSectionProps {

@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-
 import { getByComId } from "@/actions/get-communityById";
 
 import { useQuery } from "@tanstack/react-query";
@@ -22,7 +21,7 @@ const page = () => {
 	if (!community) return <div>Community not found</div>;
 
 	return (
-		<div className="overflow-y-scroll h-screen">
+		<div className="overflow-y-scroll h-screen scroll-smooth">
 			<CommunityPage community={community} />
 		</div>
 	);
