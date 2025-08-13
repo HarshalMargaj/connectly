@@ -1,6 +1,7 @@
 import { createPost } from "@/actions/create-post";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { playSound } from "@/lib/PlaySound";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import React from "react";
@@ -17,7 +18,11 @@ const schema = z.object({
 
 type FieldValues = z.infer<typeof schema>;
 
-const CreatePostForm = () => {
+interface CreatePostFormProps {
+	communityId: string;
+}
+
+const CreatePostForm = ({ communityId }: CreatePostFormProps) => {
 	const {
 		register,
 		handleSubmit,
@@ -26,10 +31,13 @@ const CreatePostForm = () => {
 		resolver: zodResolver(schema),
 	});
 
-	const { mutate: createPostMutaiton } = useMutation({
+	const { mutateAsync: createPostMutaiton } = useMutation({
 		mutationFn: createPost,
 		onSuccess: () => {
 			console.log("post created");
+		},
+		onError: error => {
+			console.error("error creating post:", error);
 		},
 	});
 
@@ -37,6 +45,7 @@ const CreatePostForm = () => {
 		const formData = new FormData();
 		formData.append("title", data.title);
 		formData.append("description", data.description);
+		formData.append("communityId", communityId);
 
 		await createPostMutaiton(formData);
 	};
@@ -63,8 +72,8 @@ const CreatePostForm = () => {
 			{errors.description && (
 				<div className="text-red-500">{errors.description.message}</div>
 			)}
-			<Button type="submit">
-				{isSubmitting ? "Createing..." : "Create Post"}
+			<Button type="submit" onClick={playSound}>
+				{isSubmitting ? "Creating..." : "Create Post"}
 			</Button>
 		</form>
 	);
