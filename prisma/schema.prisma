@@ -22,6 +22,10 @@ model User {
   joinedCommunities  Community[] @relation("JoinedCommunities")
 
   createdPosts       Post[] @relation("CreatedPosts")
+
+  Comment Comment[]
+
+  PostReaction PostReaction[]
 }
 
 model Community {
@@ -54,6 +58,8 @@ model Post {
   likes       Int
   dislikes    Int
   comments    Comment[]
+
+  PostReaction PostReaction[]
 }
 
 
@@ -63,6 +69,24 @@ model Comment {
   userId    String
   postId    String
   post      Post     @relation(fields: [postId], references: [id])
+  author    User     @relation(fields: [userId], references: [userId])
   createdAt DateTime @default(now())
 }
 
+model PostReaction {
+  id        String        @id @default(uuid())
+  postId    String
+  userId    String
+  type      ReactionType
+  createdAt DateTime      @default(now())
+
+  post      Post          @relation(fields: [postId], references: [id])
+  user      User          @relation(fields: [userId], references: [userId])
+
+  @@unique([postId, userId]) // prevents duplicate reactions by the same user
+}
+
+enum ReactionType {
+  LIKE
+  DISLIKE
+}

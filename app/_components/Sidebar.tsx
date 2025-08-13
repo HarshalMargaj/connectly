@@ -77,7 +77,10 @@ const Sidebar = () => {
 					))}
 					<div>
 						<div
-							onClick={() => setVisible(!visible)}
+							onClick={() => {
+								setVisible(!visible);
+								playSound();
+							}}
 							className="p-2 text-sm font-bold text-neutral-600 flex items-center justify-between hover:bg-amber-100/5 rounded-md tracking-wide"
 						>
 							COMMUNITIES
