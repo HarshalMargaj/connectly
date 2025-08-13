@@ -13,8 +13,6 @@ const PostSection = ({ communityId }: PostSectionProps) => {
 		queryKey: ["posts", communityId],
 	});
 
-	console.log(posts);
-
 	return (
 		<div className="space-y-2">
 			{posts?.map(post => (

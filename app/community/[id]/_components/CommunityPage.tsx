@@ -90,7 +90,7 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 					{isJoined ? "Joined" : "Join"}
 				</Button>
 			</div>
-			<div className="p-5">
+			<div className="p-5 pb-20">
 				<PostSection communityId={community.id} />
 			</div>
 		</div>

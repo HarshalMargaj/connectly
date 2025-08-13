@@ -21,7 +21,11 @@ const page = () => {
 	if (isLoading) return <div>Loading...</div>;
 	if (!community) return <div>Community not found</div>;
 
-	return <CommunityPage community={community} />;
+	return (
+		<div className="overflow-y-scroll h-screen">
+			<CommunityPage community={community} />
+		</div>
+	);
 };
 
 export default page;
