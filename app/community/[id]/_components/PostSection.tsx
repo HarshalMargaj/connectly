@@ -1,7 +1,6 @@
 import { getPostsById } from "@/actions/get-posts-by-id";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import { Post } from "@prisma/client";
 
 interface PostSectionProps {
 	communityId: string;
