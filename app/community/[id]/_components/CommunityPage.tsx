@@ -1,18 +1,20 @@
 import { joinCommunity } from "@/actions/join-community";
 import { getJoinedCommunities } from "@/actions/joined-communities";
+import { DialogDemo } from "@/components/reusable-dialog";
 import { Button } from "@/components/ui/button";
 import { playSound } from "@/lib/PlaySound";
 
 import { Community } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Handshake, Plus } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 
 interface CommunityPageProps {
 	community: Community;
 }
 
 const CommunityPage = ({ community }: CommunityPageProps) => {
+	const [open, setOpen] = useState<boolean>(false);
 	const queryClient = useQueryClient();
 
 	const { data: joinedCommunities } = useQuery({
@@ -21,7 +23,6 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 	});
 
 	const isJoined = joinedCommunities?.find(c => c.id === community.id);
-	console.log(isJoined);
 
 	const { mutate: joinCommunityMutation } = useMutation({
 		mutationFn: joinCommunity,
@@ -55,12 +56,23 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 			</div>
 			<div className="flex items-center justify-end p-5 gap-4">
 				<Button
-					onClick={playSound}
+					onClick={() => {
+						playSound();
+						setOpen(true);
+					}}
 					variant="outline"
 					className="rounded-4xl"
 				>
 					<Plus /> Create Post
 				</Button>
+				<DialogDemo
+					open={open}
+					setIsOpen={setOpen}
+					title="Create Post"
+					description={`Create post in ${community.name}`}
+				>
+					create post
+				</DialogDemo>
 				<Button
 					onClick={() => {
 						joinCommunityMutation(community.id);

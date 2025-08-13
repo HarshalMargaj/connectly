@@ -8,6 +8,7 @@ import Sidebar from "./_components/Sidebar";
 import QueryProvider from "@/lib/query-provider";
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
+import { ensureUserExists } from "@/actions/user";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -29,15 +30,7 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	const { userId } = await auth();
-
-	if (userId) {
-		const existingUser = await db.user.findUnique({ where: { userId } });
-
-		if (!existingUser) {
-			await db.user.create({ data: { userId } });
-		}
-	}
+	await ensureUserExists();
 
 	return (
 		<html lang="en" className="h-full" suppressHydrationWarning>
