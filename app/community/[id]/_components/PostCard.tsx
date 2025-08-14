@@ -32,8 +32,8 @@ const PostCard = ({ post }: PostCardProps) => {
 			<div className="text-xl">{post.title}</div>
 			<div className="text-neutral-400">{post.description}</div>
 			<div className="flex items-center gap-4">
-				<ThumbsUp /> 100
-				<ThumbsDown /> 10
+				<ThumbsUp /> {post.likes}
+				<ThumbsDown /> {post.dislikes}
 				<MessageSquareText /> 100
 			</div>
 		</div>

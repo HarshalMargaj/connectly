@@ -20,6 +20,8 @@ export const createPost = async (formData: FormData) => {
 			description,
 			userId,
 			communityId,
+			likes: 0,
+			dislikes: 0,
 		},
 	});
 };

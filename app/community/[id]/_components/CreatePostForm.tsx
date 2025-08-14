@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { playSound } from "@/lib/PlaySound";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import z from "zod";
@@ -30,11 +30,12 @@ const CreatePostForm = ({ communityId }: CreatePostFormProps) => {
 	} = useForm({
 		resolver: zodResolver(schema),
 	});
+	const queryClient = useQueryClient();
 
 	const { mutateAsync: createPostMutaiton } = useMutation({
 		mutationFn: createPost,
 		onSuccess: () => {
-			console.log("post created");
+			queryClient.invalidateQueries({ queryKey: ["posts"] });
 		},
 		onError: error => {
 			console.error("error creating post:", error);
