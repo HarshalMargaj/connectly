@@ -32,7 +32,7 @@ const AddCommentForm = ({ postId, userId }: AddCommentFormProps) => {
 	const { mutateAsync: addCommentMutation } = useMutation({
 		mutationFn: addComment,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["comments"] });
+			queryClient.invalidateQueries({ queryKey: ["comments", postId] });
 			console.log("comment added successfully");
 		},
 		onError: error => {
