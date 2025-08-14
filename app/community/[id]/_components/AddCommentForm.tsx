@@ -6,10 +6,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import z from "zod";
+import { z } from "zod";
 
 const schema = z.object({
-	content: z.string("Comment is required"),
+	content: z.string().min(1, "Comment is required"),
 });
 
 type FormFields = z.infer<typeof schema>;
@@ -54,19 +54,22 @@ const AddCommentForm = ({ postId, userId }: AddCommentFormProps) => {
 	return (
 		<form
 			onSubmit={handleSubmit(onSubmit)}
-			className="flex items-center gap-4 "
+			className="flex flex-col gap-4 "
 		>
-			<Input
-				type="text"
-				placeholder="Add comment"
-				{...register("content")}
-			/>
+			<div className="flex w-full items-center gap-4">
+				<Input
+					type="text"
+					placeholder="Add comment"
+					{...register("content")}
+				/>
+
+				<Button type="submit" onClick={playSound}>
+					{isSubmitting ? "Adding..." : "Add Comment"}
+				</Button>
+			</div>
 			{errors.content && (
 				<div className="text-red-500">{errors.content.message}</div>
 			)}
-			<Button type="submit" onClick={playSound}>
-				{isSubmitting ? "Adding..." : "Add Comment"}
-			</Button>
 		</form>
 	);
 };
