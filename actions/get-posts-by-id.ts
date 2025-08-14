@@ -8,6 +8,7 @@ export const getPostsById = async (communityId: string) => {
 		include: {
 			owner: true,
 			comments: true,
+			PostReaction: true,
 		},
 	});
 };
