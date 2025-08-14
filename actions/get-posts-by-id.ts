@@ -7,6 +7,7 @@ export const getPostsById = async (communityId: string) => {
 		where: { communityId },
 		include: {
 			owner: true,
+			comments: true,
 		},
 	});
 };

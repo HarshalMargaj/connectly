@@ -1,9 +1,13 @@
 import { Prisma } from "@prisma/client";
 import { MessageSquareText, ThumbsDown, ThumbsUp } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
+import AddCommentForm from "./AddCommentForm";
+import { useQuery } from "@tanstack/react-query";
+import { getCommentsById } from "@/actions/get-comments-by-id";
+import Comment from "./Comment";
 
 type PostWithOwner = Prisma.PostGetPayload<{
-	include: { owner: true };
+	include: { owner: true; comments: true };
 }>;
 
 interface PostCardProps {
@@ -11,6 +15,13 @@ interface PostCardProps {
 }
 
 const PostCard = ({ post }: PostCardProps) => {
+	const [openComment, setOpenComment] = useState<boolean>(false);
+
+	const { data: comments, isLoading } = useQuery({
+		queryFn: () => getCommentsById(post.id),
+		queryKey: ["comments", post.id],
+	});
+
 	return (
 		<div
 			key={post.id}
@@ -31,11 +42,24 @@ const PostCard = ({ post }: PostCardProps) => {
 			</div>
 			<div className="text-xl">{post.title}</div>
 			<div className="text-neutral-400">{post.description}</div>
-			<div className="flex items-center gap-4">
+			<div className="flex items-center gap-4 select-none">
 				<ThumbsUp /> {post.likes}
 				<ThumbsDown /> {post.dislikes}
-				<MessageSquareText /> 100
+				<MessageSquareText
+					onClick={() => setOpenComment(!openComment)}
+				/>{" "}
+				{post.comments.length}
 			</div>
+			{openComment && (
+				<div className="space-y-2">
+					<AddCommentForm postId={post.id} userId={post.userId} />
+					<div className="space-y-2">
+						{comments?.map(comment => (
+							<Comment key={comment.id} comment={comment} />
+						))}
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };
