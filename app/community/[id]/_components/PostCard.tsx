@@ -42,6 +42,9 @@ const PostCard = ({ post }: PostCardProps) => {
 	const dislikeCount = post.PostReaction.filter(
 		r => r.type === "DISLIKE"
 	).length;
+	const commentsCount = post.comments.filter(
+		c => c.postId === post.id
+	).length;
 
 	const hasLiked = post.PostReaction.some(
 		r => r.type === "LIKE" && r.userId === user?.id
@@ -91,7 +94,7 @@ const PostCard = ({ post }: PostCardProps) => {
 				<MessageSquareText
 					onClick={() => setOpenComment(!openComment)}
 				/>{" "}
-				{post?.comments?.length}
+				{commentsCount}
 			</div>
 			{openComment && (
 				<div className="space-y-2 ">

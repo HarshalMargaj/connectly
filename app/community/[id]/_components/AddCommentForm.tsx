@@ -33,8 +33,10 @@ const AddCommentForm = ({ postId, userId }: AddCommentFormProps) => {
 		mutationFn: addComment,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["comments", postId] });
-			console.log("comment added successfully");
+			queryClient.invalidateQueries({ queryKey: ["allPosts"] });
+			queryClient.invalidateQueries({ queryKey: ["posts"] });
 		},
+
 		onError: error => {
 			console.log(error);
 		},
