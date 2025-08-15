@@ -10,5 +10,8 @@ export const getPostsById = async (communityId: string) => {
 			comments: true,
 			PostReaction: true,
 		},
+		orderBy: {
+			createdAt: "desc",
+		},
 	});
 };
