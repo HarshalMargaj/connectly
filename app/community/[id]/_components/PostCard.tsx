@@ -7,6 +7,7 @@ import { getCommentsById } from "@/actions/get-comments-by-id";
 import Comment from "./Comment";
 import { toggleReaction } from "@/actions/toggle-reaction";
 import { useUser } from "@clerk/nextjs";
+import NotFound from "./NotFound";
 
 type PostWithOwner = Prisma.PostGetPayload<{
 	include: { owner: true; comments: true; PostReaction: true };
@@ -20,7 +21,7 @@ const PostCard = ({ post }: PostCardProps) => {
 	const [openComment, setOpenComment] = useState<boolean>(false);
 	const { user } = useUser();
 
-	const { data: comments, isLoading } = useQuery({
+	const { data: comments = [], isLoading } = useQuery({
 		queryFn: () => getCommentsById(post.id),
 		queryKey: ["comments", post.id],
 	});
@@ -57,7 +58,7 @@ const PostCard = ({ post }: PostCardProps) => {
 	return (
 		<div
 			key={post.id}
-			className="border border-neutral-900 p-5 rounded-md space-y-4 max-h-[400px] overflow-hidden"
+			className="border border-neutral-900 p-5 rounded-md space-y-4 max-h-[600px] overflow-hidden"
 		>
 			<div className="flex items-center gap-2">
 				<div className="flex items-center gap-2">
@@ -102,10 +103,14 @@ const PostCard = ({ post }: PostCardProps) => {
 						postId={post.id}
 						userId={user?.id as string}
 					/>
-					<div className="space-y-2 overflow-y-scroll h-[200px] pb-10">
-						{comments?.map(comment => (
-							<Comment key={comment.id} comment={comment} />
-						))}
+					<div className="space-y-2 overflow-y-scroll scrollbar-hide max-h-[400px] pb-10">
+						{comments?.length > 0 ? (
+							comments?.map(comment => (
+								<Comment key={comment.id} comment={comment} />
+							))
+						) : (
+							<NotFound />
+						)}
 					</div>
 				</div>
 			)}

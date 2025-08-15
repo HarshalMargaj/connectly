@@ -1,6 +1,7 @@
 import { createPost } from "@/actions/create-post";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { playSound } from "@/lib/PlaySound";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -52,7 +53,7 @@ const CreatePostForm = ({ communityId }: CreatePostFormProps) => {
 	};
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+		<form onSubmit={handleSubmit(onSubmit)} className="space-y-4 w-full">
 			<label htmlFor="title">Title</label>
 			<Input
 				type="text"
@@ -64,8 +65,8 @@ const CreatePostForm = ({ communityId }: CreatePostFormProps) => {
 				<div className="text-red-500">{errors.title.message}</div>
 			)}
 			<label htmlFor="description">Description</label>
-			<Input
-				type="text"
+			<Textarea
+				className="resize-none w-full"
 				{...register("description")}
 				id="description"
 				placeholder="Description"
