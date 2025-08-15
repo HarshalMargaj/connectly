@@ -30,13 +30,13 @@ const Sidebar = () => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
 	const [selectedItem, setSelectedItem] = useState<string>("1");
 
-	const { data: communities } = useQuery({
+	const { data: communities = [] } = useQuery({
 		queryFn: () => getByUser(user?.id as string),
 		queryKey: ["communities", user?.id],
 		enabled: !!user?.id,
 	});
 
-	const { data: joinedCommunities } = useQuery({
+	const { data: joinedCommunities = [] } = useQuery({
 		queryFn: () => getJoinedCommunities(user?.id as string),
 		queryKey: ["joinedCommunities", user?.id],
 		enabled: !!user?.id,
@@ -124,32 +124,40 @@ const Sidebar = () => {
 									<Settings />
 									Manage Communities
 								</Button>
-								<div className="space-y-2">
-									<div className="p-2 text-sm font-bold text-neutral-600 tracking-wide">
-										YOUR COMMUNITIES
+								{communities?.length > 0 && (
+									<div className="space-y-2">
+										<div className="p-2 text-sm font-bold text-neutral-600 tracking-wide">
+											YOUR COMMUNITIES
+										</div>
+										{communities?.map(community => (
+											<CommunityItem
+												community={community}
+												key={community.id}
+												selectedItem={selectedItem}
+												setSelectedItem={
+													setSelectedItem
+												}
+											/>
+										))}
 									</div>
-									{communities?.map(community => (
-										<CommunityItem
-											community={community}
-											key={community.id}
-											selectedItem={selectedItem}
-											setSelectedItem={setSelectedItem}
-										/>
-									))}
-								</div>
-								<div className="space-y-2">
-									<div className="p-2 text-sm font-bold text-neutral-600 tracking-wide ">
-										JOINED COMMUNITIES
+								)}
+								{joinedCommunities?.length > 0 && (
+									<div className="space-y-2">
+										<div className="p-2 text-sm font-bold text-neutral-600 tracking-wide ">
+											JOINED COMMUNITIES
+										</div>
+										{joinedCommunities?.map(community => (
+											<CommunityItem
+												community={community}
+												key={community.id}
+												selectedItem={selectedItem}
+												setSelectedItem={
+													setSelectedItem
+												}
+											/>
+										))}
 									</div>
-									{joinedCommunities?.map(community => (
-										<CommunityItem
-											community={community}
-											key={community.id}
-											selectedItem={selectedItem}
-											setSelectedItem={setSelectedItem}
-										/>
-									))}
-								</div>
+								)}
 							</div>
 						)}
 					</div>
