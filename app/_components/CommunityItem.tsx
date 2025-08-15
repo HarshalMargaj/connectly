@@ -21,6 +21,7 @@ const CommunityItem = ({
 			onClick={() => {
 				router.push(`/community/${community.id}`);
 				setSelectedItem(community.id);
+				localStorage.setItem("selectedItem", community.id);
 			}}
 			key={community.id}
 			className={`flex items-center gap-2 ${

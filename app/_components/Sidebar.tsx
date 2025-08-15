@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { ChevronDown, House, Menu, Plus, Settings } from "lucide-react";
@@ -29,6 +29,12 @@ const Sidebar = () => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
 	const [selectedItem, setSelectedItem] = useState<string>("1");
+
+	useEffect(() => {
+		const storedItem =
+			(localStorage.getItem("selectedItem") as string) || "1";
+		setSelectedItem(storedItem);
+	}, []);
 
 	const { data: communities = [] } = useQuery({
 		queryFn: () => getByUser(user?.id as string),
@@ -64,6 +70,10 @@ const Sidebar = () => {
 							onClick={() => {
 								router.push(item.path);
 								setSelectedItem(item.id.toString());
+								localStorage.setItem(
+									"selectedItem",
+									item.id.toString()
+								);
 							}}
 							key={item.id}
 							className={` rounded-md p-2 cursor-pointer ${
