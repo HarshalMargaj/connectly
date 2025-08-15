@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { ChevronDown, House, Menu, Plus } from "lucide-react";
+import { ChevronDown, House, Menu, Plus, Settings } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { DialogDemo } from "@/components/reusable-dialog";
@@ -75,7 +75,7 @@ const Sidebar = () => {
 							{item.item}
 						</div>
 					))}
-					<div>
+					<div className="space-y-2">
 						<div
 							onClick={() => {
 								setVisible(!visible);
@@ -93,14 +93,14 @@ const Sidebar = () => {
 						</div>
 
 						{visible && (
-							<div className="space-y-2 ">
+							<div className="space-y-2">
 								<Button
 									onClick={() => {
 										setIsOpen(true);
 										playSound();
 									}}
 									className="w-full hover:bg-amber-100/5 rounded-md"
-									variant="ghost"
+									variant="outline"
 								>
 									<Plus />
 									Create a Community
@@ -113,6 +113,17 @@ const Sidebar = () => {
 								>
 									<CommunityForm />
 								</DialogDemo>
+								<Button
+									className="w-full"
+									variant="outline"
+									onClick={() => {
+										playSound();
+										router.push("/managecommunities");
+									}}
+								>
+									<Settings />
+									Manage Communities
+								</Button>
 								<div className="space-y-2">
 									<div className="p-2 text-sm font-bold text-neutral-600 tracking-wide">
 										YOUR COMMUNITIES
