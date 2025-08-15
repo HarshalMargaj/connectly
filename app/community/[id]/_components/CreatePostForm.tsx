@@ -21,9 +21,10 @@ type FieldValues = z.infer<typeof schema>;
 
 interface CreatePostFormProps {
 	communityId: string;
+	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const CreatePostForm = ({ communityId }: CreatePostFormProps) => {
+const CreatePostForm = ({ communityId, setOpen }: CreatePostFormProps) => {
 	const {
 		register,
 		handleSubmit,
@@ -50,6 +51,7 @@ const CreatePostForm = ({ communityId }: CreatePostFormProps) => {
 		formData.append("communityId", communityId);
 
 		await createPostMutaiton(formData);
+		setOpen(false);
 	};
 
 	return (

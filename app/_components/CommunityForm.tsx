@@ -29,7 +29,11 @@ const schema = z.object({
 
 type FieldValues = z.infer<typeof schema>;
 
-const CommunityForm = () => {
+interface CommunityFormProps {
+	setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const CommunityForm = ({ setIsOpen }: CommunityFormProps) => {
 	const { user } = useUser();
 	const queryClient = useQueryClient();
 
@@ -56,6 +60,7 @@ const CommunityForm = () => {
 		formData.append("userId", user?.id || "");
 
 		await createCommunityMutation(formData);
+		setIsOpen(false);
 	};
 
 	return (

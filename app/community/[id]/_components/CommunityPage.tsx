@@ -79,7 +79,10 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 					title="Create Post"
 					description={`Create post in ${community.name}`}
 				>
-					<CreatePostForm communityId={community.id} />
+					<CreatePostForm
+						communityId={community.id}
+						setOpen={setOpen}
+					/>
 				</DialogDemo>
 				{community.userId !== user?.id && (
 					<Button

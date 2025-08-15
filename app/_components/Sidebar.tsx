@@ -121,7 +121,7 @@ const Sidebar = () => {
 									title="Tell us about your community"
 									description="A name and description help people understand what your community is all about."
 								>
-									<CommunityForm />
+									<CommunityForm setIsOpen={setIsOpen} />
 								</DialogDemo>
 								<Button
 									className="w-full"
