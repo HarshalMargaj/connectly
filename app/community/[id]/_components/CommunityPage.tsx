@@ -79,16 +79,18 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 				>
 					<CreatePostForm communityId={community.id} />
 				</DialogDemo>
-				<Button
-					onClick={() => {
-						joinCommunityMutation(community.id);
-						playSound();
-					}}
-					className="bg-amber-100 rounded-4xl"
-					disabled={isJoined && true}
-				>
-					{isJoined ? "Joined" : "Join"}
-				</Button>
+				{community.userId !== user?.id && (
+					<Button
+						onClick={() => {
+							joinCommunityMutation(community.id);
+							playSound();
+						}}
+						className="bg-amber-100 rounded-4xl"
+						disabled={isJoined && true}
+					>
+						{isJoined ? "Joined" : "Join"}
+					</Button>
+				)}
 			</div>
 			<div className="p-5 pb-20">
 				<PostSection communityId={community.id} />
