@@ -16,7 +16,7 @@ const Navbar = () => {
 	const { user } = useUser();
 
 	return (
-		<div className="flex items-center justify-between h-16 border-b dark:border-neutral-700 p-5">
+		<div className="flex items-center justify-between h-16 border-b dark:border-neutral-900 p-5">
 			<div className="text-2xl font-bold text-neutral-800 dark:text-amber-100">
 				Connectly
 			</div>
