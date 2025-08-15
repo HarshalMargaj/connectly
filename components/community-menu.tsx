@@ -33,7 +33,7 @@ export function CommunityMenu({ communityId }: CommunityMenuProps) {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Button variant="outline" size="icon">
+				<Button variant="outline" size="icon" className="rounded-full">
 					<Ellipsis />
 				</Button>
 			</DropdownMenuTrigger>
