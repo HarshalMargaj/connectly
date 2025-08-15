@@ -9,10 +9,11 @@ import { useUser } from "@clerk/nextjs";
 
 import { Community } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Handshake, Plus } from "lucide-react";
+import { Ellipsis, Handshake, Plus } from "lucide-react";
 import React, { useState } from "react";
 import CreatePostForm from "./CreatePostForm";
 import PostSection from "./PostSection";
+import { CommunityMenu } from "@/components/community-menu";
 
 interface CommunityPageProps {
 	community: Community;
@@ -92,6 +93,7 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 						{isJoined ? "Joined" : "Join"}
 					</Button>
 				)}
+				{isJoined && <CommunityMenu communityId={community.id} />}
 			</div>
 			<div className="p-5 pb-20">
 				<PostSection communityId={community.id} />
