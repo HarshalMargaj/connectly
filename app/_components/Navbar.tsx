@@ -15,6 +15,7 @@ import { CommandDialogDemo } from "@/components/search-dialog";
 import { useQuery } from "@tanstack/react-query";
 import { get } from "@/actions/get-communities";
 import { playSound } from "@/lib/PlaySound";
+import Image from "next/image";
 
 const Navbar = () => {
 	const { user } = useUser();
@@ -27,8 +28,17 @@ const Navbar = () => {
 
 	return (
 		<div className="flex items-center justify-between h-16 border-b dark:border-neutral-900 p-5 gap-40">
-			<div className="text-2xl font-bold text-neutral-800 dark:text-amber-100">
-				Connectly
+			<div className="flex items-center gap-2">
+				<Image
+					src="/favicon.png"
+					alt="app-logo"
+					width={32}
+					height={32}
+				/>
+
+				<div className="text-2xl font-semibold text-neutral-800 dark:text-amber-100">
+					Connectly
+				</div>
 			</div>
 
 			<div className="flex justify-end items-center  gap-4 ">
