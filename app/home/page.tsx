@@ -1,23 +1,16 @@
-"use client";
-
-import { getPosts } from "@/actions/get-posts";
-import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import PostCard from "../community/[id]/_components/PostCard";
+
+import HomePage from "./_components/HomePage";
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+	title: "Home | Connectly",
+	description: "...",
+};
 
 const home = () => {
-	const { data: posts, isLoading } = useQuery({
-		queryFn: getPosts,
-		queryKey: ["allPosts"],
-	});
-
-	return (
-		<div className="p-5 space-y-4 pb-20">
-			{posts?.map(post => (
-				<PostCard key={post.id} post={post} />
-			))}
-		</div>
-	);
+	return <HomePage />;
 };
 
 export default home;

@@ -21,6 +21,4 @@ export const joinCommunity = async (communityId: string) => {
 			},
 		},
 	});
-
-	console.log("success joined");
 };

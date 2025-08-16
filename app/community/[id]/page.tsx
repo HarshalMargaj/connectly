@@ -1,30 +1,22 @@
-"use client";
-
 import React from "react";
 import { getByComId } from "@/actions/get-communityById";
+import Community from "./_components/Community";
 
-import { useQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
-import CommunityPage from "./_components/CommunityPage";
+export const generateMetadata = async ({
+	params,
+}: {
+	params: { id: string };
+}) => {
+	const community = await getByComId(params.id);
+
+	return {
+		title: `${community?.name} | Community`,
+		description: community?.description,
+	};
+};
 
 const page = () => {
-	const params = useParams();
-	const id = params?.id as string;
-
-	const { data: community, isLoading } = useQuery({
-		queryKey: ["community", id],
-		queryFn: () => getByComId(id as string),
-		enabled: !!id,
-	});
-
-	if (isLoading) return <div>Loading...</div>;
-	if (!community) return <div>Community not found</div>;
-
-	return (
-		<div className="overflow-y-scroll h-screen scroll-smooth">
-			<CommunityPage community={community} />
-		</div>
-	);
+	return <Community />;
 };
 
 export default page;
