@@ -1,10 +1,13 @@
 import React from "react";
-import { Community } from "@prisma/client";
+import { Community, Prisma } from "@prisma/client";
 import { Handshake } from "lucide-react";
 import { useRouter } from "next/navigation";
 
+type CommunityWithJoinedByUsers = Prisma.CommunityGetPayload<{
+	include: { joinedBy: true };
+}>;
 interface CardProps {
-	community: Community;
+	community: CommunityWithJoinedByUsers;
 }
 
 const Card = ({ community }: CardProps) => {
@@ -19,13 +22,13 @@ const Card = ({ community }: CardProps) => {
 				<Handshake className="text-amber-100" />
 			</div>
 			<div className="w-[80%]">
-				<div className="cursor-pointer hover:border-b hover:border-neutral-700 text-sm">
-					{community.name}
-				</div>
+				<div className="cursor-pointer text-sm">{community.name}</div>
 				<div className="text-sm text-neutral-600 truncate w-full">
 					{community.description}
 				</div>
-				<div className="text-sm text-neutral-600">0 Members</div>
+				<div className="text-sm text-neutral-600">
+					{community?.joinedBy.length} Members
+				</div>
 			</div>
 		</div>
 	);

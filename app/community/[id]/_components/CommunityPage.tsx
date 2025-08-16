@@ -9,7 +9,7 @@ import { useUser } from "@clerk/nextjs";
 
 import { Community } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Ellipsis, Handshake, Plus } from "lucide-react";
+import { Handshake, Plus } from "lucide-react";
 import React, { useState } from "react";
 import CreatePostForm from "./CreatePostForm";
 import PostSection from "./PostSection";

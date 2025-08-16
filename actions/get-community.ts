@@ -7,5 +7,8 @@ export const getByUser = async (userId: string) => {
 		where: {
 			userId,
 		},
+		include: {
+			joinedBy: true,
+		},
 	});
 };
