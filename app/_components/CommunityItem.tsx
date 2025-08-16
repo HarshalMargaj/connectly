@@ -19,7 +19,7 @@ const CommunityItem = ({
 	return (
 		<div
 			onClick={() => {
-				router.push(`/community/${community.id}`);
+				router.push(`/community/${community.slug}`);
 				setSelectedItem(community.id);
 				localStorage.setItem("selectedItem", community.id);
 			}}

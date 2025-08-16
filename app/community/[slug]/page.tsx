@@ -5,9 +5,10 @@ import Community from "./_components/Community";
 export const generateMetadata = async ({
 	params,
 }: {
-	params: { id: string };
+	params: { slug: string };
 }) => {
-	const community = await getByComId(params.id);
+	const { slug } = await params;
+	const community = await getByComId(slug);
 
 	return {
 		title: `${community?.name} | Community`,

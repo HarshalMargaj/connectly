@@ -8,13 +8,15 @@ import CommunityPage from "./CommunityPage";
 
 const Community = () => {
 	const params = useParams();
-	const id = params?.id as string;
+	const slug = params?.slug as string;
 
 	const { data: community, isLoading } = useQuery({
-		queryKey: ["community", id],
-		queryFn: () => getByComId(id as string),
-		enabled: !!id,
+		queryKey: ["community", slug],
+		queryFn: () => getByComId(slug as string),
+		enabled: !!slug,
 	});
+
+	console.log(community);
 
 	if (isLoading) return <div>Loading...</div>;
 	if (!community) return <div>Community not found</div>;

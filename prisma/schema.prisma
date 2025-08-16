@@ -11,7 +11,7 @@ datasource db {
 
 
 model User {
-  userId        String   @id @default(uuid())
+  id            String   @id               // Clerk’s userId (no @default)
   userName      String
   userImage     String
 
@@ -32,12 +32,13 @@ model Community {
   id          String   @id @default(uuid())
   name        String
   description String
+  slug        String   @unique
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   // Owner of the community
   userId      String?  
-  owner       User?     @relation("CreatedCommunities", fields: [userId], references: [userId])
+  owner       User?     @relation("CreatedCommunities", fields: [userId], references: [id])
 
   // Users who have joined this community
   joinedBy    User[]   @relation("JoinedCommunities")
@@ -50,7 +51,7 @@ model Post {
   title       String   
   description String
   userId      String 
-  owner       User?     @relation("CreatedPosts", fields: [userId], references: [userId])
+  owner       User?     @relation("CreatedPosts", fields: [userId], references: [id])
   communityId String
   community   Community @relation(fields: [communityId], references: [id])
   createdAt   DateTime @default(now())
@@ -69,7 +70,7 @@ model Comment {
   userId    String
   postId    String
   post      Post     @relation(fields: [postId], references: [id])
-  author    User     @relation(fields: [userId], references: [userId])
+  author    User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
 }
 
@@ -81,7 +82,7 @@ model PostReaction {
   createdAt DateTime      @default(now())
 
   post      Post          @relation(fields: [postId], references: [id])
-  user      User          @relation(fields: [userId], references: [userId])
+  user      User          @relation(fields: [userId], references: [id])
 
   @@unique([postId, userId]) // prevents duplicate reactions by the same user
 }

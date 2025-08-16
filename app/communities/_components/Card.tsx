@@ -13,9 +13,11 @@ interface CardProps {
 const Card = ({ community }: CardProps) => {
 	const router = useRouter();
 
+	console.log("community form card", community.slug);
+
 	return (
 		<div
-			onClick={() => router.push(`/community/${community.id}`)}
+			onClick={() => router.push(`/community/${community.slug}`)}
 			className="border border-neutral-700 p-4 rounded-md h-[80px] flex items-center gap-2 w-full"
 		>
 			<div className="border border-neutral-700 rounded-full p-2 shadow-sm shadow-amber-100/10">

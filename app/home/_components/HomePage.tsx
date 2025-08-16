@@ -1,7 +1,7 @@
 "use client";
 
 import { getPosts } from "@/actions/get-posts";
-import PostCard from "@/app/community/[id]/_components/PostCard";
+import PostCard from "@/app/community/[slug]/_components/PostCard";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 

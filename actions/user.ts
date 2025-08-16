@@ -8,7 +8,9 @@ export async function ensureUserExists() {
 	const { userId } = await auth();
 
 	if (userId) {
-		const existingUser = await db.user.findUnique({ where: { userId } });
+		const existingUser = await db.user.findUnique({
+			where: { id: userId },
+		});
 
 		if (!existingUser) {
 			// Fetch full user info from Clerk
@@ -18,7 +20,7 @@ export async function ensureUserExists() {
 
 			await db.user.create({
 				data: {
-					userId,
+					id: userId,
 					userName: `${user?.fullName?.split(" ").join("")}`,
 					userImage: user.imageUrl,
 				},
