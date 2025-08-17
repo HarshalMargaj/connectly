@@ -1,5 +1,5 @@
 import React from "react";
-import { getByComId } from "@/actions/get-communityById";
+import { getByComId } from "@/actions/get-communityBySlug";
 import Community from "./_components/Community";
 
 export const generateMetadata = async ({
