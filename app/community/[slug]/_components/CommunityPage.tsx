@@ -7,16 +7,20 @@ import { Button } from "@/components/ui/button";
 import { playSound } from "@/lib/PlaySound";
 import { useUser } from "@clerk/nextjs";
 
-import { Community } from "@prisma/client";
+import { Community, Prisma } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Handshake, Plus } from "lucide-react";
 import React, { useState } from "react";
 import CreatePostForm from "./CreatePostForm";
 import PostSection from "./PostSection";
 import { CommunityMenu } from "@/components/community-menu";
+import AboutCommunity from "./AboutCommunity";
 
+type CommunityWithJoinedByUsers = Prisma.CommunityGetPayload<{
+	include: { joinedBy: true };
+}>;
 interface CommunityPageProps {
-	community: Community;
+	community: CommunityWithJoinedByUsers;
 }
 
 const CommunityPage = ({ community }: CommunityPageProps) => {
@@ -98,8 +102,13 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 				)}
 				{isJoined && <CommunityMenu communityId={community.id} />}
 			</div>
-			<div className="p-5 pb-20">
-				<PostSection communityId={community.id} />
+			<div className="p-5 pb-20 flex gap-4 items-start">
+				<div className="w-[70%]">
+					<PostSection communityId={community.id} />
+				</div>
+				<div className="w-[30%] border p-4 rounded-md bg-neutral-900 sticky top-0">
+					<AboutCommunity community={community} />
+				</div>
 			</div>
 		</div>
 	);

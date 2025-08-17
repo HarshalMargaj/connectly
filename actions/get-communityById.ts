@@ -7,5 +7,8 @@ export const getByComId = async (slug: string) => {
 		where: {
 			slug,
 		},
+		include: {
+			joinedBy: true,
+		},
 	});
 };
