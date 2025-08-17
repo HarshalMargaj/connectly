@@ -76,13 +76,19 @@ const Sidebar = () => {
 								);
 							}}
 							key={item.id}
-							className={` rounded-md p-2 cursor-pointer ${
+							className={` rounded-md ${
+								item.item === "Profile" && !user?.id
+									? "p-0"
+									: "p-2"
+							} cursor-pointer ${
 								selectedItem === item.id.toString()
 									? "bg-amber-100 text-neutral-800"
 									: "hover:bg-amber-100/10"
 							} `}
 						>
-							{item.item}
+							{item.item === "Profile" && !user?.id
+								? ""
+								: item.item}
 						</div>
 					))}
 					<div className="space-y-2">
@@ -123,17 +129,19 @@ const Sidebar = () => {
 								>
 									<CommunityForm setIsOpen={setIsOpen} />
 								</DialogDemo>
-								<Button
-									className="w-full"
-									variant="outline"
-									onClick={() => {
-										playSound();
-										router.push("/managecommunities");
-									}}
-								>
-									<Settings />
-									Manage Communities
-								</Button>
+								{user?.id && (
+									<Button
+										className="w-full"
+										variant="outline"
+										onClick={() => {
+											playSound();
+											router.push("/managecommunities");
+										}}
+									>
+										<Settings />
+										Manage Communities
+									</Button>
+								)}
 								{communities?.length > 0 && (
 									<div className="space-y-2">
 										<div className="p-2 text-sm font-bold text-neutral-600 tracking-wide">
