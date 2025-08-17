@@ -12,7 +12,7 @@ export const leaveCommunity = async (communityId: string) => {
 	}
 
 	await db.user.update({
-		where: { userId },
+		where: { id: userId },
 		data: {
 			joinedCommunities: {
 				disconnect: { id: communityId },

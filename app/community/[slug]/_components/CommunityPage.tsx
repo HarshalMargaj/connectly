@@ -69,7 +69,7 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 					}}
 					variant="outline"
 					className="rounded-4xl"
-					disabled={!isJoined}
+					disabled={!isJoined && user?.id !== community.userId}
 				>
 					<Plus /> Create Post
 				</Button>

@@ -13,7 +13,7 @@ export const joinCommunity = async (communityId: string) => {
 
 	await db.user.update({
 		where: {
-			userId,
+			id: userId,
 		},
 		data: {
 			joinedCommunities: {
