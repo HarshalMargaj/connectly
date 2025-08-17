@@ -9,6 +9,7 @@ export const getByComId = async (slug: string) => {
 		},
 		include: {
 			joinedBy: true,
+			posts: true,
 		},
 	});
 };
