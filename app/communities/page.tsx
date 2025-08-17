@@ -9,7 +9,12 @@ export const metadata: Metadata = {
 };
 
 const page = () => {
-	return <CommunitiesPage />;
+	return (
+		<div>
+			<h1 className="text-3xl font-semibold p-5">Communities</h1>
+			<CommunitiesPage />
+		</div>
+	);
 };
 
 export default page;
