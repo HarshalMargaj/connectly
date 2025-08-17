@@ -39,7 +39,8 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 		mutationFn: joinCommunity,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["joinedCommunities"] });
-			console.log("you have successfully join community");
+			queryClient.invalidateQueries({ queryKey: ["joinedcommunities"] });
+			queryClient.invalidateQueries({ queryKey: ["community"] });
 		},
 		onError: () => {
 			console.log("error joining community");
