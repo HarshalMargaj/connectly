@@ -6,6 +6,7 @@ import React from "react";
 
 import type { Prisma } from "@prisma/client";
 import Post from "./Post";
+import NoPosts from "./NotPosts";
 
 type PostsWithOwner = Prisma.PostGetPayload<{
 	include: { owner: true };
@@ -18,11 +19,17 @@ const ProfilePage = () => {
 	});
 
 	return (
-		<div className="p-5 pb-20 space-y-4">
+		<div className="p-5 pb-20 space-y-4 h-full">
 			<h1 className="text-3xl font-semibold">My Profile</h1>
-			{posts?.map((post: PostsWithOwner) => (
-				<Post key={post.id} post={post} />
-			))}
+			{posts.length > 0 ? (
+				posts?.map((post: PostsWithOwner) => (
+					<Post key={post.id} post={post} />
+				))
+			) : (
+				<div className="h-full">
+					<NoPosts />
+				</div>
+			)}
 		</div>
 	);
 };

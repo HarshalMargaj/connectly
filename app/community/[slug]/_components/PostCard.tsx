@@ -98,12 +98,12 @@ const PostCard = ({ post }: PostCardProps) => {
 				{commentsCount}
 			</div>
 			{openComment && (
-				<div className="space-y-2 ">
+				<div className="space-y-4 ">
 					<AddCommentForm
 						postId={post.id}
 						userId={user?.id as string}
 					/>
-					<div className="space-y-2 overflow-y-scroll scrollbar-hide max-h-[400px] pb-10">
+					<div className="space-y-2 overflow-y-scroll scrollbar-hide max-h-[400px] pb-15">
 						{comments?.length > 0 ? (
 							comments?.map(comment => (
 								<Comment key={comment.id} comment={comment} />
