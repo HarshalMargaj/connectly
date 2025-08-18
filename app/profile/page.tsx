@@ -1,8 +1,13 @@
 import React from "react";
-import ProfilePage from "./_components/ProfilePage";
+import { TabsDemo } from "@/components/profile-tabs";
 
 const profile = () => {
-	return <ProfilePage />;
+	return (
+		<div className="p-5 space-y-4">
+			<h1 className="text-3xl font-semibold">My Profile</h1>
+			<TabsDemo />
+		</div>
+	);
 };
 
 export default profile;

@@ -23,8 +23,7 @@ const ProfilePage = () => {
 	if (isLoading) {
 		return (
 			<div className="space-y-4">
-				<Skeleton className="h-10 w-[200px] m-5" />
-				{Array.from({ length: 5 }).map((_, i) => (
+				{Array.from({ length: 3 }).map((_, i) => (
 					<ProfileSkeleton key={i} />
 				))}
 			</div>
@@ -32,8 +31,7 @@ const ProfilePage = () => {
 	}
 
 	return (
-		<div className="p-5 pb-20 space-y-4 h-full">
-			<h1 className="text-3xl font-semibold">My Profile</h1>
+		<div className="pt-4 pb-20 space-y-4 h-full">
 			{posts.length > 0 ? (
 				posts?.map((post: PostsWithOwner) => (
 					<Post key={post.id} post={post} />
