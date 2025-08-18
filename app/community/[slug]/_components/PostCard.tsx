@@ -1,5 +1,10 @@
 import { Prisma } from "@prisma/client";
-import { MessageSquareText, ThumbsDown, ThumbsUp } from "lucide-react";
+import {
+	EllipsisVertical,
+	MessageSquareText,
+	ThumbsDown,
+	ThumbsUp,
+} from "lucide-react";
 import React, { useState } from "react";
 import AddCommentForm from "./AddCommentForm";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -8,6 +13,8 @@ import Comment from "./Comment";
 import { toggleReaction } from "@/actions/toggle-reaction";
 import { useUser } from "@clerk/nextjs";
 import NotFound from "./NotFound";
+import { CommunityMenu } from "@/components/community-menu";
+import { deletePost } from "@/actions/delete-post";
 
 type PostWithOwner = Prisma.PostGetPayload<{
 	include: { owner: true; comments: true; PostReaction: true };
@@ -55,23 +62,57 @@ const PostCard = ({ post }: PostCardProps) => {
 		r => r.type === "DISLIKE" && r.userId === user?.id
 	);
 
+	const { mutateAsync: deletePostMutation } = useMutation({
+		mutationFn: deletePost,
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["posts"] });
+			queryClient.invalidateQueries({ queryKey: ["allPosts"] });
+			console.log("post deleted", post.id);
+		},
+	});
+
+	const postMenuItemsForOwnPost = [
+		{
+			id: "1",
+			name: "Delete Post",
+			action: () => deletePostMutation(post.id),
+		},
+		{ id: "2", name: "Save", action: () => {} },
+	];
+
+	const postMenuItemsFormOthersPost = [
+		{ id: "1", name: "Save", action: () => {} },
+	];
+
 	return (
 		<div
 			key={post.id}
 			className="border border-neutral-900 p-5 rounded-md space-y-4 max-h-[600px] overflow-hidden"
 		>
-			<div className="flex items-center gap-2">
+			<div className="flex items-center justify-between">
 				<div className="flex items-center gap-2">
-					<img
-						src={post?.owner?.userImage}
-						alt=""
-						width={25}
-						height={25}
-						className="rounded-full"
-					/>
-					<div>u/{post.owner?.userName}</div>
+					<div className="flex items-center gap-2">
+						<img
+							src={post?.owner?.userImage}
+							alt=""
+							width={25}
+							height={25}
+							className="rounded-full"
+						/>
+						<div>u/{post.owner?.userName}</div>
+					</div>
+					<div className="text-xs text-neutral-500">{`${post.createdAt.toDateString()} ${post.createdAt.toLocaleTimeString()}`}</div>
 				</div>
-				<div className="text-xs text-neutral-500">{`${post.createdAt.toDateString()} ${post.createdAt.toLocaleTimeString()}`}</div>
+				<div>
+					<CommunityMenu
+						items={
+							user?.id === post.userId
+								? postMenuItemsForOwnPost
+								: postMenuItemsFormOthersPost
+						}
+						icon={<EllipsisVertical />}
+					/>
+				</div>
 			</div>
 			<div className="text-xl">{post.title}</div>
 			<div className="text-neutral-400">{post.description}</div>

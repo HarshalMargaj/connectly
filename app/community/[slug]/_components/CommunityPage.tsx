@@ -6,6 +6,7 @@ import { DialogDemo } from "@/components/reusable-dialog";
 import { Button } from "@/components/ui/button";
 import { playSound } from "@/lib/PlaySound";
 import { useUser } from "@clerk/nextjs";
+import { Ellipsis } from "lucide-react";
 
 import { Prisma } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -15,6 +16,7 @@ import CreatePostForm from "./CreatePostForm";
 import PostSection from "./PostSection";
 import { CommunityMenu } from "@/components/community-menu";
 import AboutCommunity from "./AboutCommunity";
+import { leaveCommunity } from "@/actions/leave-community";
 
 type CommunityWithJoinedByUsers = Prisma.CommunityGetPayload<{
 	include: { joinedBy: true; posts: true };
@@ -44,6 +46,17 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 		},
 		onError: () => {
 			console.log("error joining community");
+		},
+	});
+
+	const { mutateAsync: leaveCommunityMutation } = useMutation({
+		mutationFn: leaveCommunity,
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["joinedcommunities"] });
+			queryClient.invalidateQueries({ queryKey: ["joinedCommunities"] });
+		},
+		onError: error => {
+			console.log(error);
 		},
 	});
 
@@ -101,7 +114,19 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 						{isJoined ? "Joined" : "Join"}
 					</Button>
 				)}
-				{isJoined && <CommunityMenu communityId={community.id} />}
+				{isJoined && (
+					<CommunityMenu
+						icon={<Ellipsis />}
+						items={[
+							{
+								id: "1",
+								name: "Leave Community",
+								action: () =>
+									leaveCommunityMutation(community.id),
+							},
+						]}
+					/>
+				)}
 			</div>
 			<div className="p-5 pb-20 flex gap-4 items-start">
 				{community?.posts.length > 0 && (
