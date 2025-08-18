@@ -1,9 +1,13 @@
 import { Prisma } from "@prisma/client";
 import {
+	Bookmark,
 	EllipsisVertical,
+	icons,
 	MessageSquareText,
+	Pencil,
 	ThumbsDown,
 	ThumbsUp,
+	Trash,
 } from "lucide-react";
 import React, { useState } from "react";
 import AddCommentForm from "./AddCommentForm";
@@ -15,6 +19,7 @@ import { useUser } from "@clerk/nextjs";
 import NotFound from "./NotFound";
 import { CommunityMenu } from "@/components/community-menu";
 import { deletePost } from "@/actions/delete-post";
+import { savePost } from "@/actions/save-post";
 
 type PostWithOwner = Prisma.PostGetPayload<{
 	include: { owner: true; comments: true; PostReaction: true };
@@ -46,6 +51,24 @@ const PostCard = ({ post }: PostCardProps) => {
 		},
 	});
 
+	const { mutateAsync: deletePostMutation } = useMutation({
+		mutationFn: deletePost,
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["posts"] });
+			queryClient.invalidateQueries({ queryKey: ["allPosts"] });
+			console.log("post deleted", post.id);
+		},
+	});
+
+	const { mutateAsync: savePostMutation } = useMutation({
+		mutationFn: savePost,
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["posts"] });
+			queryClient.invalidateQueries({ queryKey: ["allPosts"] });
+			console.log("post saved", post.id);
+		},
+	});
+
 	const likeCount = post.PostReaction.filter(r => r.type === "LIKE").length;
 	const dislikeCount = post.PostReaction.filter(
 		r => r.type === "DISLIKE"
@@ -62,26 +85,29 @@ const PostCard = ({ post }: PostCardProps) => {
 		r => r.type === "DISLIKE" && r.userId === user?.id
 	);
 
-	const { mutateAsync: deletePostMutation } = useMutation({
-		mutationFn: deletePost,
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["posts"] });
-			queryClient.invalidateQueries({ queryKey: ["allPosts"] });
-			console.log("post deleted", post.id);
-		},
-	});
-
 	const postMenuItemsForOwnPost = [
 		{
 			id: "1",
-			name: "Delete Post",
+			name: "Delete",
 			action: () => deletePostMutation(post.id),
+			icon: <Trash />,
 		},
-		{ id: "2", name: "Save", action: () => {} },
+		{
+			id: "2",
+			name: "Save",
+			action: () => savePostMutation(post.id),
+			icon: <Bookmark />,
+		},
+		{ id: "3", name: "Edit", action: () => {}, icon: <Pencil /> },
 	];
 
 	const postMenuItemsFormOthersPost = [
-		{ id: "1", name: "Save", action: () => {} },
+		{
+			id: "1",
+			name: "Save",
+			action: () => savePostMutation(post.id),
+			icon: <Bookmark />,
+		},
 	];
 
 	return (

@@ -17,12 +17,8 @@ const Community = () => {
 		enabled: !!slug,
 	});
 
-	console.log(community);
-
 	if (isLoading) return <CommunityPageSkeleton />;
 	if (!community) return <div>Community not found</div>;
-
-	const hasPosts = (community?.posts?.length ?? 0) > 0;
 
 	return (
 		<div className="overflow-y-scroll h-screen scroll-smooth">

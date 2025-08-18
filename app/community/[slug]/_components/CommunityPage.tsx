@@ -6,7 +6,7 @@ import { DialogDemo } from "@/components/reusable-dialog";
 import { Button } from "@/components/ui/button";
 import { playSound } from "@/lib/PlaySound";
 import { useUser } from "@clerk/nextjs";
-import { Ellipsis } from "lucide-react";
+import { Ellipsis, OctagonMinus } from "lucide-react";
 
 import { Prisma } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -123,6 +123,7 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 								name: "Leave Community",
 								action: () =>
 									leaveCommunityMutation(community.id),
+								icon: <OctagonMinus />,
 							},
 						]}
 					/>

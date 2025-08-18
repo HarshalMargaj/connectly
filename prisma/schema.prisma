@@ -26,6 +26,8 @@ model User {
   Comment Comment[]
 
   PostReaction PostReaction[]
+
+  savedPosts   Post[] @relation("SavedPosts")
 }
 
 model Community {
@@ -61,6 +63,8 @@ model Post {
   comments    Comment[]
 
   PostReaction PostReaction[]
+
+  savedBy     User[]   @relation("SavedPosts")
 }
 
 
