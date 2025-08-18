@@ -2,14 +2,13 @@
 
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
 import slugify from "slugify";
 
 export const create = async (formData: FormData) => {
-	const { userId } = await auth();
+	const { userId, redirectToSignIn } = await auth();
 
 	if (!userId) {
-		redirect("/signin");
+		return redirectToSignIn();
 	}
 
 	const name = formData.get("name") as string;

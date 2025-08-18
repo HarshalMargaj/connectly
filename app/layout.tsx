@@ -50,7 +50,10 @@ export default async function RootLayout({
 							disableTransitionOnChange
 						>
 							<Navbar />
-							<main className="flex h-full">
+							<main
+								className="flex h-full"
+								suppressHydrationWarning
+							>
 								<Sidebar />
 								<div className="flex-1 overflow-y-auto">
 									{children}
