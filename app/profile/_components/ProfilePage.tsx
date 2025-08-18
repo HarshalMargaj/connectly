@@ -7,6 +7,8 @@ import React from "react";
 import type { Prisma } from "@prisma/client";
 import Post from "./Post";
 import NoPosts from "./NotPosts";
+import { Skeleton } from "@/components/ui/skeleton";
+import ProfileSkeleton from "@/components/skeletons/ProfileSkeleton";
 
 type PostsWithOwner = Prisma.PostGetPayload<{
 	include: { owner: true };
@@ -17,6 +19,17 @@ const ProfilePage = () => {
 		queryFn: getPostsByUser,
 		queryKey: ["userPosts"],
 	});
+
+	if (isLoading) {
+		return (
+			<div className="space-y-4">
+				<Skeleton className="h-10 w-[200px] m-5" />
+				{Array.from({ length: 5 }).map((_, i) => (
+					<ProfileSkeleton key={i} />
+				))}
+			</div>
+		);
+	}
 
 	return (
 		<div className="p-5 pb-20 space-y-4 h-full">

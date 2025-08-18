@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import SearchFilter from "./SearchFilter";
 import Community from "./Community";
 import NotFound from "./NotFound";
+import ManageCommunitiesSkeleton from "@/components/skeletons/ManageCommSkeleton";
 
 const ManageCommunities = () => {
 	const { user } = useUser();
@@ -20,6 +21,8 @@ const ManageCommunities = () => {
 	const filterCommunities = communities.filter(c =>
 		c.name.toLowerCase().includes(searchQuery.toLowerCase())
 	);
+
+	if (isLoading) return <ManageCommunitiesSkeleton />;
 
 	return (
 		<div className="p-5 space-y-4 ">

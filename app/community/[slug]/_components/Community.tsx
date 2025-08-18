@@ -5,21 +5,24 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import React from "react";
 import CommunityPage from "./CommunityPage";
+import CommunityPageSkeleton from "@/components/skeletons/CommunityPageSkeleton";
 
 const Community = () => {
 	const params = useParams();
 	const slug = params?.slug as string;
 
 	const { data: community, isLoading } = useQuery({
-		queryKey: ["community", slug],
 		queryFn: () => getByComId(slug as string),
+		queryKey: ["community", slug],
 		enabled: !!slug,
 	});
 
 	console.log(community);
 
-	if (isLoading) return <div>Loading...</div>;
+	if (isLoading) return <CommunityPageSkeleton />;
 	if (!community) return <div>Community not found</div>;
+
+	const hasPosts = (community?.posts?.length ?? 0) > 0;
 
 	return (
 		<div className="overflow-y-scroll h-screen scroll-smooth">

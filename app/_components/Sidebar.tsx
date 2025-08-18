@@ -15,6 +15,7 @@ import { getByUser } from "@/actions/get-community";
 import { getJoinedCommunities } from "@/actions/joined-communities";
 import CommunityItem from "./CommunityItem";
 import { playSound } from "@/lib/PlaySound";
+import { SkeletonDemo } from "@/components/skeletons/YourCommSkeleton";
 
 export const SidebarItems = [
 	{ id: 1, item: "Home", path: "/home", icon: <House /> },
@@ -36,13 +37,16 @@ const Sidebar = () => {
 		setSelectedItem(storedItem);
 	}, []);
 
-	const { data: communities = [] } = useQuery({
+	const { data: communities = [], isLoading } = useQuery({
 		queryFn: () => getByUser(user?.id as string),
 		queryKey: ["communities", user?.id],
 		enabled: !!user?.id,
 	});
 
-	const { data: joinedCommunities = [] } = useQuery({
+	const {
+		data: joinedCommunities = [],
+		isLoading: isJoinedCommunitiesLoading,
+	} = useQuery({
 		queryFn: () => getJoinedCommunities(user?.id as string),
 		queryKey: ["joinedCommunities", user?.id],
 		enabled: !!user?.id,
@@ -142,12 +146,16 @@ const Sidebar = () => {
 										Manage Communities
 									</Button>
 								)}
-								{communities?.length > 0 && (
+								{isLoading ? (
+									<div>
+										<SkeletonDemo />
+									</div>
+								) : communities?.length > 0 ? (
 									<div className="space-y-2">
 										<div className="p-2 text-sm font-bold text-neutral-600 tracking-wide">
 											YOUR COMMUNITIES
 										</div>
-										{communities?.map(community => (
+										{communities.map(community => (
 											<CommunityItem
 												community={community}
 												key={community.id}
@@ -158,23 +166,32 @@ const Sidebar = () => {
 											/>
 										))}
 									</div>
-								)}
-								{joinedCommunities?.length > 0 && (
-									<div className="space-y-2">
-										<div className="p-2 text-sm font-bold text-neutral-600 tracking-wide ">
-											JOINED COMMUNITIES
+								) : null}
+
+								{isJoinedCommunitiesLoading ? (
+									<SkeletonDemo />
+								) : (
+									joinedCommunities?.length > 0 && (
+										<div className="space-y-2">
+											<div className="p-2 text-sm font-bold text-neutral-600 tracking-wide ">
+												JOINED COMMUNITIES
+											</div>
+											{joinedCommunities?.map(
+												community => (
+													<CommunityItem
+														community={community}
+														key={community.id}
+														selectedItem={
+															selectedItem
+														}
+														setSelectedItem={
+															setSelectedItem
+														}
+													/>
+												)
+											)}
 										</div>
-										{joinedCommunities?.map(community => (
-											<CommunityItem
-												community={community}
-												key={community.id}
-												selectedItem={selectedItem}
-												setSelectedItem={
-													setSelectedItem
-												}
-											/>
-										))}
-									</div>
+									)
 								)}
 							</div>
 						)}
