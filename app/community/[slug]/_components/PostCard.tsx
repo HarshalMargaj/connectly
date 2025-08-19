@@ -52,9 +52,11 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 			toggleReaction(post.id, reactionType), // your API
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["allPosts"] });
+			queryClient.invalidateQueries({ queryKey: ["userPosts"] });
+			queryClient.invalidateQueries({ queryKey: ["savedPosts"] });
 			queryClient.invalidateQueries({
 				queryKey: ["posts", post.communityId],
-			}); // also update community page
+			});
 		},
 	});
 
@@ -63,6 +65,8 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["posts"] });
 			queryClient.invalidateQueries({ queryKey: ["allPosts"] });
+			queryClient.invalidateQueries({ queryKey: ["userPosts"] });
+			queryClient.invalidateQueries({ queryKey: ["savedPosts"] });
 			console.log("post deleted", post.id);
 		},
 	});

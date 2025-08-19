@@ -10,6 +10,17 @@ export const deletePost = async (id: string) => {
 		throw new Error("Unauthorized");
 	}
 
+	// 1. Delete reactions
+	await db.postReaction.deleteMany({
+		where: { postId: id },
+	});
+
+	// 2. Delete comments
+	await db.comment.deleteMany({
+		where: { postId: id },
+	});
+
+	// 3. Delete the post
 	await db.post.delete({
 		where: {
 			id,

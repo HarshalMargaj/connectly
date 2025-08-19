@@ -54,6 +54,7 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["joinedcommunities"] });
 			queryClient.invalidateQueries({ queryKey: ["joinedCommunities"] });
+			queryClient.invalidateQueries({ queryKey: ["community"] });
 		},
 		onError: error => {
 			console.log(error);
