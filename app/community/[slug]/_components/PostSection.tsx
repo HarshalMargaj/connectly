@@ -16,7 +16,12 @@ const PostSection = ({ communityId }: PostSectionProps) => {
 	return (
 		<div className="space-y-2">
 			{posts?.map(post => (
-				<PostCard key={post.id} post={post} />
+				<PostCard
+					key={post.id}
+					post={post}
+					showUser={true}
+					showCommunity={false}
+				/>
 			))}
 		</div>
 	);

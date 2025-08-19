@@ -5,10 +5,10 @@ import { auth } from "@clerk/nextjs/server";
 import slugify from "slugify";
 
 export const create = async (formData: FormData) => {
-	const { userId, redirectToSignIn } = await auth();
+	const { userId } = await auth();
 
 	if (!userId) {
-		return redirectToSignIn();
+		throw new Error("Unauthorized");
 	}
 
 	const name = formData.get("name") as string;

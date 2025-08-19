@@ -3,8 +3,8 @@
 import { getSavedPosts } from "@/actions/get-saved-posts";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import Post from "./Post";
 import ProfileSkeleton from "@/components/skeletons/ProfileSkeleton";
+import PostCard from "@/app/community/[slug]/_components/PostCard";
 
 const SavedPosts = () => {
 	const { data: savedPosts, isLoading } = useQuery({
@@ -25,7 +25,12 @@ const SavedPosts = () => {
 	return (
 		<div className="space-y-4 pt-4 pb-20">
 			{savedPosts?.map(post => (
-				<Post key={post.id} post={post} />
+				<PostCard
+					key={post.id}
+					post={post}
+					showUser={true}
+					showCommunity={true}
+				/>
 			))}
 		</div>
 	);

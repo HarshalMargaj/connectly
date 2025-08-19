@@ -9,6 +9,7 @@ export const getPostsById = async (communityId: string) => {
 			owner: true,
 			comments: true,
 			PostReaction: true,
+			community: true,
 		},
 		orderBy: {
 			createdAt: "desc",

@@ -5,14 +5,20 @@ import { auth } from "@clerk/nextjs/server";
 
 export const getPostsByUser = async () => {
 	const { userId } = await auth();
-	const id = userId as string;
+
+	if (!userId) {
+		throw new Error("Unauthorized");
+	}
 
 	return await db.post.findMany({
 		where: {
-			userId: id,
+			userId: userId,
 		},
 		include: {
 			owner: true,
+			comments: true,
+			PostReaction: true,
+			community: true,
 		},
 		orderBy: {
 			createdAt: "desc",

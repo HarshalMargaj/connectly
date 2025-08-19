@@ -31,6 +31,11 @@ const ProfileSkeleton = () => {
 				<Skeleton className="h-3 w-full rounded-md" />
 				<Skeleton className="h-3 w-5/6 rounded-md" />
 			</div>
+			<div className="flex items-center gap-4">
+				<Skeleton className="w-16 h-6" />
+				<Skeleton className="w-16 h-6" />
+				<Skeleton className="w-10 h-6" />
+			</div>
 		</div>
 	);
 };

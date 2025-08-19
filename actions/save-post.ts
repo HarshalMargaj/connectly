@@ -4,10 +4,10 @@ import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 
 export const savePost = async (postId: string) => {
-	const { userId, redirectToSignIn } = await auth();
+	const { userId } = await auth();
 
 	if (!userId) {
-		return redirectToSignIn();
+		throw new Error("Unauthorized");
 	}
 
 	await db.user.update({

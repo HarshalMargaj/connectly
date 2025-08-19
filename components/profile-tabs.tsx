@@ -1,3 +1,5 @@
+"use client";
+
 import ProfilePage from "@/app/profile/_components/ProfilePage";
 import SavedPosts from "@/app/profile/_components/SavedPosts";
 import UserComments from "@/app/profile/_components/UserComments";

@@ -22,14 +22,21 @@ import { deletePost } from "@/actions/delete-post";
 import { savePost } from "@/actions/save-post";
 
 type PostWithOwner = Prisma.PostGetPayload<{
-	include: { owner: true; comments: true; PostReaction: true };
+	include: {
+		owner: true;
+		comments: true;
+		PostReaction: true;
+		community: true;
+	};
 }>;
 
 interface PostCardProps {
 	post: PostWithOwner;
+	showUser?: boolean;
+	showCommunity?: boolean;
 }
 
-const PostCard = ({ post }: PostCardProps) => {
+const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 	const [openComment, setOpenComment] = useState<boolean>(false);
 	const { user } = useUser();
 
@@ -115,8 +122,14 @@ const PostCard = ({ post }: PostCardProps) => {
 			key={post.id}
 			className="border border-neutral-900 p-5 rounded-md space-y-4 max-h-[600px] overflow-hidden"
 		>
-			<div className="flex items-center justify-between">
-				<div className="flex items-center gap-2">
+			<div className={`flex items-center justify-between`}>
+				<div
+					className={`flex ${
+						showUser && showCommunity
+							? "items-start"
+							: "items-center"
+					} gap-2`}
+				>
 					<div className="flex items-center gap-2">
 						<img
 							src={post?.owner?.userImage}
@@ -125,7 +138,18 @@ const PostCard = ({ post }: PostCardProps) => {
 							height={25}
 							className="rounded-full"
 						/>
-						<div>u/{post.owner?.userName}</div>
+						<div className="text-sm">
+							{showCommunity && (
+								<div className="font-semibold">
+									{post.community?.name}
+								</div>
+							)}
+							{showUser && (
+								<div className="text-neutral-400">
+									{post.owner?.userName}
+								</div>
+							)}
+						</div>
 					</div>
 					<div className="text-xs text-neutral-500">{`${post.createdAt.toDateString()} ${post.createdAt.toLocaleTimeString()}`}</div>
 				</div>

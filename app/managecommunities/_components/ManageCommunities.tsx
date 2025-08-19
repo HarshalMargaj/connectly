@@ -15,7 +15,7 @@ const ManageCommunities = () => {
 
 	const { data: communities = [], isLoading } = useQuery({
 		queryFn: () => getJoinedCommunities(user?.id as string),
-		queryKey: ["joinedcommunities"],
+		queryKey: ["joinedcommunities", user?.id],
 	});
 
 	const filterCommunities = communities.filter(c =>

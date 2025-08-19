@@ -4,10 +4,10 @@ import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 
 export const getSavedPosts = async () => {
-	const { userId, redirectToSignIn } = await auth();
+	const { userId } = await auth();
 
 	if (!userId) {
-		return redirectToSignIn();
+		throw new Error("Unauthorized");
 	}
 
 	const user = await db.user.findUnique({
@@ -16,6 +16,9 @@ export const getSavedPosts = async () => {
 			savedPosts: {
 				include: {
 					owner: true,
+					comments: true,
+					PostReaction: true,
+					community: true,
 				},
 			},
 		},
