@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { playSound } from "@/lib/PlaySound";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Community, Post } from "@prisma/client";
+import { Post } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
 import React from "react";
@@ -53,6 +53,8 @@ const CreatePostForm = ({
 		mutationFn: mode === "create" ? createPost : updatePost,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["posts"] });
+			queryClient.invalidateQueries({ queryKey: ["allPosts"] });
+			queryClient.invalidateQueries({ queryKey: ["userPosts"] });
 		},
 		onError: error => {
 			console.error("error creating post:", error);
