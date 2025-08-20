@@ -1,9 +1,11 @@
 import { createPost } from "@/actions/create-post";
+import { updatePost } from "@/actions/update-post";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { playSound } from "@/lib/PlaySound";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Community, Post } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
 import React from "react";
@@ -21,22 +23,34 @@ const schema = z.object({
 type FieldValues = z.infer<typeof schema>;
 
 interface CreatePostFormProps {
+	post?: Post;
 	communityId: string;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+	mode: string;
 }
 
-const CreatePostForm = ({ communityId, setOpen }: CreatePostFormProps) => {
+const CreatePostForm = ({
+	post,
+	communityId,
+	setOpen,
+	mode,
+}: CreatePostFormProps) => {
 	const {
 		register,
 		handleSubmit,
 		formState: { errors, isSubmitting },
 	} = useForm({
 		resolver: zodResolver(schema),
+		defaultValues: {
+			title: post ? post.title : "",
+			description: post ? post.description : "",
+		},
 	});
+
 	const queryClient = useQueryClient();
 
-	const { mutateAsync: createPostMutaiton } = useMutation({
-		mutationFn: createPost,
+	const { mutateAsync: PostMutaiton } = useMutation({
+		mutationFn: mode === "create" ? createPost : updatePost,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["posts"] });
 		},
@@ -50,8 +64,9 @@ const CreatePostForm = ({ communityId, setOpen }: CreatePostFormProps) => {
 		formData.append("title", data.title);
 		formData.append("description", data.description);
 		formData.append("communityId", communityId);
+		formData.append("postId", post?.id as string);
 
-		await createPostMutaiton(formData);
+		await PostMutaiton(formData);
 		setOpen(false);
 	};
 
@@ -80,8 +95,10 @@ const CreatePostForm = ({ communityId, setOpen }: CreatePostFormProps) => {
 			<Button type="submit" onClick={playSound} className="w-[100px]">
 				{isSubmitting ? (
 					<Loader className="animate-spin" />
-				) : (
+				) : mode === "create" ? (
 					"Create Post"
+				) : (
+					"Edit Post"
 				)}
 			</Button>
 		</form>

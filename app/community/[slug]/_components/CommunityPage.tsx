@@ -101,6 +101,7 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 					<CreatePostForm
 						communityId={community.id}
 						setOpen={setOpen}
+						mode="create"
 					/>
 				</DialogDemo>
 				{community.userId !== user?.id && (

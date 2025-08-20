@@ -20,6 +20,8 @@ import { CommunityMenu } from "@/components/community-menu";
 import { deletePost } from "@/actions/delete-post";
 import { savePost } from "@/actions/save-post";
 import NoPosts from "@/components/NotPosts";
+import { DialogDemo } from "@/components/reusable-dialog";
+import CreatePostForm from "./CreatePostForm";
 
 type PostWithOwner = Prisma.PostGetPayload<{
 	include: {
@@ -38,6 +40,7 @@ interface PostCardProps {
 
 const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 	const [openComment, setOpenComment] = useState<boolean>(false);
+	const [open, setOpen] = useState<boolean>(false);
 	const { user } = useUser();
 
 	const { data: comments = [], isLoading } = useQuery({
@@ -109,7 +112,12 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 			action: () => savePostMutation(post.id),
 			icon: <Bookmark />,
 		},
-		{ id: "3", name: "Edit", action: () => {}, icon: <Pencil /> },
+		{
+			id: "3",
+			name: "Edit",
+			action: () => setOpen(true),
+			icon: <Pencil />,
+		},
 	];
 
 	const postMenuItemsFormOthersPost = [
@@ -166,6 +174,19 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 						}
 						icon={<EllipsisVertical />}
 					/>
+					<DialogDemo
+						open={open}
+						setIsOpen={setOpen}
+						title="edit post"
+						description="edit post"
+					>
+						<CreatePostForm
+							post={post}
+							communityId={post.community.id}
+							setOpen={setOpen}
+							mode="edit"
+						/>
+					</DialogDemo>
 				</div>
 			</div>
 			<div className="text-xl">{post.title}</div>
