@@ -35,7 +35,7 @@ export const PostCardSkeleton = () => {
 
 const AboutCommunitySkeleton = () => {
 	return (
-		<div className="border p-4 rounded-md bg-neutral-900 space-y-3">
+		<div className="border p-4 rounded-md dark:bg-neutral-900 space-y-3">
 			<Skeleton className="w-40 h-6" /> {/* Name */}
 			<Skeleton className="w-full h-4" /> {/* Description */}
 			<Skeleton className="w-2/3 h-4" /> {/* Created */}
@@ -59,7 +59,7 @@ const CommunityPageSkeleton = () => {
 			{/* Header (logo + name) */}
 			<div className="flex items-center absolute top-25 p-5">
 				<div className="flex items-end gap-4 ">
-					<div className="border dark:border-neutral-700 rounded-full p-4 shadow-sm shadow-amber-100/10 bg-neutral-800 flex items-center justify-center">
+					<div className="border dark:border-neutral-700 rounded-full p-4 shadow-sm shadow-amber-100/10 dark:bg-neutral-800 flex items-center justify-center">
 						<Skeleton className="w-[100px] h-[100px] rounded-full" />
 					</div>
 					<Skeleton className="w-40 h-8" />

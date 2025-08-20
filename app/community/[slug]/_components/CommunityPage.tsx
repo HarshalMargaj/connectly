@@ -72,8 +72,8 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 			</div>
 			<div className="flex items-center absolute top-25 p-5">
 				<div className="flex items-end gap-4 ">
-					<div className="border border-neutral-700 rounded-full p-4 shadow-sm shadow-amber-100/10 bg-neutral-800 flex items-center justify-center">
-						<Handshake className="text-amber-100" size={100} />
+					<div className="dark:border dark:border-neutral-700 rounded-full p-4 shadow-sm shadow-amber-100/10 bg-neutral-800   flex items-center justify-center">
+						<Handshake className="text-amber-100 " size={100} />
 					</div>
 					<div className="text-2xl tracking-wider">
 						{community.name}
@@ -110,7 +110,7 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 							joinCommunityMutation(community.id);
 							playSound();
 						}}
-						className="bg-amber-100 rounded-4xl"
+						className="dark:bg-amber-100 rounded-4xl"
 						disabled={isJoined && true}
 					>
 						{isJoined ? "Joined" : "Join"}
@@ -140,7 +140,7 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 				<div
 					className={`${
 						community?.posts.length === 0 ? "w-full" : "w-[30%]"
-					} border p-4 rounded-md bg-neutral-900 sticky top-0`}
+					} border p-4 rounded-md dark: dark:bg-neutral-900 bg-neutral-100 sticky top-0`}
 				>
 					<AboutCommunity community={community} />
 				</div>
