@@ -3,7 +3,15 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { ChevronDown, House, Menu, Plus, Settings } from "lucide-react";
+import {
+	ChevronDown,
+	Globe,
+	House,
+	Menu,
+	Plus,
+	Settings,
+	User,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { DialogDemo } from "@/components/reusable-dialog";
@@ -19,8 +27,8 @@ import { SkeletonDemo } from "@/components/skeletons/YourCommSkeleton";
 
 export const SidebarItems = [
 	{ id: 1, item: "Home", path: "/home", icon: <House /> },
-	{ id: 2, item: "Profile", path: "/profile" },
-	{ id: 3, item: "Communities", path: "/communities" },
+	{ id: 2, item: "Profile", path: "/profile", icon: <User /> },
+	{ id: 3, item: "Communities", path: "/communities", icon: <Globe /> },
 ];
 
 const Sidebar = () => {
@@ -80,7 +88,7 @@ const Sidebar = () => {
 								);
 							}}
 							key={item.id}
-							className={` rounded-md text-gray-600  ${
+							className={` rounded-md text-gray-600 flex items-center gap-2  ${
 								item.item === "Profile" && !user?.id
 									? "p-0"
 									: "p-2"
@@ -90,6 +98,7 @@ const Sidebar = () => {
 									: "hover:bg-amber-100/10 dark:text-white"
 							} `}
 						>
+							{item.icon}
 							{item.item === "Profile" && !user?.id
 								? ""
 								: item.item}
