@@ -98,7 +98,9 @@ const Sidebar = () => {
 									: "hover:bg-amber-100/10 dark:text-white"
 							} `}
 						>
-							{item.icon}
+							{item.item === "Profile" && !user?.id
+								? ""
+								: item.icon}
 							{item.item === "Profile" && !user?.id
 								? ""
 								: item.item}

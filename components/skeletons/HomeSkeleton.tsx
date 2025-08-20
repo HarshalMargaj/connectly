@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const HomeSkeleton = () => {
 	return (
-		<div className="border border-neutral-900 p-5 rounded-md space-y-4 max-h-[600px] overflow-hidden">
+		<div className="border dark:border-neutral-900 p-5 rounded-md space-y-4 max-h-[600px] overflow-hidden">
 			{/* Header */}
 			<div className="flex items-center gap-2">
 				<div className="flex items-center gap-2">
