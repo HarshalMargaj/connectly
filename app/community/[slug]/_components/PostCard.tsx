@@ -143,7 +143,7 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 	return (
 		<div
 			key={post.id}
-			className="border border-neutral-900 p-5 rounded-md space-y-4 overflow-hidden"
+			className="border dark:border-neutral-900 p-5 rounded-md space-y-4 overflow-hidden"
 		>
 			<div className={`flex items-center justify-between`}>
 				<div
@@ -168,13 +168,13 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 								</div>
 							)}
 							{showUser && (
-								<div className="text-neutral-400">
+								<div className="dark:text-neutral-400 text-gray-500">
 									{post.owner?.userName}
 								</div>
 							)}
 						</div>
 					</div>
-					<div className="text-xs text-neutral-500">{`${post.createdAt.toDateString()} ${post.createdAt.toLocaleTimeString()}`}</div>
+					<div className="text-xs dark:text-neutral-500 text-gray-500">{`${post.createdAt.toDateString()} ${post.createdAt.toLocaleTimeString()}`}</div>
 				</div>
 				<div>
 					<CommunityMenu
@@ -200,12 +200,18 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 					</DialogDemo>
 				</div>
 			</div>
-			<div className="text-xl">{post.title}</div>
-			<div className="text-neutral-400">{post.description}</div>
+			<div className="text-xl dark:text-white text-gray-600">
+				{post.title}
+			</div>
+			<div className="dark:text-neutral-400 text-gray-500">
+				{post.description}
+			</div>
 			<div className="flex items-center gap-4 select-none">
 				<button
 					className={`flex items-center gap-4 ${
-						hasLiked ? "text-blue-400" : "text-white"
+						hasLiked
+							? "text-blue-400"
+							: "dark:text-white text-gray-600"
 					}`}
 					onClick={() => toggleReactionMutation("LIKE")}
 				>
@@ -213,7 +219,9 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 				</button>
 				<button
 					className={`flex items-center gap-4 ${
-						hasDisliked ? "text-red-500" : "text-white"
+						hasDisliked
+							? "text-red-500"
+							: "dark:text-white text-gray-600"
 					}`}
 					onClick={() => toggleReactionMutation("DISLIKE")}
 				>
@@ -221,6 +229,7 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 				</button>
 				<MessageSquareText
 					onClick={() => setOpenComment(!openComment)}
+					className="dark:text-white text-gray-600"
 				/>{" "}
 				{commentsCount}
 			</div>
