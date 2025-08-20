@@ -9,6 +9,7 @@ import type { Prisma } from "@prisma/client";
 import NoPosts from "../../../components/NotPosts";
 import PostCard from "@/app/community/[slug]/_components/PostCard";
 import ProfileSkeleton from "@/components/skeletons/ProfileSkeleton";
+import { Handshake } from "lucide-react";
 
 type PostsWithOwner = Prisma.PostGetPayload<{
 	include: {

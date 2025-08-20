@@ -1,13 +1,8 @@
 import React from "react";
-import { TabsDemo } from "@/components/profile-tabs";
+import Profile from "./_components/Profile";
 
-const profile = () => {
-	return (
-		<div className="p-5 space-y-4">
-			<h1 className="text-3xl font-semibold">My Profile</h1>
-			<TabsDemo />
-		</div>
-	);
+const page = () => {
+	return <Profile />;
 };
 
-export default profile;
+export default page;
