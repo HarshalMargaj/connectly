@@ -2,13 +2,14 @@ import React from "react";
 import { getByComId } from "@/actions/get-communityBySlug";
 import Community from "./_components/Community";
 
-export const generateMetadata = async ({
-	params,
-}: {
-	params: { slug: string };
-}) => {
-	const { slug } = params;
-	const community = await getByComId(slug);
+type PageProps = {
+	params: {
+		slug: string;
+	};
+};
+
+export const generateMetadata = async ({ params }: PageProps) => {
+	const community = await getByComId(params.slug);
 
 	return {
 		title: `${community?.name} | Community`,
@@ -16,8 +17,8 @@ export const generateMetadata = async ({
 	};
 };
 
-const page = () => {
+const Page = ({}: PageProps) => {
 	return <Community />;
 };
 
-export default page;
+export default Page;
