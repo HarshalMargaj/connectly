@@ -44,7 +44,7 @@ const Community = ({ community, data }: CommunityProps) => {
 				}}
 				size="sm"
 			>
-				{isJoined ? "Joined" : "Join"}
+				{isJoined ? "Leave" : "Join"}
 			</Button>
 		</div>
 	);
