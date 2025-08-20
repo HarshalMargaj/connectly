@@ -3,11 +3,9 @@
 import React from "react";
 import { TabsDemo } from "@/components/profile-tabs";
 import { useUser } from "@clerk/nextjs";
-import Image from "next/image";
 
 const Profile = () => {
 	const { user } = useUser();
-	console.log("user", user);
 
 	return (
 		<div className=" ">

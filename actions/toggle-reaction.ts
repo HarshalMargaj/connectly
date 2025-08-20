@@ -5,8 +5,8 @@ import { auth } from "@clerk/nextjs/server";
 import { ReactionType } from "@prisma/client";
 
 export const toggleReaction = async (postId: string, type: ReactionType) => {
-	const { userId } = await auth();
-	if (!userId) throw new Error("Unauthorized");
+	const { userId, redirectToSignIn } = await auth();
+	if (!userId) return redirectToSignIn();
 
 	const existing = await db.postReaction.findUnique({
 		where: { postId_userId: { postId, userId } },

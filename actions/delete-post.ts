@@ -4,10 +4,10 @@ import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 
 export const deletePost = async (id: string) => {
-	const { userId } = await auth();
+	const { userId, redirectToSignIn } = await auth();
 
 	if (!userId) {
-		throw new Error("Unauthorized");
+		return redirectToSignIn();
 	}
 
 	// 1. Delete reactions
