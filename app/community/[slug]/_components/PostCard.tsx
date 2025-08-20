@@ -1,8 +1,8 @@
 import { Prisma } from "@prisma/client";
 import {
 	Bookmark,
+	BookmarkCheck,
 	EllipsisVertical,
-	icons,
 	MessageSquareText,
 	Pencil,
 	ThumbsDown,
@@ -22,6 +22,8 @@ import { savePost } from "@/actions/save-post";
 import NoPosts from "@/components/NotPosts";
 import { DialogDemo } from "@/components/reusable-dialog";
 import CreatePostForm from "./CreatePostForm";
+import { getSavedPosts } from "@/actions/get-saved-posts";
+import { unsavePost } from "@/actions/unsave-post";
 
 type PostWithOwner = Prisma.PostGetPayload<{
 	include: {
@@ -43,7 +45,7 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 	const [open, setOpen] = useState<boolean>(false);
 	const { user } = useUser();
 
-	const { data: comments = [], isLoading } = useQuery({
+	const { data: comments = [] } = useQuery({
 		queryFn: () => getCommentsById(post.id),
 		queryKey: ["comments", post.id],
 	});
@@ -74,11 +76,20 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 		},
 	});
 
+	const { data: saved } = useQuery({
+		queryFn: getSavedPosts,
+		queryKey: ["savedPosts"],
+	});
+
+	const hasSaved = saved?.find(sp => sp.id === post.id);
+
 	const { mutateAsync: savePostMutation } = useMutation({
-		mutationFn: savePost,
+		mutationFn: hasSaved ? unsavePost : savePost,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["posts"] });
 			queryClient.invalidateQueries({ queryKey: ["allPosts"] });
+			queryClient.invalidateQueries({ queryKey: ["userPosts"] });
+			queryClient.invalidateQueries({ queryKey: ["savedPosts"] });
 			console.log("post saved", post.id);
 		},
 	});
@@ -108,9 +119,9 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 		},
 		{
 			id: "2",
-			name: "Save",
+			name: hasSaved ? "Remove from saved" : "Save",
 			action: () => savePostMutation(post.id),
-			icon: <Bookmark />,
+			icon: hasSaved ? <BookmarkCheck /> : <Bookmark />,
 		},
 		{
 			id: "3",
@@ -123,7 +134,7 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 	const postMenuItemsFormOthersPost = [
 		{
 			id: "1",
-			name: "Save",
+			name: hasSaved ? "Remove from saved" : "Save",
 			action: () => savePostMutation(post.id),
 			icon: <Bookmark />,
 		},

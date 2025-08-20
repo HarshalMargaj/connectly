@@ -8,7 +8,7 @@ interface PostSectionProps {
 }
 
 const PostSection = ({ communityId }: PostSectionProps) => {
-	const { data: posts, isLoading } = useQuery({
+	const { data: posts } = useQuery({
 		queryFn: () => getPostsById(communityId),
 		queryKey: ["posts", communityId],
 	});
