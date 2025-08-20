@@ -17,7 +17,7 @@ export const generateMetadata = async ({ params }: PageProps) => {
 	};
 };
 
-const Page = ({}: PageProps) => {
+const Page = () => {
 	return <Community />;
 };
 
