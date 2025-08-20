@@ -4,11 +4,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export const PostCardSkeleton = () => {
 	return (
-		<div className="border border-neutral-900 p-5 rounded-md space-y-4 max-h-[600px] overflow-hidden">
+		<div className="border dark:border-neutral-900 p-5 rounded-md space-y-4 max-h-[600px] overflow-hidden">
 			{/* Top Row: User + Date */}
 			<div className="flex items-center gap-2">
 				<div className="flex items-center gap-2">
-					<div className="border border-neutral-700 rounded-full p-1 shadow-sm shadow-amber-100/10">
+					<div className="border dark:border-neutral-700 rounded-full p-1 shadow-sm shadow-amber-100/10">
 						<Skeleton className="h-6 w-6 rounded-full" />
 					</div>
 					<Skeleton className="w-20 h-4" />
@@ -59,7 +59,7 @@ const CommunityPageSkeleton = () => {
 			{/* Header (logo + name) */}
 			<div className="flex items-center absolute top-25 p-5">
 				<div className="flex items-end gap-4 ">
-					<div className="border border-neutral-700 rounded-full p-4 shadow-sm shadow-amber-100/10 bg-neutral-800 flex items-center justify-center">
+					<div className="border dark:border-neutral-700 rounded-full p-4 shadow-sm shadow-amber-100/10 bg-neutral-800 flex items-center justify-center">
 						<Skeleton className="w-[100px] h-[100px] rounded-full" />
 					</div>
 					<Skeleton className="w-40 h-8" />

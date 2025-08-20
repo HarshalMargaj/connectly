@@ -3,12 +3,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const ProfileSkeleton = () => {
 	return (
-		<div className="border border-neutral-900 p-4 rounded-md space-y-2 mt-4">
+		<div className="border dark:border-neutral-900 p-4 rounded-md space-y-2 mt-4">
 			{/* Header */}
 			<div>
 				<div className="flex items-start gap-2">
 					{/* Icon */}
-					<div className="border border-neutral-700 rounded-full p-1 shadow-sm shadow-amber-100/10">
+					<div className="border dark:border-neutral-700 rounded-full p-1 shadow-sm shadow-amber-100/10">
 						<Skeleton className="h-6 w-6 rounded-full" />
 					</div>
 

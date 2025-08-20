@@ -1,5 +1,5 @@
 import React from "react";
-import { Community, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { Handshake } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -18,17 +18,17 @@ const Card = ({ community }: CardProps) => {
 	return (
 		<div
 			onClick={() => router.push(`/community/${community.slug}`)}
-			className="border border-neutral-700 p-4 rounded-md h-[80px] flex items-center gap-2 w-full"
+			className="border dark:border-neutral-700 p-4 rounded-md h-[80px] flex items-center gap-2 w-full"
 		>
-			<div className="border border-neutral-700 rounded-full p-2 shadow-sm shadow-amber-100/10">
-				<Handshake className="text-amber-100" />
+			<div className="border dark:border-neutral-700 rounded-full p-2 shadow-sm shadow-amber-100/10">
+				<Handshake className="dark:text-amber-100 text-gray-600" />
 			</div>
 			<div className="w-[80%]">
 				<div className="cursor-pointer text-sm">{community.name}</div>
-				<div className="text-sm text-neutral-600 truncate w-full">
+				<div className="text-sm dark:text-neutral-600 text-gray-500 truncate w-full">
 					{community.description}
 				</div>
-				<div className="text-sm text-neutral-600">
+				<div className="text-sm dark:text-neutral-600 text-gray-500">
 					{community?.joinedBy.length} Members
 				</div>
 			</div>

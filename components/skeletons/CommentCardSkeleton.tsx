@@ -2,11 +2,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const CommentCardSkeleton = () => {
 	return (
-		<div className="border border-neutral-900 rounded-md p-4 space-y-2">
+		<div className="border dark:border-neutral-900 rounded-md p-4 space-y-2">
 			{/* Top row */}
 			<div className="flex items-start gap-2">
 				{/* Icon placeholder */}
-				<div className="border border-neutral-700 rounded-full p-1 shadow-sm shadow-amber-100/10">
+				<div className="border dark:border-neutral-700 rounded-full p-1 shadow-sm shadow-amber-100/10">
 					<Skeleton className="h-6 w-6 rounded-full" />
 				</div>
 

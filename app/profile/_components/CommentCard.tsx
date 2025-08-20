@@ -1,4 +1,4 @@
-import { Comment, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { Dot, Handshake } from "lucide-react";
 import React from "react";
 
@@ -14,8 +14,11 @@ const CommentCard = ({ comment }: CommentCardProps) => {
 	return (
 		<div className="border dark:border-neutral-900 rounded-md p-4 space-y-2">
 			<div className="flex items-start gap-2">
-				<div className="border border-neutral-700 rounded-full p-1 shadow-sm shadow-amber-100/10">
-					<Handshake className={"text-amber-100"} size={25} />
+				<div className="border dark:border-neutral-700 rounded-full p-1 shadow-sm shadow-amber-100/10">
+					<Handshake
+						className={"dark:text-amber-100 text-gray-600"}
+						size={25}
+					/>
 				</div>
 				<div className="text-sm">
 					<div className="font-semibold">
