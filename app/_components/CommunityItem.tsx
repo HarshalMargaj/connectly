@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import { Community } from "@prisma/client";
 import { Handshake } from "lucide-react";
@@ -24,22 +24,23 @@ const CommunityItem = ({
 				localStorage.setItem("selectedItem", community.id);
 			}}
 			key={community.id}
-			className={`flex items-center gap-2 ${
+			className={`flex items-center gap-2  ${
 				selectedItem === community.id
-					? "bg-amber-100 text-neutral-800"
-					: "hover:bg-amber-100/10"
+					? "bg-amber-100 dark:text-neutral-800"
+					: "hover:bg-amber-100/10 dark:text-white text-gray-600"
 			} p-2 rounded-md cursor-pointer`}
 		>
-			<div className="border border-neutral-700 rounded-full p-1 shadow-sm shadow-amber-100/10">
+			<div className="border border-neutral-700 rounded-full p-1 shadow-sm shadow-amber-100/10 ">
 				<Handshake
-					className={` ${
+					className={`text-neutral-800 ${
 						selectedItem === community.id
-							? "text-neutral-800"
-							: "text-amber-100"
+							? "dark:text-neutral-800"
+							: "dark:text-amber-100"
 					}`}
 					size={15}
 				/>
 			</div>
+
 			{community.name}
 		</div>
 	);

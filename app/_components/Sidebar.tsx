@@ -63,7 +63,7 @@ const Sidebar = () => {
 					setIsSidebarOpen(!isSidebarOpen);
 					playSound();
 				}}
-				className="absolute top-6 -right-[17px] border border-neutral-700 rounded-full bg-black p-2 hover:bg-neutral-600 cursor-pointer z-10"
+				className="absolute top-6 -right-[17px] border dark:border-neutral-700 rounded-full dark:bg-black bg-white p-2 dark:hover:bg-neutral-600 hover:bg-neutral-100 cursor-pointer z-10"
 			>
 				<Menu size={15} />
 			</div>
@@ -80,14 +80,14 @@ const Sidebar = () => {
 								);
 							}}
 							key={item.id}
-							className={` rounded-md ${
+							className={` rounded-md text-gray-600  ${
 								item.item === "Profile" && !user?.id
 									? "p-0"
 									: "p-2"
 							} cursor-pointer ${
 								selectedItem === item.id.toString()
 									? "bg-amber-100 text-neutral-800"
-									: "hover:bg-amber-100/10"
+									: "hover:bg-amber-100/10 dark:text-white"
 							} `}
 						>
 							{item.item === "Profile" && !user?.id
