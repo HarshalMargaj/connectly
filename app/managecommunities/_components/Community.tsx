@@ -32,8 +32,11 @@ const Community = ({ community, data }: CommunityProps) => {
 			className="flex w-full items-center justify-between"
 		>
 			<div className="flex items-center gap-2">
-				<div className="border border-neutral-700 rounded-full p-1 shadow-sm shadow-amber-100/10">
-					<Handshake className={` ${"text-amber-100"}`} size={20} />
+				<div className="border dark:border-neutral-700 rounded-full p-1 shadow-sm shadow-amber-100/10">
+					<Handshake
+						className={` ${"dark:text-amber-100 text-gray-600"}`}
+						size={20}
+					/>
 				</div>
 				<div>{community.name}</div>
 			</div>

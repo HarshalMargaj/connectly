@@ -24,6 +24,10 @@ const ManageCommunities = () => {
 
 	if (isLoading) return <ManageCommunitiesSkeleton />;
 
+	if (communities.length === 0) {
+		return <NotFound />;
+	}
+
 	return (
 		<div className="p-5 space-y-4 ">
 			<h1 className="text-3xl font-semibold">Manage Communities</h1>
@@ -40,7 +44,15 @@ const ManageCommunities = () => {
 						/>
 					))
 				) : (
-					<NotFound />
+					<div className="flex flex-col items-center justify-center py-10 text-center h-[300px]">
+						<p className="text-lg font-semibold">
+							No results found
+						</p>
+						<p className="text-muted-foreground max-w-sm">
+							Try a different search term to find your
+							communities.
+						</p>
+					</div>
 				)}
 			</div>
 		</div>
