@@ -6,7 +6,7 @@ import React from "react";
 
 import type { Prisma } from "@prisma/client";
 
-import NoPosts from "./NotPosts";
+import NoPosts from "../../../components/NotPosts";
 import PostCard from "@/app/community/[slug]/_components/PostCard";
 import ProfileSkeleton from "@/components/skeletons/ProfileSkeleton";
 
@@ -48,7 +48,10 @@ const ProfilePage = () => {
 				))
 			) : (
 				<div className="h-full">
-					<NoPosts />
+					<NoPosts
+						title="No posts yet"
+						description="Looks like you haven’t shared anything yet. Start creating posts to share your thoughts with the community!"
+					/>
 				</div>
 			)}
 		</div>

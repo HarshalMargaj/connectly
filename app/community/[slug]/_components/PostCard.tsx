@@ -16,10 +16,10 @@ import { getCommentsById } from "@/actions/get-comments-by-id";
 import Comment from "./Comment";
 import { toggleReaction } from "@/actions/toggle-reaction";
 import { useUser } from "@clerk/nextjs";
-import NotFound from "./NotFound";
 import { CommunityMenu } from "@/components/community-menu";
 import { deletePost } from "@/actions/delete-post";
 import { savePost } from "@/actions/save-post";
+import NoPosts from "@/components/NotPosts";
 
 type PostWithOwner = Prisma.PostGetPayload<{
 	include: {
@@ -124,7 +124,7 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 	return (
 		<div
 			key={post.id}
-			className="border border-neutral-900 p-5 rounded-md space-y-4 max-h-[600px] overflow-hidden"
+			className="border border-neutral-900 p-5 rounded-md space-y-4 overflow-hidden"
 		>
 			<div className={`flex items-center justify-between`}>
 				<div
@@ -198,13 +198,16 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 						postId={post.id}
 						userId={user?.id as string}
 					/>
-					<div className="space-y-2 overflow-y-scroll scrollbar-hide max-h-[400px] pb-15">
+					<div className="space-y-2 overflow-y-scroll scrollbar-hide max-h-[400px]">
 						{comments?.length > 0 ? (
 							comments?.map(comment => (
 								<Comment key={comment.id} comment={comment} />
 							))
 						) : (
-							<NotFound />
+							<NoPosts
+								title="Be the first to comment"
+								description="Nobody’s responded to this post yet. Share your thoughts and get the conversation started."
+							/>
 						)}
 					</div>
 				</div>

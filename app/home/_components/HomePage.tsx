@@ -25,7 +25,12 @@ const HomePage = () => {
 	return (
 		<div className="p-5 space-y-4 pb-20">
 			{posts?.map(post => (
-				<PostCard key={post.id} post={post} />
+				<PostCard
+					key={post.id}
+					post={post}
+					showUser={true}
+					showCommunity={true}
+				/>
 			))}
 		</div>
 	);
