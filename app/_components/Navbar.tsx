@@ -71,7 +71,7 @@ const Navbar = () => {
 					</SignUpButton>
 				</SignedOut>
 				<SignedIn>
-					<div className="text-amber-100">
+					<div className="dark:text-amber-100 text-gray-600">
 						u/{user?.fullName?.split(" ").join("")}
 					</div>
 					<UserButton />
