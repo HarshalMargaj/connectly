@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { playSound } from "@/lib/PlaySound";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Loader } from "lucide-react";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -63,8 +64,12 @@ const AddCommentForm = ({ postId, userId }: AddCommentFormProps) => {
 					{...register("content")}
 				/>
 
-				<Button type="submit" onClick={playSound}>
-					{isSubmitting ? "Adding..." : "Add Comment"}
+				<Button type="submit" onClick={playSound} className="w-[150px]">
+					{isSubmitting ? (
+						<Loader className="animate-spin" />
+					) : (
+						"Add Comment"
+					)}
 				</Button>
 			</div>
 			{errors.content && (

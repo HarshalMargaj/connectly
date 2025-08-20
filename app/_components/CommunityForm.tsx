@@ -15,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { playSound } from "@/lib/PlaySound";
+import { Loader } from "lucide-react";
 
 const schema = z.object({
 	name: z
@@ -92,8 +93,12 @@ const CommunityForm = ({ setIsOpen }: CommunityFormProps) => {
 					</div>
 				)}
 			</div>
-			<Button type="submit" onClick={playSound}>
-				{isSubmitting ? "creating..." : "Create Community"}
+			<Button type="submit" onClick={playSound} className="w-[150px]">
+				{isSubmitting ? (
+					<Loader className="animate-spin" />
+				) : (
+					"Create Community"
+				)}
 			</Button>
 		</form>
 	);

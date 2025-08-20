@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { playSound } from "@/lib/PlaySound";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Loader } from "lucide-react";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -76,8 +77,12 @@ const CreatePostForm = ({ communityId, setOpen }: CreatePostFormProps) => {
 			{errors.description && (
 				<div className="text-red-500">{errors.description.message}</div>
 			)}
-			<Button type="submit" onClick={playSound}>
-				{isSubmitting ? "Creating..." : "Create Post"}
+			<Button type="submit" onClick={playSound} className="w-[100px]">
+				{isSubmitting ? (
+					<Loader className="animate-spin" />
+				) : (
+					"Create Post"
+				)}
 			</Button>
 		</form>
 	);
