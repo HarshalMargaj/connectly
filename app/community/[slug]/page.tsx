@@ -7,7 +7,7 @@ export const generateMetadata = async ({
 }: {
 	params: { slug: string };
 }) => {
-	const { slug } = await params;
+	const { slug } = params;
 	const community = await getByComId(slug);
 
 	return {
