@@ -9,7 +9,6 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { playSound } from "@/lib/PlaySound";
 
 interface CommunityMenuProps {
 	icon: React.ReactNode;
