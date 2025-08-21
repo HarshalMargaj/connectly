@@ -9,9 +9,7 @@ type PageProps = {
 };
 
 export const generateMetadata = async ({ params }: PageProps) => {
-	const param = await params;
-	console.log(param);
-	const community = await getByComId(param.slug);
+	const community = await getByComId(params.slug);
 
 	return {
 		title: `${community?.name} | Community`,
