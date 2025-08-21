@@ -57,7 +57,7 @@ export function CommandDialogDemo({
 						<CommandItem
 							onSelect={() => {
 								setOpen(false);
-								router.push(`/community/${community.id}`);
+								router.push(`/community/${community.slug}`);
 							}}
 							key={community.id}
 							className="m-2 cursor-pointer"

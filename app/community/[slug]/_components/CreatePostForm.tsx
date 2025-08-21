@@ -52,9 +52,10 @@ const CreatePostForm = ({
 	const { mutateAsync: PostMutaiton } = useMutation({
 		mutationFn: mode === "create" ? createPost : updatePost,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["posts"] });
+			queryClient.invalidateQueries({ queryKey: ["posts", communityId] });
 			queryClient.invalidateQueries({ queryKey: ["allPosts"] });
 			queryClient.invalidateQueries({ queryKey: ["userPosts"] });
+			queryClient.invalidateQueries({ queryKey: ["community"] });
 		},
 		onError: error => {
 			console.error("error creating post:", error);
@@ -69,7 +70,11 @@ const CreatePostForm = ({
 		formData.append("postId", post?.id as string);
 
 		await PostMutaiton(formData);
-		setOpen(false);
+		if (isSubmitting) {
+			setOpen(true);
+		} else {
+			setOpen(false);
+		}
 	};
 
 	return (

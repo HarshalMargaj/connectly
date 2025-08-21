@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import Navbar from "./_components/Navbar";
@@ -7,15 +6,12 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Sidebar from "./_components/Sidebar";
 import QueryProvider from "@/lib/query-provider";
 import { ensureUserExists } from "@/actions/user";
+import { Poppins } from "next/font/google";
 
-const geistSans = Geist({
-	variable: "--font-geist-sans",
+const poppins = Poppins({
 	subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-	variable: "--font-geist-mono",
-	subsets: ["latin"],
+	weight: ["400", "600"],
+	variable: "--font-poppins",
 });
 
 export const metadata: Metadata = {
@@ -38,7 +34,7 @@ export default async function RootLayout({
 	return (
 		<html lang="en" className="h-full" suppressHydrationWarning>
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased h-full overflow-hidden dark:bg-neutral-950`}
+				className={`${poppins.variable} font-heading antialiased h-full overflow-hidden dark:bg-neutral-950`}
 				suppressHydrationWarning
 			>
 				<ClerkProvider>

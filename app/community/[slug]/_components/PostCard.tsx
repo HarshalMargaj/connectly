@@ -68,10 +68,13 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 	const { mutateAsync: deletePostMutation } = useMutation({
 		mutationFn: deletePost,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["posts"] });
+			queryClient.invalidateQueries({
+				queryKey: ["posts", post.communityId],
+			});
 			queryClient.invalidateQueries({ queryKey: ["allPosts"] });
 			queryClient.invalidateQueries({ queryKey: ["userPosts"] });
 			queryClient.invalidateQueries({ queryKey: ["savedPosts"] });
+			queryClient.invalidateQueries({ queryKey: ["community"] });
 			console.log("post deleted", post.id);
 		},
 	});
@@ -86,7 +89,9 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 	const { mutateAsync: savePostMutation } = useMutation({
 		mutationFn: hasSaved ? unsavePost : savePost,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["posts"] });
+			queryClient.invalidateQueries({
+				queryKey: ["posts", post.communityId],
+			});
 			queryClient.invalidateQueries({ queryKey: ["allPosts"] });
 			queryClient.invalidateQueries({ queryKey: ["userPosts"] });
 			queryClient.invalidateQueries({ queryKey: ["savedPosts"] });
