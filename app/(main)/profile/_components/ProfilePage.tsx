@@ -6,8 +6,8 @@ import React from "react";
 
 import type { Prisma } from "@prisma/client";
 
-import NoPosts from "../../../components/NotPosts";
-import PostCard from "@/app/community/[slug]/_components/PostCard";
+import NoPosts from "@/components/NotPosts";
+import PostCard from "@/app/(main)/community/[slug]/_components/PostCard";
 import ProfileSkeleton from "@/components/skeletons/ProfileSkeleton";
 
 type PostsWithOwner = Prisma.PostGetPayload<{

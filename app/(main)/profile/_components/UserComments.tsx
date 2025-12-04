@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import CommentCard from "./CommentCard";
 import CommentCardSkeleton from "@/components/skeletons/CommentCardSkeleton";
-import NoPosts from "../../../components/NotPosts";
+import NoPosts from "@/components/NotPosts";
 
 const UserComments = () => {
 	const { data: comments = [], isLoading } = useQuery({

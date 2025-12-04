@@ -4,8 +4,8 @@ import { getSavedPosts } from "@/actions/get-saved-posts";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import ProfileSkeleton from "@/components/skeletons/ProfileSkeleton";
-import PostCard from "@/app/community/[slug]/_components/PostCard";
-import NoPosts from "../../../components/NotPosts";
+import PostCard from "@/app/(main)/community/[slug]/_components/PostCard";
+import NoPosts from "@/components/NotPosts";
 
 const SavedPosts = () => {
 	const { data: savedPosts = [], isLoading } = useQuery({

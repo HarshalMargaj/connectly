@@ -1,8 +1,8 @@
 "use client";
 
-import ProfilePage from "@/app/profile/_components/ProfilePage";
-import SavedPosts from "@/app/profile/_components/SavedPosts";
-import UserComments from "@/app/profile/_components/UserComments";
+import ProfilePage from "@/app/(main)/profile/_components/ProfilePage";
+import SavedPosts from "@/app/(main)/profile/_components/SavedPosts";
+import UserComments from "@/app/(main)/profile/_components/UserComments";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export function TabsDemo() {
