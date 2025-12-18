@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { SetStateAction, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import {
@@ -31,12 +31,16 @@ export const SidebarItems = [
 	{ id: 3, item: "Communities", path: "/communities", icon: <Globe /> },
 ];
 
-const Sidebar = () => {
+interface SidebarProps {
+	isSidebarOpen: boolean;
+	setIsSidebarOpen: React.Dispatch<SetStateAction<boolean>>;
+}
+
+const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }: SidebarProps) => {
 	const { user } = useUser();
 	const router = useRouter();
 	const [visible, setVisible] = useState<boolean>(true);
 	const [isOpen, setIsOpen] = useState<boolean>(false);
-	const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
 	const [selectedItem, setSelectedItem] = useState<string>("1");
 
 	useEffect(() => {
@@ -62,16 +66,21 @@ const Sidebar = () => {
 
 	return (
 		<div
-			className={`${
-				isSidebarOpen ? "w-[300px]" : "w-10"
-			} border-r dark:border-neutral-900 p-5 space-y-2 select-none relative transition-all ease-in-out duration-500`}
+			className={`
+		w-[300px] h-full
+		border-r dark:border-neutral-900
+		p-5 space-y-2 select-none relative
+		transition-transform duration-300 ease-in-out bg-neutral-950
+
+		${isSidebarOpen ? "translate-x-0" : "-translate-x-full md:-translate-x-[90%]"} 
+	`}
 		>
 			<div
 				onClick={() => {
 					setIsSidebarOpen(!isSidebarOpen);
 					playSound();
 				}}
-				className="absolute top-6 -right-[17px] border dark:border-neutral-700 rounded-full dark:bg-black bg-white p-2 dark:hover:bg-neutral-600 hover:bg-neutral-100 cursor-pointer z-10"
+				className="md:block hidden absolute top-6 -right-[17px] border dark:border-neutral-700 rounded-full dark:bg-black bg-white p-2 dark:hover:bg-neutral-600 hover:bg-neutral-100 cursor-pointer z-10"
 			>
 				<Menu size={15} />
 			</div>
