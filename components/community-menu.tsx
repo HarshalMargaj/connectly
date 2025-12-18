@@ -24,7 +24,11 @@ export function CommunityMenu({ icon, items }: CommunityMenuProps) {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Button variant="outline" size="icon" className="rounded-full">
+				<Button
+					variant="outline"
+					size="icon"
+					className="rounded-full md:p-1 p-0"
+				>
 					{icon}
 				</Button>
 			</DropdownMenuTrigger>

@@ -179,7 +179,7 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 							)}
 						</div>
 					</div>
-					<div className="text-xs dark:text-neutral-500 text-gray-500">{`${post.createdAt.toDateString()} ${post.createdAt.toLocaleTimeString()}`}</div>
+					<div className="text-xs dark:text-neutral-500 text-gray-500">{`${post.createdAt.toDateString()}`}</div>
 				</div>
 				<div>
 					<CommunityMenu
@@ -188,7 +188,7 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 								? postMenuItemsForOwnPost
 								: postMenuItemsFormOthersPost
 						}
-						icon={<EllipsisVertical />}
+						icon={<EllipsisVertical className="md:size-5 size-3" />}
 					/>
 					<DialogDemo
 						open={open}
@@ -205,10 +205,10 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 					</DialogDemo>
 				</div>
 			</div>
-			<div className="text-xl dark:text-white text-gray-600">
+			<div className="text-md md:text-xl dark:text-white text-gray-600">
 				{post.title}
 			</div>
-			<div className="dark:text-neutral-400 text-gray-500">
+			<div className="dark:text-neutral-400 text-gray-500 text-sm md:text-base">
 				{post.description}
 			</div>
 			<div className="flex items-center gap-4 select-none">
