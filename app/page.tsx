@@ -10,8 +10,7 @@ export default function Home() {
 	return (
 		<div className="h-full  flex items-center justify-center flex-col text-center gap-4 relative select-none">
 			<div className="absolute inset-0 h-full w-full bg-black -z-10">
-				<div className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
-				<div className="absolute left-0 right-0 top-[-10%] h-[1000px] w-[1000px] rounded-full bg-[radial-gradient(circle_400px_at_50%_300px,#fbfbfb36,#000)]"></div>
+				<div className="absolute top-0 z-[-2] h-screen w-screen bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
 			</div>
 			<div className="flex items-center gap-2 absolute top-10 left-10">
 				<Image
@@ -19,17 +18,17 @@ export default function Home() {
 					alt="app-logo"
 					width={32}
 					height={32}
+					className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10"
 				/>
-
-				<div className="text-2xl font-semibold text-amber-100">
+				<div className="md:text-2xl text-md font-semibold text-amber-100">
 					Connectly
 				</div>
 			</div>
 			<div className="text-white flex flex-col items-center justify-center gap-4">
-				<div className="text-7xl text-amber-100">
+				<div className="lg:text-7xl text-3xl md:text-6xl  text-amber-100">
 					Connect. Share. Grow.
 				</div>
-				<div className="w-[60%] text-amber-50/50">
+				<div className="lg:w-[60%] md:w-[80%] w-full px-5 md:px-0 text-amber-50/50">
 					Discover communities built around your interests. Join
 					conversations, share ideas, and be part of something
 					meaningful.
