@@ -29,11 +29,11 @@ const Navbar = ({ setIsSidebarOpen, isSidebarOpen }: NavbarProps) => {
 
 	return (
 		<div className="flex items-center justify-between h-16 border-b dark:border-neutral-900 p-5 md:gap-40 gap-2">
-			<MobileSidebar
-				setIsSidebarOpen={setIsSidebarOpen}
-				isSidebarOpen={isSidebarOpen}
-			/>
 			<div className="flex items-center gap-2 ">
+				<MobileSidebar
+					setIsSidebarOpen={setIsSidebarOpen}
+					isSidebarOpen={isSidebarOpen}
+				/>
 				<Image
 					src="/favicon.png"
 					alt="app-logo"
