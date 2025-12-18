@@ -67,13 +67,15 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }: SidebarProps) => {
 	return (
 		<div
 			className={`
-		w-[300px] h-full
-		border-r dark:border-neutral-900
-		p-5 space-y-2 select-none relative
-		transition-transform duration-300 ease-in-out bg-neutral-950
-
-		${isSidebarOpen ? "translate-x-0" : "-translate-x-full md:-translate-x-[90%]"} 
-	`}
+					 h-full
+					border-r dark:border-neutral-900
+					p-5 space-y-2 select-none relative
+					transition-transform duration-300 ease-in-out bg-neutral-950
+					${isSidebarOpen ? "md:w-[300px]" : "md:w-8"} w-[300px]
+					${
+						isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+					} md:static md:translate-x-0
+				`}
 		>
 			<div
 				onClick={() => {
