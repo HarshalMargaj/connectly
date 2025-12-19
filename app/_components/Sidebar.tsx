@@ -24,6 +24,7 @@ import { getJoinedCommunities } from "@/actions/joined-communities";
 import CommunityItem from "./CommunityItem";
 import { playSound } from "@/lib/PlaySound";
 import { SkeletonDemo } from "@/components/skeletons/YourCommSkeleton";
+import { useSidebar } from "@/store/sidebar.store";
 
 export const SidebarItems = [
 	{ id: 1, item: "Home", path: "/home", icon: <House /> },
@@ -31,17 +32,14 @@ export const SidebarItems = [
 	{ id: 3, item: "Communities", path: "/communities", icon: <Globe /> },
 ];
 
-interface SidebarProps {
-	isSidebarOpen: boolean;
-	setIsSidebarOpen: React.Dispatch<SetStateAction<boolean>>;
-}
-
-const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }: SidebarProps) => {
+const Sidebar = () => {
 	const { user } = useUser();
 	const router = useRouter();
 	const [visible, setVisible] = useState<boolean>(true);
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [selectedItem, setSelectedItem] = useState<string>("1");
+	const isSidebarOpen = useSidebar(state => state.isSidebarOpen);
+	const toggleSidebar = useSidebar(state => state.toggleSidebar);
 
 	useEffect(() => {
 		const storedItem =
@@ -79,7 +77,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }: SidebarProps) => {
 		>
 			<div
 				onClick={() => {
-					setIsSidebarOpen(!isSidebarOpen);
+					toggleSidebar();
 					playSound();
 				}}
 				className="md:block hidden absolute top-6 -right-[17px] border dark:border-neutral-700 rounded-full dark:bg-black bg-white p-2 dark:hover:bg-neutral-600 hover:bg-neutral-100 cursor-pointer z-10"

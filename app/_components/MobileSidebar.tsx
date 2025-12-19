@@ -1,24 +1,16 @@
 import { Menu } from "lucide-react";
-import React, { SetStateAction } from "react";
+import React from "react";
 import Sidebar from "./Sidebar";
+import { useSidebar } from "@/store/sidebar.store";
 
-interface MobileSidebarProps {
-	isSidebarOpen: boolean;
-	setIsSidebarOpen: React.Dispatch<SetStateAction<boolean>>;
-}
+const MobileSidebar = () => {
+	const toggleSidebar = useSidebar(state => state.toggleSidebar);
 
-const MobileSidebar = ({
-	setIsSidebarOpen,
-	isSidebarOpen,
-}: MobileSidebarProps) => {
 	return (
 		<div className="relative md:hidden h-full">
-			<Menu onClick={() => setIsSidebarOpen(!isSidebarOpen)} />
+			<Menu onClick={() => toggleSidebar()} />
 			<div className="fixed top-16 left-0 h-full">
-				<Sidebar
-					setIsSidebarOpen={setIsSidebarOpen}
-					isSidebarOpen={isSidebarOpen}
-				/>
+				<Sidebar />
 			</div>
 		</div>
 	);

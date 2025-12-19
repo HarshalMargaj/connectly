@@ -1,6 +1,6 @@
 "use client";
 
-import React, { SetStateAction, useState } from "react";
+import React, { useState } from "react";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
@@ -13,12 +13,7 @@ import Image from "next/image";
 import MobileNavbar from "./MobileNavbar";
 import MobileSidebar from "./MobileSidebar";
 
-interface NavbarProps {
-	isSidebarOpen: boolean;
-	setIsSidebarOpen: React.Dispatch<SetStateAction<boolean>>;
-}
-
-const Navbar = ({ setIsSidebarOpen, isSidebarOpen }: NavbarProps) => {
+const Navbar = () => {
 	const { user } = useUser();
 	const [open, setOpen] = useState<boolean>(false);
 
@@ -30,10 +25,7 @@ const Navbar = ({ setIsSidebarOpen, isSidebarOpen }: NavbarProps) => {
 	return (
 		<div className="flex items-center justify-between h-16 border-b dark:border-neutral-900 p-5 md:gap-40 gap-2">
 			<div className="flex items-center gap-2 ">
-				<MobileSidebar
-					setIsSidebarOpen={setIsSidebarOpen}
-					isSidebarOpen={isSidebarOpen}
-				/>
+				<MobileSidebar />
 				<Image
 					src="/favicon.png"
 					alt="app-logo"
