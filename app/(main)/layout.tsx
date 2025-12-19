@@ -15,13 +15,20 @@ const mainLayout = ({ children }: { children: React.ReactNode }) => {
 					enableSystem
 					disableTransitionOnChange
 				>
-					<Navbar />
-					<main className="flex h-full" suppressHydrationWarning>
-						<div className="hidden md:block">
-							<Sidebar />
+					<div className="h-screen flex flex-col">
+						<Navbar />
+						<div
+							className="flex flex-1 overflow-hidden"
+							suppressHydrationWarning
+						>
+							<div className="hidden md:block">
+								<Sidebar />
+							</div>
+							<main className="flex-1 overflow-y-auto">
+								{children}
+							</main>
 						</div>
-						<div className="flex-1 overflow-y-auto">{children}</div>
-					</main>
+					</div>
 				</ThemeProvider>
 			</QueryProvider>
 		</ClerkProvider>
