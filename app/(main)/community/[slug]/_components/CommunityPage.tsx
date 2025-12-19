@@ -70,52 +70,54 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 					className="h-full w-full object-cover"
 				/>
 			</div>
-			<div className="flex items-center absolute top-25 p-5">
+			<div className="flex items-center absolute md:top-25 top-30 p-5">
 				<div className="flex items-end gap-4 ">
 					<div className="dark:border dark:border-neutral-700 rounded-full p-4 shadow-sm shadow-amber-100/10 bg-neutral-800   flex items-center justify-center">
-						<Handshake className="text-amber-100 " size={100} />
+						<Handshake className="text-amber-100 md:size-[100px] size-[60px]" />
 					</div>
-					<div className="text-2xl tracking-wider">
+					<div className="md:text-2xl text-md tracking-wider">
 						{community.name}
 					</div>
 				</div>
 			</div>
-			<div className="flex items-center justify-end p-5 gap-2">
-				<Button
-					onClick={() => {
-						playSound();
-						setOpen(true);
-					}}
-					variant="outline"
-					className="rounded-4xl"
-					disabled={!isJoined && user?.id !== community.userId}
-				>
-					<Plus /> Create Post
-				</Button>
-				<DialogDemo
-					open={open}
-					setIsOpen={setOpen}
-					title="Create Post"
-					description={`Create post in ${community.name}`}
-				>
-					<CreatePostForm
-						communityId={community.id}
-						setOpen={setOpen}
-						mode="create"
-					/>
-				</DialogDemo>
-				{community.userId !== user?.id && (
+			<div className="flex items-center justify-between md:justify-end p-5 mt-10 md:mt-0 gap-2">
+				<div className="flex items-center gap-1">
 					<Button
 						onClick={() => {
-							joinCommunityMutation(community.id);
 							playSound();
+							setOpen(true);
 						}}
-						className="dark:bg-amber-100 rounded-4xl"
-						disabled={isJoined && true}
+						variant="outline"
+						className="rounded-4xl text-xs md:text-sm"
+						disabled={!isJoined && user?.id !== community.userId}
 					>
-						{isJoined ? "Joined" : "Join"}
+						<Plus /> Create Post
 					</Button>
-				)}
+					<DialogDemo
+						open={open}
+						setIsOpen={setOpen}
+						title="Create Post"
+						description={`Create post in ${community.name}`}
+					>
+						<CreatePostForm
+							communityId={community.id}
+							setOpen={setOpen}
+							mode="create"
+						/>
+					</DialogDemo>
+					{community.userId !== user?.id && (
+						<Button
+							onClick={() => {
+								joinCommunityMutation(community.id);
+								playSound();
+							}}
+							className="dark:bg-amber-100 rounded-4xl"
+							disabled={isJoined && true}
+						>
+							{isJoined ? "Joined" : "Join"}
+						</Button>
+					)}
+				</div>
 				{isJoined && (
 					<CommunityMenu
 						icon={<Ellipsis />}
@@ -131,16 +133,18 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 					/>
 				)}
 			</div>
-			<div className="p-5 pb-20 flex gap-4 items-start">
+			<div className="p-5 flex md:flex-row  gap-4 items-start flex-col-reverse">
 				{community?.posts.length > 0 && (
-					<div className="w-[70%]">
+					<div className=" w-full">
 						<PostSection communityId={community.id} />
 					</div>
 				)}
 				<div
 					className={`${
-						community?.posts.length === 0 ? "w-full" : "w-[30%]"
-					} border p-4 rounded-md dark: dark:bg-neutral-900 bg-neutral-100 sticky top-0`}
+						community?.posts.length === 0
+							? "w-full"
+							: "md:w-[30%] w-full"
+					} border p-4 rounded-md dark: dark:bg-neutral-900 bg-neutral-100 md:sticky md:top-0`}
 				>
 					<AboutCommunity community={community} />
 				</div>

@@ -21,7 +21,7 @@ const Community = () => {
 	if (!community) return <div>Community not found</div>;
 
 	return (
-		<div className="overflow-y-scroll h-screen scroll-smooth">
+		<div>
 			<CommunityPage community={community} />
 		</div>
 	);

@@ -11,9 +11,9 @@ interface AboutCommunityProps {
 
 const AboutCommunity = ({ community }: AboutCommunityProps) => {
 	return (
-		<div className="space-y-2">
+		<div className="space-y-2 text-sm md:text-base">
 			<div>{community.name}</div>
-			<div className="dark:text-neutral-400 text-gray-600">
+			<div className="dark:text-neutral-400 text-gray-600 ">
 				{community.description}
 			</div>
 			<div className=" dark:text-neutral-400 text-gray-600 flex items-center gap-2">
