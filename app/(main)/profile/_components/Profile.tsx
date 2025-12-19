@@ -8,7 +8,7 @@ const Profile = () => {
 	const { user } = useUser();
 
 	return (
-		<div className=" ">
+		<div>
 			<div className="relative">
 				<div className="h-[200px] w-full overflow-hidden">
 					<img
@@ -16,16 +16,14 @@ const Profile = () => {
 						className="h-full w-full object-cover"
 					/>
 				</div>
-				<div className="flex items-center absolute top-25 p-5">
-					<div className="flex items-end gap-4 ">
+				<div className="flex items-center absolute md:top-25 p-5 top-34">
+					<div className="flex items-end md:gap-4 gap-2">
 						<img
 							src={user?.imageUrl}
 							alt="profile-image"
-							width={130}
-							height={130}
-							className="rounded-full"
+							className="rounded-full md:w-[130px] md:h-[130px] w-[80px] h-[80px]"
 						/>
-						<div className="text-2xl tracking-wider">
+						<div className="md:text-2xl text-md tracking-wider">
 							u/{user?.firstName}
 						</div>
 					</div>

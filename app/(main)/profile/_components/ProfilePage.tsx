@@ -36,7 +36,7 @@ const ProfilePage = () => {
 	}
 
 	return (
-		<div className="pt-4 pb-20 space-y-4 h-full">
+		<div className="pt-4 space-y-4 h-full">
 			{posts.length > 0 ? (
 				posts?.map((post: PostsWithOwner) => (
 					<PostCard

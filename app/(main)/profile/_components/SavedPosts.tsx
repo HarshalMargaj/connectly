@@ -24,7 +24,7 @@ const SavedPosts = () => {
 	}
 
 	return (
-		<div className="space-y-4 pt-4 pb-20">
+		<div className="space-y-4 pt-4">
 			{savedPosts?.length > 0 ? (
 				savedPosts?.map(post => (
 					<PostCard

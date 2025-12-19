@@ -15,7 +15,7 @@ const UserComments = () => {
 
 	if (isLoading) {
 		return (
-			<div className="pb-20 pt-4 space-y-4">
+			<div className=" pt-4 space-y-4">
 				{[...Array(3)].map((_, i) => (
 					<CommentCardSkeleton key={i} />
 				))}
