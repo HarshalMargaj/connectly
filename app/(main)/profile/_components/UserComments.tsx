@@ -24,7 +24,7 @@ const UserComments = () => {
 	}
 
 	return (
-		<div className="pb-20 pt-4 space-y-4">
+		<div className=" pt-4 space-y-4">
 			{comments?.length > 0 ? (
 				comments?.map(comment => (
 					<CommentCard key={comment.id} comment={comment} />
