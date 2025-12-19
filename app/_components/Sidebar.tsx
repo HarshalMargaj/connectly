@@ -63,161 +63,167 @@ const Sidebar = () => {
 	});
 
 	return (
-		<div
-			className={`
-					 h-full
+		<div className="relative">
+			<div
+				className={`
+					 h-screen
 					border-r dark:border-neutral-900
-					p-5 space-y-2 select-none relative
+					p-5 pb-20 space-y-2 select-none 
 					transition-transform duration-300 ease-in-out bg-neutral-950
 					${isSidebarOpen ? "md:w-[300px]" : "md:w-8"} w-[300px]
 					${
 						isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-					} md:static md:translate-x-0
+					} md:static md:translate-x-0 overflow-y-auto overflow-x-hidden
 				`}
-		>
+			>
+				{isSidebarOpen && (
+					<div className="space-y-2">
+						{SidebarItems.map(item => (
+							<div
+								onClick={() => {
+									router.push(item.path);
+									setSelectedItem(item.id.toString());
+									localStorage.setItem(
+										"selectedItem",
+										item.id.toString()
+									);
+								}}
+								key={item.id}
+								className={` rounded-md text-gray-600 flex items-center gap-2  ${
+									item.item === "Profile" && !user?.id
+										? "p-0"
+										: "p-2"
+								} cursor-pointer ${
+									selectedItem === item.id.toString()
+										? "bg-amber-100 text-neutral-800"
+										: "hover:bg-amber-100/10 dark:text-white"
+								} `}
+							>
+								{item.item === "Profile" && !user?.id
+									? ""
+									: item.icon}
+								{item.item === "Profile" && !user?.id
+									? ""
+									: item.item}
+							</div>
+						))}
+						<div className="space-y-2">
+							<div
+								onClick={() => {
+									setVisible(!visible);
+									playSound();
+								}}
+								className="p-2 text-sm font-bold text-neutral-600 flex items-center justify-between hover:bg-amber-100/5 rounded-md tracking-wide"
+							>
+								COMMUNITIES
+								<ChevronDown
+									size={20}
+									className={` cursor-pointer transition-all ease-in-out duration-500 ${
+										visible ? "rotate-0" : "rotate-180"
+									}`}
+								/>
+							</div>
+
+							{visible && (
+								<div className="space-y-2">
+									<Button
+										onClick={() => {
+											setIsOpen(true);
+											playSound();
+										}}
+										className="w-full hover:bg-amber-100/5 rounded-md"
+										variant="outline"
+									>
+										<Plus />
+										Create a Community
+									</Button>
+									<DialogDemo
+										open={isOpen}
+										setIsOpen={setIsOpen}
+										title="Tell us about your community"
+										description="A name and description help people understand what your community is all about."
+									>
+										<CommunityForm setIsOpen={setIsOpen} />
+									</DialogDemo>
+									{user?.id && (
+										<Button
+											className="w-full"
+											variant="outline"
+											onClick={() => {
+												playSound();
+												router.push(
+													"/managecommunities"
+												);
+											}}
+										>
+											<Settings />
+											Manage Communities
+										</Button>
+									)}
+									{isLoading ? (
+										<div>
+											<SkeletonDemo />
+										</div>
+									) : communities?.length > 0 ? (
+										<div className="space-y-2">
+											<div className="p-2 text-sm font-bold text-neutral-600 tracking-wide">
+												YOUR COMMUNITIES
+											</div>
+											{communities.map(community => (
+												<CommunityItem
+													community={community}
+													key={community.id}
+													selectedItem={selectedItem}
+													setSelectedItem={
+														setSelectedItem
+													}
+												/>
+											))}
+										</div>
+									) : null}
+
+									{isJoinedCommunitiesLoading ? (
+										<SkeletonDemo />
+									) : (
+										joinedCommunities?.length > 0 && (
+											<div className="space-y-2">
+												<div className="p-2 text-sm font-bold text-neutral-600 tracking-wide ">
+													JOINED COMMUNITIES
+												</div>
+												{joinedCommunities?.map(
+													community => (
+														<CommunityItem
+															community={
+																community
+															}
+															key={community.id}
+															selectedItem={
+																selectedItem
+															}
+															setSelectedItem={
+																setSelectedItem
+															}
+														/>
+													)
+												)}
+											</div>
+										)
+									)}
+								</div>
+							)}
+						</div>
+					</div>
+				)}
+			</div>
 			<div
 				onClick={() => {
 					toggleSidebar();
 					playSound();
 				}}
-				className="md:block hidden absolute top-6 -right-[17px] border dark:border-neutral-700 rounded-full dark:bg-black bg-white p-2 dark:hover:bg-neutral-600 hover:bg-neutral-100 cursor-pointer z-10"
+				className="md:block hidden absolute top-6 -right-[17px] border  dark:border-neutral-700 rounded-full dark:bg-black bg-white p-2 dark:hover:bg-neutral-600 hover:bg-neutral-100 cursor-pointer z-50"
 			>
 				<Menu size={15} />
 			</div>
-			{isSidebarOpen && (
-				<div className="space-y-2">
-					{SidebarItems.map(item => (
-						<div
-							onClick={() => {
-								router.push(item.path);
-								setSelectedItem(item.id.toString());
-								localStorage.setItem(
-									"selectedItem",
-									item.id.toString()
-								);
-							}}
-							key={item.id}
-							className={` rounded-md text-gray-600 flex items-center gap-2  ${
-								item.item === "Profile" && !user?.id
-									? "p-0"
-									: "p-2"
-							} cursor-pointer ${
-								selectedItem === item.id.toString()
-									? "bg-amber-100 text-neutral-800"
-									: "hover:bg-amber-100/10 dark:text-white"
-							} `}
-						>
-							{item.item === "Profile" && !user?.id
-								? ""
-								: item.icon}
-							{item.item === "Profile" && !user?.id
-								? ""
-								: item.item}
-						</div>
-					))}
-					<div className="space-y-2">
-						<div
-							onClick={() => {
-								setVisible(!visible);
-								playSound();
-							}}
-							className="p-2 text-sm font-bold text-neutral-600 flex items-center justify-between hover:bg-amber-100/5 rounded-md tracking-wide"
-						>
-							COMMUNITIES
-							<ChevronDown
-								size={20}
-								className={` cursor-pointer transition-all ease-in-out duration-500 ${
-									visible ? "rotate-0" : "rotate-180"
-								}`}
-							/>
-						</div>
-
-						{visible && (
-							<div className="space-y-2">
-								<Button
-									onClick={() => {
-										setIsOpen(true);
-										playSound();
-									}}
-									className="w-full hover:bg-amber-100/5 rounded-md"
-									variant="outline"
-								>
-									<Plus />
-									Create a Community
-								</Button>
-								<DialogDemo
-									open={isOpen}
-									setIsOpen={setIsOpen}
-									title="Tell us about your community"
-									description="A name and description help people understand what your community is all about."
-								>
-									<CommunityForm setIsOpen={setIsOpen} />
-								</DialogDemo>
-								{user?.id && (
-									<Button
-										className="w-full"
-										variant="outline"
-										onClick={() => {
-											playSound();
-											router.push("/managecommunities");
-										}}
-									>
-										<Settings />
-										Manage Communities
-									</Button>
-								)}
-								{isLoading ? (
-									<div>
-										<SkeletonDemo />
-									</div>
-								) : communities?.length > 0 ? (
-									<div className="space-y-2">
-										<div className="p-2 text-sm font-bold text-neutral-600 tracking-wide">
-											YOUR COMMUNITIES
-										</div>
-										{communities.map(community => (
-											<CommunityItem
-												community={community}
-												key={community.id}
-												selectedItem={selectedItem}
-												setSelectedItem={
-													setSelectedItem
-												}
-											/>
-										))}
-									</div>
-								) : null}
-
-								{isJoinedCommunitiesLoading ? (
-									<SkeletonDemo />
-								) : (
-									joinedCommunities?.length > 0 && (
-										<div className="space-y-2">
-											<div className="p-2 text-sm font-bold text-neutral-600 tracking-wide ">
-												JOINED COMMUNITIES
-											</div>
-											{joinedCommunities?.map(
-												community => (
-													<CommunityItem
-														community={community}
-														key={community.id}
-														selectedItem={
-															selectedItem
-														}
-														setSelectedItem={
-															setSelectedItem
-														}
-													/>
-												)
-											)}
-										</div>
-									)
-								)}
-							</div>
-						)}
-					</div>
-				</div>
-			)}
 		</div>
 	);
 };
