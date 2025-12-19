@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 import {
 	ChevronDown,
@@ -37,15 +37,9 @@ const Sidebar = () => {
 	const router = useRouter();
 	const [visible, setVisible] = useState<boolean>(true);
 	const [isOpen, setIsOpen] = useState<boolean>(false);
-	const [selectedItem, setSelectedItem] = useState<string>("1");
 	const isSidebarOpen = useSidebar(state => state.isSidebarOpen);
 	const toggleSidebar = useSidebar(state => state.toggleSidebar);
-
-	useEffect(() => {
-		const storedItem =
-			(localStorage.getItem("selectedItem") as string) || "1";
-		setSelectedItem(storedItem);
-	}, []);
+	const pathname = usePathname();
 
 	const { data: communities = [], isLoading } = useQuery({
 		queryFn: () => getByUser(user?.id as string),
@@ -78,35 +72,34 @@ const Sidebar = () => {
 			>
 				{isSidebarOpen && (
 					<div className="space-y-2">
-						{SidebarItems.map(item => (
-							<div
-								onClick={() => {
-									router.push(item.path);
-									setSelectedItem(item.id.toString());
-									localStorage.setItem(
-										"selectedItem",
-										item.id.toString()
-									);
-								}}
-								key={item.id}
-								className={` rounded-md text-gray-600 flex items-center gap-2  ${
-									item.item === "Profile" && !user?.id
-										? "p-0"
-										: "p-2"
-								} cursor-pointer ${
-									selectedItem === item.id.toString()
-										? "bg-amber-100 text-neutral-800"
-										: "hover:bg-amber-100/10 dark:text-white"
-								} `}
-							>
-								{item.item === "Profile" && !user?.id
-									? ""
-									: item.icon}
-								{item.item === "Profile" && !user?.id
-									? ""
-									: item.item}
-							</div>
-						))}
+						{SidebarItems.map(item => {
+							const isActive = pathname === item.path;
+
+							return (
+								<div
+									onClick={() => {
+										router.push(item.path);
+									}}
+									key={item.id}
+									className={` rounded-md text-gray-600 flex items-center gap-2  ${
+										item.item === "Profile" && !user?.id
+											? "p-0"
+											: "p-2"
+									} cursor-pointer ${
+										isActive
+											? "bg-amber-100 text-neutral-800"
+											: "hover:bg-amber-100/10 dark:text-white"
+									} `}
+								>
+									{item.item === "Profile" && !user?.id
+										? ""
+										: item.icon}
+									{item.item === "Profile" && !user?.id
+										? ""
+										: item.item}
+								</div>
+							);
+						})}
 						<div className="space-y-2">
 							<div
 								onClick={() => {
@@ -173,10 +166,6 @@ const Sidebar = () => {
 												<CommunityItem
 													community={community}
 													key={community.id}
-													selectedItem={selectedItem}
-													setSelectedItem={
-														setSelectedItem
-													}
 												/>
 											))}
 										</div>
@@ -197,12 +186,6 @@ const Sidebar = () => {
 																community
 															}
 															key={community.id}
-															selectedItem={
-																selectedItem
-															}
-															setSelectedItem={
-																setSelectedItem
-															}
 														/>
 													)
 												)}

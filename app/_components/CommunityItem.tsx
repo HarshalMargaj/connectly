@@ -1,31 +1,25 @@
 import React from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Community } from "@prisma/client";
 import { Handshake } from "lucide-react";
 
 interface CommunityItemProps {
 	community: Community;
-	selectedItem: string | undefined;
-	setSelectedItem: (communityId: string) => void;
 }
 
-const CommunityItem = ({
-	community,
-	selectedItem,
-	setSelectedItem,
-}: CommunityItemProps) => {
+const CommunityItem = ({ community }: CommunityItemProps) => {
 	const router = useRouter();
+	const pathname = usePathname();
+	const isActive = pathname === `/community/${community.slug}`;
 
 	return (
 		<div
 			onClick={() => {
 				router.push(`/community/${community.slug}`);
-				setSelectedItem(community.id);
-				localStorage.setItem("selectedItem", community.id);
 			}}
 			key={community.id}
 			className={`flex items-center gap-2  ${
-				selectedItem === community.id
+				isActive
 					? "bg-amber-100 dark:text-neutral-800"
 					: "hover:bg-amber-100/10 dark:text-white text-gray-600"
 			} p-2 rounded-md cursor-pointer`}
@@ -33,7 +27,7 @@ const CommunityItem = ({
 			<div className="border border-neutral-700 rounded-full p-1 shadow-sm shadow-amber-100/10 ">
 				<Handshake
 					className={`text-neutral-800 ${
-						selectedItem === community.id
+						isActive
 							? "dark:text-neutral-800"
 							: "dark:text-amber-100"
 					}`}
