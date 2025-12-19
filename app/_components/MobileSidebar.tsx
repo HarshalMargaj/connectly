@@ -9,7 +9,7 @@ const MobileSidebar = () => {
 	return (
 		<div className="relative md:hidden h-full">
 			<Menu onClick={() => toggleSidebar()} />
-			<div className="fixed top-16 left-0 h-full">
+			<div className="fixed top-16 left-0 h-full z-20">
 				<Sidebar />
 			</div>
 		</div>
