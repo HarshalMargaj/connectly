@@ -23,7 +23,7 @@ const HomePage = () => {
 	}
 
 	return (
-		<div className="p-5 space-y-4 pb-20 w-full">
+		<div className="p-5 space-y-4 w-full">
 			{posts?.map(post => (
 				<PostCard
 					key={post.id}
