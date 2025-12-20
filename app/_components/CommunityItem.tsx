@@ -20,7 +20,7 @@ const CommunityItem = ({ community }: CommunityItemProps) => {
 			key={community.id}
 			className={`flex items-center gap-2  ${
 				isActive
-					? "bg-amber-100 dark:text-neutral-800"
+					? "bg-neutral-100 dark:bg-amber-100 dark:text-neutral-800"
 					: "hover:bg-amber-100/10 dark:text-white text-gray-600"
 			} p-2 rounded-md cursor-pointer`}
 		>

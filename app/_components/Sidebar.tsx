@@ -87,7 +87,7 @@ const Sidebar = () => {
 											: "p-2"
 									} cursor-pointer ${
 										isActive
-											? "bg-amber-100 text-neutral-800"
+											? "bg-neutral-100 dark:bg-amber-100 text-neutral-800"
 											: "hover:bg-amber-100/10 dark:text-white"
 									} `}
 								>
