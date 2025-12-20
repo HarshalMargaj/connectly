@@ -38,7 +38,7 @@ const Navbar = () => {
 					height={32}
 					className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10"
 				/>
-				<div className="md:text-2xl hidden md:block font-semibold text-amber-100">
+				<div className="md:text-2xl text-md font-semibold dark:text-amber-100 text-neutral-900">
 					Connectly
 				</div>
 			</div>

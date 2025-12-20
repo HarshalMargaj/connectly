@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ensureUserExists } from "@/actions/user";
 import { Poppins } from "next/font/google";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const poppins = Poppins({
 	subsets: ["latin"],
@@ -32,7 +33,14 @@ export default async function RootLayout({
 				className={`${poppins.variable} font-heading antialiased h-full overflow-hidden dark:bg-neutral-950`}
 				suppressHydrationWarning
 			>
-				{children}
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="system"
+					enableSystem
+					disableTransitionOnChange
+				>
+					{children}
+				</ThemeProvider>
 			</body>
 		</html>
 	);
