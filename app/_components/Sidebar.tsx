@@ -1,8 +1,7 @@
 "use client";
 
-import React, { RefObject, useRef, useState } from "react";
+import React, { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { useOnClickOutside } from "usehooks-ts";
 
 import {
 	ChevronDown,
@@ -41,16 +40,6 @@ const Sidebar = () => {
 	const isSidebarOpen = useSidebar(state => state.isSidebarOpen);
 	const toggleSidebar = useSidebar(state => state.toggleSidebar);
 	const pathname = usePathname();
-	const closeSidebar = useSidebar(state => state.closeSidebar);
-	const sidebarRef = useRef<HTMLDivElement>(null);
-
-	useOnClickOutside(sidebarRef as RefObject<HTMLDivElement>, () => {
-		// only close on mobile
-		if (window.innerWidth < 768) {
-			// Tailwind md breakpoint
-			closeSidebar();
-		}
-	});
 
 	const { data: communities = [], isLoading } = useQuery({
 		queryFn: () => getByUser(user?.id as string),
@@ -68,8 +57,9 @@ const Sidebar = () => {
 	});
 
 	return (
-		<div className="relative" ref={sidebarRef}>
+		<div className="relative">
 			<div
+				onClick={e => e.preventDefault()}
 				className={`
 					 h-screen
 					border-r dark:border-neutral-900

@@ -57,7 +57,7 @@ const Navbar = () => {
 						/>
 					</div>
 				</div>
-				<div className="hidden md:block">
+				<div>
 					<ModeToggle />
 				</div>
 				<SignedOut>

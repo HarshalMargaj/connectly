@@ -12,7 +12,11 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export function ModeToggle() {
+interface ModeToggleProps {
+	setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export function ModeToggle({ setIsOpen }: ModeToggleProps) {
 	const { setTheme } = useTheme();
 
 	return (
@@ -25,13 +29,28 @@ export function ModeToggle() {
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end">
-				<DropdownMenuItem onClick={() => setTheme("light")}>
+				<DropdownMenuItem
+					onSelect={() => {
+						setTheme("light");
+						setIsOpen?.(false);
+					}}
+				>
 					Light
 				</DropdownMenuItem>
-				<DropdownMenuItem onClick={() => setTheme("dark")}>
+				<DropdownMenuItem
+					onSelect={() => {
+						setTheme("dark");
+						setIsOpen?.(false);
+					}}
+				>
 					Dark
 				</DropdownMenuItem>
-				<DropdownMenuItem onClick={() => setTheme("system")}>
+				<DropdownMenuItem
+					onSelect={() => {
+						setTheme("system");
+						setIsOpen?.(false);
+					}}
+				>
 					System
 				</DropdownMenuItem>
 			</DropdownMenuContent>

@@ -4,12 +4,22 @@ import Sidebar from "./Sidebar";
 import { useSidebar } from "@/store/sidebar.store";
 
 const MobileSidebar = () => {
-	const toggleSidebar = useSidebar(state => state.toggleSidebar);
+	const { isSidebarOpen, toggleSidebar, closeSidebar } = useSidebar();
 
 	return (
-		<div className="relative md:hidden h-full">
-			<Menu onClick={() => toggleSidebar()} />
-			<div className="fixed top-16 left-0 h-full z-20">
+		<div className="md:hidden">
+			<Menu onClick={toggleSidebar} className="cursor-pointer" />
+
+			{/* OVERLAY */}
+			{isSidebarOpen && (
+				<div
+					className="fixed inset-0 bg-black/40 z-40"
+					onClick={closeSidebar}
+				/>
+			)}
+
+			{/* SIDEBAR */}
+			<div className="fixed top-16 left-0 h-full z-50">
 				<Sidebar />
 			</div>
 		</div>
