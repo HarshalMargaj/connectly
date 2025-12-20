@@ -12,10 +12,12 @@ import { playSound } from "@/lib/PlaySound";
 import Image from "next/image";
 import MobileNavbar from "./MobileNavbar";
 import MobileSidebar from "./MobileSidebar";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
 	const { user } = useUser();
 	const [open, setOpen] = useState<boolean>(false);
+	const router = useRouter();
 
 	const { data: communities } = useQuery({
 		queryFn: get,
@@ -24,7 +26,10 @@ const Navbar = () => {
 
 	return (
 		<div className="flex items-center justify-between h-16 border-b dark:border-neutral-900 p-5 md:gap-40 gap-2">
-			<div className="flex items-center gap-2 ">
+			<div
+				className="flex items-center gap-2 "
+				onClick={() => router.push("/")}
+			>
 				<MobileSidebar />
 				<Image
 					src="/favicon.png"
@@ -57,7 +62,7 @@ const Navbar = () => {
 						/>
 					</div>
 				</div>
-				<div>
+				<div className="hidden md:block">
 					<ModeToggle />
 				</div>
 				<SignedOut>

@@ -7,13 +7,13 @@ const MobileSidebar = () => {
 	const { isSidebarOpen, toggleSidebar, closeSidebar } = useSidebar();
 
 	return (
-		<div className="md:hidden">
+		<div className="md:hidden" onClick={e => e.stopPropagation()}>
 			<Menu onClick={toggleSidebar} className="cursor-pointer" />
 
 			{/* OVERLAY */}
 			{isSidebarOpen && (
 				<div
-					className="fixed inset-0 bg-black/40 z-40"
+					className="fixed inset-0 bg-transparent z-40"
 					onClick={closeSidebar}
 				/>
 			)}

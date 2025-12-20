@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-
 import {
 	ChevronDown,
 	Globe,
@@ -64,7 +63,7 @@ const Sidebar = () => {
 					 h-screen
 					border-r dark:border-neutral-900
 					p-5 pb-20 space-y-2 select-none 
-					transition-transform duration-300 ease-in-out bg-neutral-950
+					transition-transform duration-300 ease-in-out dark:bg-neutral-950 bg-white
 					${isSidebarOpen ? "md:w-[300px]" : "md:w-8"} w-[300px]
 					${
 						isSidebarOpen ? "translate-x-0" : "-translate-x-full"

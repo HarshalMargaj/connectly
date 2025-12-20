@@ -9,7 +9,7 @@ const MobileNavbar = () => {
 		<div className="relative md:hidden">
 			<Ellipsis onClick={() => setIsOpen(!isOpen)} />
 			{isOpen && (
-				<div className="absolute top-10 right-1 bg-neutral-900 p-2 rounded-md w-[200px] z-20">
+				<div className="absolute top-10 right-1 dark:bg-neutral-900 bg-white border shadow-md p-2 rounded-md w-[200px] z-20">
 					<div className="flex items-center justify-between">
 						<div className="text-sm">Theme</div>
 						<ModeToggle setIsOpen={setIsOpen} />
