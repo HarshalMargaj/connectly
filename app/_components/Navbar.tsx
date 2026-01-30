@@ -64,7 +64,7 @@ const Navbar = () => {
 					<Button
 						onClick={() => router.push("/sign-in")}
 						variant="outline"
-						className="px-4 py-2 bg-gradient-to-r from-[#8B5CF6] to-[#6366F1] text-white rounded-lg font-medium hover:from-[#7C3AED] hover:to-[#5B21B6] transition"
+						className="px-4 py-2 bg-gradient-to-r from-[#8B5CF6] to-[#6366F1] text-white rounded-lg font-medium hover:from-[#7C3AED] hover:to-[#5B21B6] transition hover:text-white"
 					>
 						Sign In
 					</Button>

@@ -111,7 +111,7 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 								joinCommunityMutation(community.id);
 								playSound();
 							}}
-							className="dark:bg-amber-100 rounded-4xl"
+							className="bg-gradient-to-r from-[#8B5CF6] to-[#6366F1] text-white font-medium hover:from-[#7C3AED] hover:to-[#5B21B6] transition hover:text-white rounded-4xl"
 							disabled={isJoined && true}
 						>
 							{isJoined ? "Joined" : "Join"}

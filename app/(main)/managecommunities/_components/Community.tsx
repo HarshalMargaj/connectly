@@ -34,7 +34,7 @@ const Community = ({ community, data }: CommunityProps) => {
 			<div className="flex items-center gap-2">
 				<div className="border dark:border-neutral-700 rounded-full p-1 shadow-sm shadow-amber-100/10">
 					<Handshake
-						className={` ${"dark:text-amber-100 text-gray-600"}`}
+						className={` ${"dark:text-white text-[#18181B]"}`}
 						size={20}
 					/>
 				</div>
@@ -46,6 +46,7 @@ const Community = ({ community, data }: CommunityProps) => {
 					leaveCommunityMutaiton(community.id);
 				}}
 				size="sm"
+				className="bg-gradient-to-r from-[#8B5CF6] to-[#6366F1] text-white rounded-lg font-medium hover:from-[#7C3AED] hover:to-[#5B21B6] transition hover:text-white"
 			>
 				{isJoined ? "Leave" : "Join"}
 			</Button>

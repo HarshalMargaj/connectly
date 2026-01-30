@@ -176,7 +176,7 @@ const Sidebar = () => {
 									) : (
 										joinedCommunities?.length > 0 && (
 											<div className="space-y-2">
-												<div className="p-2 text-sm font-bold text-neutral-600 tracking-wide ">
+												<div className="p-2 text-sm font-bold text-[#18181B] dark:text-white tracking-wide">
 													JOINED COMMUNITIES
 												</div>
 												{joinedCommunities?.map(
