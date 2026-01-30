@@ -99,7 +99,11 @@ const CreatePostForm = ({
 			{errors.description && (
 				<div className="text-red-500">{errors.description.message}</div>
 			)}
-			<Button type="submit" onClick={playSound} className="w-[100px]">
+			<Button
+				type="submit"
+				onClick={playSound}
+				className="bg-gradient-to-r from-[#8B5CF6] to-[#6366F1] text-white rounded-lg font-medium hover:from-[#7C3AED] hover:to-[#5B21B6] w-[100px]"
+			>
 				{isSubmitting ? (
 					<Loader className="animate-spin" />
 				) : mode === "create" ? (

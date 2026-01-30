@@ -13,22 +13,22 @@ const AboutCommunity = ({ community }: AboutCommunityProps) => {
 	return (
 		<div className="space-y-2 text-sm md:text-base">
 			<div>{community.name}</div>
-			<div className="dark:text-neutral-400 text-gray-600 ">
+			<div className="dark:text-[#FAFAFA]  text-[#52525B] ">
 				{community.description}
 			</div>
-			<div className=" dark:text-neutral-400 text-gray-600 flex items-center gap-2">
+			<div className=" dark:text-[#FAFAFA]  text-[#52525B] flex items-center gap-2">
 				<CalendarPlus2 size={15} />
 				Created {`${community.createdAt.toDateString()}`}
 			</div>
-			<div className="dark:text-neutral-400 text-gray-600 flex items-center gap-2">
+			<div className="dark:text-[#FAFAFA]  text-[#52525B] flex items-center gap-2">
 				<Globe size={15} />
 				Public
 			</div>
 			<div className="flex items-center gap-2">
-				<div className="dark:text-neutral-400 text-gray-600">
+				<div className="dark:text-[#FAFAFA]  text-[#52525B]">
 					{community?.joinedBy.length}
 				</div>
-				<div className="dark:text-neutral-400 text-gray-600">
+				<div className="dark:text-[#FAFAFA]  text-[#52525B]">
 					Members
 				</div>
 			</div>

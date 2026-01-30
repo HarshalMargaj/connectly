@@ -56,14 +56,14 @@ const Sidebar = () => {
 	});
 
 	return (
-		<div className="relative">
+		<div className="relative ">
 			<div
 				onClick={e => e.preventDefault()}
 				className={`
 					 h-screen
-					border-r dark:border-neutral-900
+					border-r dark:border-[#27272A]
 					p-5 pb-20 space-y-2 select-none 
-					transition-transform duration-300 ease-in-out dark:bg-neutral-950 bg-white
+					transition-transform duration-300 ease-in-out dark:bg-[#141416]  bg-white
 					${isSidebarOpen ? "md:w-[300px]" : "md:w-8"} w-[300px]
 					${
 						isSidebarOpen ? "translate-x-0" : "-translate-x-full"
@@ -81,14 +81,14 @@ const Sidebar = () => {
 										router.push(item.path);
 									}}
 									key={item.id}
-									className={` rounded-md text-gray-600 flex items-center gap-2  ${
+									className={` rounded-md text-[#18181B] flex items-center gap-2  ${
 										item.item === "Profile" && !user?.id
 											? "p-0"
 											: "p-2"
 									} cursor-pointer ${
 										isActive
-											? "bg-neutral-100 dark:bg-amber-100 text-neutral-800"
-											: "hover:bg-amber-100/10 dark:text-white"
+											? "bg-neutral-200 dark:text-[#8B5CF6] dark:bg-[#8B5CF6]/15 text-neutral-800"
+											: "dark:hover:bg-[#8B5CF6]/5 dark:text-white hover:bg-neutral-100"
 									} `}
 								>
 									{item.item === "Profile" && !user?.id
@@ -106,7 +106,7 @@ const Sidebar = () => {
 									setVisible(!visible);
 									playSound();
 								}}
-								className="p-2 text-sm font-bold text-neutral-600 flex items-center justify-between hover:bg-amber-100/5 rounded-md tracking-wide"
+								className="p-2 text-sm font-bold text-[#18181B] dark:text-white flex items-center justify-between hover:bg-amber-100/10 rounded-md tracking-wide"
 							>
 								COMMUNITIES
 								<ChevronDown
@@ -145,7 +145,7 @@ const Sidebar = () => {
 											onClick={() => {
 												playSound();
 												router.push(
-													"/managecommunities"
+													"/managecommunities",
 												);
 											}}
 										>
@@ -159,7 +159,7 @@ const Sidebar = () => {
 										</div>
 									) : communities?.length > 0 ? (
 										<div className="space-y-2">
-											<div className="p-2 text-sm font-bold text-neutral-600 tracking-wide">
+											<div className="p-2 text-sm font-bold text-[#18181B] dark:text-white tracking-wide">
 												YOUR COMMUNITIES
 											</div>
 											{communities.map(community => (
@@ -187,7 +187,7 @@ const Sidebar = () => {
 															}
 															key={community.id}
 														/>
-													)
+													),
 												)}
 											</div>
 										)
@@ -203,7 +203,7 @@ const Sidebar = () => {
 					toggleSidebar();
 					playSound();
 				}}
-				className="md:block hidden absolute top-6 -right-[17px] border  dark:border-neutral-700 rounded-full dark:bg-black bg-white p-2 dark:hover:bg-neutral-600 hover:bg-neutral-100 cursor-pointer z-50"
+				className="md:block hidden absolute top-6 -right-[17px] border  dark:border-[#27272A] rounded-full dark:bg-[#141416] bg-white p-2 dark:hover:bg-neutral-600 hover:bg-neutral-100 cursor-pointer z-50"
 			>
 				<Menu size={15} />
 			</div>

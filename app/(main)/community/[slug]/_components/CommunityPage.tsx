@@ -144,7 +144,7 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 						community?.posts.length === 0
 							? "w-full"
 							: "md:w-[30%] w-full"
-					} border p-4 rounded-md dark: dark:bg-neutral-900 bg-neutral-100 md:sticky md:top-0`}
+					} border p-4 rounded-md dark: dark:bg-[#141416] bg-neutral-100 md:sticky md:top-0`}
 				>
 					<AboutCommunity community={community} />
 				</div>

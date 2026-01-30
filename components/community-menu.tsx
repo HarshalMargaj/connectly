@@ -24,13 +24,9 @@ export function CommunityMenu({ icon, items }: CommunityMenuProps) {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Button
-					variant="outline"
-					size="icon"
-					className="rounded-full md:p-1 p-0"
-				>
+				<div className="hover:rounded-md dark:hover:bg-[#1C1C1F] hover:bg-neutral-100 text-[#71717A] h-8 w-8 md:p-1 p-0 flex items-center justify-center cursor-pointer transition">
 					{icon}
-				</Button>
+				</div>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end">
 				{items?.map(item => (

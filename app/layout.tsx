@@ -30,7 +30,7 @@ export default async function RootLayout({
 	return (
 		<html lang="en" className="h-full" suppressHydrationWarning>
 			<body
-				className={`${rubik.variable} font-heading antialiased h-full overflow-hidden dark:bg-neutral-950`}
+				className={`${rubik.variable} font-heading antialiased h-full overflow-hidden`}
 				suppressHydrationWarning
 			>
 				<ThemeProvider

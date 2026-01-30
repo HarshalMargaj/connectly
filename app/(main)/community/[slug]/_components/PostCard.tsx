@@ -2,6 +2,7 @@ import { Prisma } from "@prisma/client";
 import {
 	Bookmark,
 	BookmarkCheck,
+	Dot,
 	EllipsisVertical,
 	MessageSquareText,
 	Pencil,
@@ -101,18 +102,18 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 
 	const likeCount = post.PostReaction.filter(r => r.type === "LIKE").length;
 	const dislikeCount = post.PostReaction.filter(
-		r => r.type === "DISLIKE"
+		r => r.type === "DISLIKE",
 	).length;
 	const commentsCount = post.comments.filter(
-		c => c.postId === post.id
+		c => c.postId === post.id,
 	).length;
 
 	const hasLiked = post.PostReaction.some(
-		r => r.type === "LIKE" && r.userId === user?.id
+		r => r.type === "LIKE" && r.userId === user?.id,
 	);
 
 	const hasDisliked = post.PostReaction.some(
-		r => r.type === "DISLIKE" && r.userId === user?.id
+		r => r.type === "DISLIKE" && r.userId === user?.id,
 	);
 
 	const postMenuItemsForOwnPost = [
@@ -148,7 +149,7 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 	return (
 		<div
 			key={post.id}
-			className="border dark:border-neutral-900 p-5 rounded-md space-y-4 overflow-hidden"
+			className="border dark:border-[#27272A] dark:bg-[#141416]  p-5 rounded-md space-y-4 overflow-hidden"
 		>
 			<div className={`flex items-center justify-between`}>
 				<div
@@ -162,24 +163,31 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 						<img
 							src={post?.owner?.userImage}
 							alt=""
-							width={25}
-							height={25}
+							width={35}
+							height={35}
 							className="rounded-full"
 						/>
 						<div className="text-sm">
+							<div className="flex items-center gap-1">
+								{showCommunity ? (
+									<div className="font-semibold dark:text-[#8B5CF6] text-[#18181B]">
+										{post.community?.name}
+									</div>
+								) : (
+									<div className="dark:text-[#71717A] text-[#18181B]">
+										{post.owner?.userName}
+									</div>
+								)}
+								<Dot className="dark:text-[#71717A] text-[#A1A1AA]" />
+								<div className="text-xs dark:text-[#71717A] text-[#A1A1AA] ">{`${post.createdAt.toDateString()}`}</div>
+							</div>
 							{showCommunity && (
-								<div className="font-semibold">
-									{post.community?.name}
-								</div>
-							)}
-							{showUser && (
-								<div className="dark:text-neutral-400 text-gray-500">
+								<div className="dark:text-[#71717A] text-[#A1A1AA]">
 									{post.owner?.userName}
 								</div>
 							)}
 						</div>
 					</div>
-					<div className="text-xs dark:text-neutral-500 text-gray-500">{`${post.createdAt.toDateString()}`}</div>
 				</div>
 				<div>
 					<CommunityMenu
@@ -205,36 +213,41 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 					</DialogDemo>
 				</div>
 			</div>
-			<div className="text-md md:text-xl dark:text-white text-gray-600">
+			<div className="text-md md:text-xl dark:text-[#FAFAFA] text-[#18181B] leading-relaxed">
 				{post.title}
 			</div>
-			<div className="dark:text-neutral-400 text-gray-500 text-sm md:text-base">
+			<div className="dark:text-[#A1A1AA]  text-[#52525B] text-sm md:text-base leading-relaxed">
 				{post.description}
 			</div>
 			<div className="flex items-center gap-4 select-none">
 				<button
-					className={`flex items-center gap-4 ${
-						hasLiked
-							? "text-blue-400"
-							: "dark:text-white text-gray-600"
-					}`}
+					className={`flex items-center gap-4 cursor-pointer `}
 					onClick={() => toggleReactionMutation("LIKE")}
 				>
-					<ThumbsUp /> {likeCount}
+					<ThumbsUp
+						className={`cursor-pointer transition
+
+    ${hasLiked ? "text-[#22C55E]" : "text-[#18181B] dark:text-white hover:text-[#22C55E] dark:hover:text-[#22C55E]"}`}
+					/>
+
+					{likeCount}
 				</button>
 				<button
-					className={`flex items-center gap-4 ${
-						hasDisliked
-							? "text-red-500"
-							: "dark:text-white text-gray-600"
-					}`}
+					className={`flex items-center gap-4 cursor-pointer `}
 					onClick={() => toggleReactionMutation("DISLIKE")}
 				>
-					<ThumbsDown /> {dislikeCount}
+					<ThumbsDown
+						className={`${
+							hasDisliked
+								? "text-red-500"
+								: "dark:text-white text-[#18181B] hover:text-red-500 dark:hover:text-red-500"
+						}`}
+					/>{" "}
+					{dislikeCount}
 				</button>
 				<MessageSquareText
 					onClick={() => setOpenComment(!openComment)}
-					className="dark:text-white text-gray-600"
+					className="dark:text-white text-[#18181B] cursor-pointer"
 				/>{" "}
 				{commentsCount}
 			</div>

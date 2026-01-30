@@ -20,16 +20,14 @@ const CommunityItem = ({ community }: CommunityItemProps) => {
 			key={community.id}
 			className={`flex items-center gap-2  ${
 				isActive
-					? "bg-neutral-100 dark:bg-amber-100 dark:text-neutral-800"
-					: "hover:bg-amber-100/10 dark:text-white text-gray-600"
+					? "bg-neutral-100 dark:text-[#8B5CF6] dark:bg-[#8B5CF6]/15 text-[#18181B]"
+					: "dark:hover:bg-[#8B5CF6]/10 dark:text-white "
 			} p-2 rounded-md cursor-pointer`}
 		>
-			<div className="border border-neutral-700 rounded-full p-1 shadow-sm shadow-amber-100/10 ">
+			<div className=" border border-neutral-700 rounded-full p-1 shadow-sm shadow-white/10 ">
 				<Handshake
-					className={`text-neutral-800 ${
-						isActive
-							? "dark:text-neutral-800"
-							: "dark:text-amber-100"
+					className={`text-[#18181B] ${
+						isActive ? "dark:text-[#8B5CF6]" : "dark:text-white"
 					}`}
 					size={15}
 				/>

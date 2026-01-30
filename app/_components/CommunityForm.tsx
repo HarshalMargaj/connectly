@@ -93,7 +93,11 @@ const CommunityForm = ({ setIsOpen }: CommunityFormProps) => {
 					</div>
 				)}
 			</div>
-			<Button type="submit" onClick={playSound} className="w-[150px]">
+			<Button
+				type="submit"
+				onClick={playSound}
+				className="bg-gradient-to-r from-[#8B5CF6] to-[#6366F1] text-white rounded-lg font-medium hover:from-[#7C3AED] hover:to-[#5B21B6] w-[150px]"
+			>
 				{isSubmitting ? (
 					<Loader className="animate-spin" />
 				) : (
