@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ensureUserExists } from "@/actions/user";
-import { Poppins } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Rubik } from "next/font/google";
 
-const poppins = Poppins({
+const rubik = Rubik({
 	subsets: ["latin"],
-	weight: ["400", "600"],
-	variable: "--font-poppins",
+	weight: ["400"],
+	variable: "--font-rubik",
 });
 
 export const metadata: Metadata = {
@@ -30,7 +30,7 @@ export default async function RootLayout({
 	return (
 		<html lang="en" className="h-full" suppressHydrationWarning>
 			<body
-				className={`${poppins.variable} font-heading antialiased h-full overflow-hidden dark:bg-neutral-950`}
+				className={`${rubik.variable} font-heading antialiased h-full overflow-hidden dark:bg-neutral-950`}
 				suppressHydrationWarning
 			>
 				<ThemeProvider
