@@ -65,16 +65,14 @@ const Navbar = () => {
 				<div className="hidden md:block">
 					<ModeToggle />
 				</div>
-				<SignedOut>
-					<SignInButton>
-						<Button
-							variant="outline"
-							className="text-xs p-2 md:text-sm md:p-4"
-						>
-							Sign In
-						</Button>
-					</SignInButton>
-				</SignedOut>
+
+				<Button
+					onClick={() => router.push("/sign-in")}
+					variant="outline"
+					className="text-xs p-2 md:text-sm md:p-4"
+				>
+					Sign In
+				</Button>
 				<SignedIn>
 					<div className="dark:text-amber-100 text-gray-600 hidden md:block">
 						u/{user?.fullName?.split(" ").join("")}
