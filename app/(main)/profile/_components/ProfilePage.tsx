@@ -1,8 +1,9 @@
 "use client";
 
-import { getPostsByUser } from "@/actions/get-posts-by-user";
-import { useQuery } from "@tanstack/react-query";
 import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "@clerk/nextjs";
+import { toast } from "sonner";
 
 import type { Prisma } from "@prisma/client";
 
@@ -20,8 +21,20 @@ type PostsWithOwner = Prisma.PostGetPayload<{
 }>;
 
 const ProfilePage = () => {
+	const { userId } = useAuth();
+
+	const getUserPosts = async () => {
+		const res = await fetch(`/api/posts?userId=${userId}`);
+
+		if (!res.ok) {
+			toast.error("Failed to fetch user posts");
+		}
+
+		return res.json();
+	};
+
 	const { data: posts = [], isLoading } = useQuery({
-		queryFn: getPostsByUser,
+		queryFn: getUserPosts,
 		queryKey: ["userPosts"],
 	});
 
