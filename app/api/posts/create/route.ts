@@ -2,10 +2,9 @@ import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-export async function DELETE(req: Request) {
-	const { communityId } = await req.json();
-
+export async function POST(req: Request) {
 	const { userId } = await auth();
+	const { title, description, communityId } = await req.json();
 
 	if (!userId) {
 		return NextResponse.json({
@@ -15,19 +14,19 @@ export async function DELETE(req: Request) {
 	}
 
 	try {
-		await db.user.update({
-			where: { id: userId },
+		await db.post.create({
 			data: {
-				joinedCommunities: {
-					disconnect: { id: communityId },
-				},
+				title,
+				description,
+				userId,
+				communityId,
+				likes: 0,
+				dislikes: 0,
 			},
 		});
-
-		return NextResponse.json({ success: true });
 	} catch (error) {
 		return NextResponse.json({
-			error: "Failed to leave community",
+			error: "Failed to create post",
 			status: 500,
 		});
 	}

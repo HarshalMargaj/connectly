@@ -1,38 +1,28 @@
-import { ThemeProvider } from "@/components/theme-provider";
 import QueryProvider from "@/lib/query-provider";
-import { ClerkProvider } from "@clerk/nextjs";
+
 import React from "react";
 
 import Navbar from "../_components/Navbar";
 import Sidebar from "../_components/Sidebar";
+import { ensureUserExists } from "@/actions/user";
 
-const mainLayout = ({ children }: { children: React.ReactNode }) => {
+const mainLayout = async ({ children }: { children: React.ReactNode }) => {
+	await ensureUserExists();
 	return (
-		<ClerkProvider>
-			<QueryProvider>
-				<ThemeProvider
-					attribute="class"
-					defaultTheme="system"
-					enableSystem
-					disableTransitionOnChange
+		<QueryProvider>
+			<div className="h-screen flex flex-col">
+				<Navbar />
+				<div
+					className="flex flex-1 overflow-hidden"
+					suppressHydrationWarning
 				>
-					<div className="h-screen flex flex-col">
-						<Navbar />
-						<div
-							className="flex flex-1 overflow-hidden"
-							suppressHydrationWarning
-						>
-							<div className="hidden md:block ">
-								<Sidebar />
-							</div>
-							<main className="flex-1 overflow-y-auto">
-								{children}
-							</main>
-						</div>
+					<div className="hidden md:block ">
+						<Sidebar />
 					</div>
-				</ThemeProvider>
-			</QueryProvider>
-		</ClerkProvider>
+					<main className="flex-1 overflow-y-auto">{children}</main>
+				</div>
+			</div>
+		</QueryProvider>
 	);
 };
 

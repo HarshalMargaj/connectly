@@ -5,23 +5,19 @@ import { NextResponse } from "next/server";
 export async function GET() {
 	const { userId } = await auth();
 
-	if (!userId) {
-		return NextResponse.json({
-			error: "Unauthorized",
-			status: 400,
-		});
-	}
-
 	try {
-		const communities = await db.user.findUnique({
-			where: { id: userId },
-			include: { joinedCommunities: true },
+		const communities = await db.community.findMany({
+			where: {
+				userId,
+			},
+			include: {
+				joinedBy: true,
+			},
 		});
-
 		return NextResponse.json(communities);
 	} catch (error) {
 		return NextResponse.json({
-			error: "Failed to fetch user joined communities",
+			error: "Failed to fetch communities",
 			status: 500,
 		});
 	}

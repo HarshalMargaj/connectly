@@ -22,7 +22,7 @@ import { toast } from "sonner";
 import { Prisma } from "@prisma/client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useAuth, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { useSidebar } from "@/store/sidebar.store";
 
 type Community = Prisma.CommunityGetPayload<{
@@ -45,10 +45,9 @@ const Sidebar = () => {
 	const isSidebarOpen = useSidebar(state => state.isSidebarOpen);
 	const toggleSidebar = useSidebar(state => state.toggleSidebar);
 	const pathname = usePathname();
-	const { userId } = useAuth();
 
 	const getUserCommunities = async () => {
-		const res = await fetch(`/api/communities?userId=${userId}`);
+		const res = await fetch(`/api/communities/own`);
 
 		if (!res.ok) {
 			toast.error("Failed to fetch user communities");
@@ -58,7 +57,7 @@ const Sidebar = () => {
 	};
 
 	const getUserJoinedCommunities = async () => {
-		const res = await fetch(`/api/communities/joined?userId=${userId}`);
+		const res = await fetch(`/api/communities/joined`);
 
 		if (!res.ok) {
 			toast.error("Failed to fetch user joined communities");

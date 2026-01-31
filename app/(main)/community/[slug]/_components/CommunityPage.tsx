@@ -47,16 +47,10 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 		(c: CommunityWithJoinedByUsers) => c.id === community.id,
 	);
 
-	const joinCommunity = async ({
-		userId,
-		communityId,
-	}: {
-		userId: string;
-		communityId: string;
-	}) => {
+	const joinCommunity = async ({ communityId }: { communityId: string }) => {
 		const res = await fetch("/api/communities/join", {
 			method: "POST",
-			body: JSON.stringify({ userId, communityId }),
+			body: JSON.stringify({ communityId }),
 		});
 
 		if (!res.ok) {
@@ -75,16 +69,10 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 		},
 	});
 
-	const leaveCommunity = async ({
-		userId,
-		communityId,
-	}: {
-		userId: string;
-		communityId: string;
-	}) => {
+	const leaveCommunity = async ({ communityId }: { communityId: string }) => {
 		const res = await fetch("/api/communities/leave", {
 			method: "DELETE",
-			body: JSON.stringify({ userId, communityId }),
+			body: JSON.stringify({ communityId }),
 		});
 
 		if (!res.ok) {
@@ -150,9 +138,8 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 					{community.userId !== user?.id && (
 						<Button
 							onClick={() => {
-								if (user?.id && community.id) {
+								if (community.id) {
 									joinCommunityMutation({
-										userId: user?.id,
 										communityId: community.id,
 									});
 								}
@@ -173,9 +160,8 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 								id: "1",
 								name: "Leave Community",
 								action: () => {
-									if (user?.id && community?.id) {
+									if (community?.id) {
 										leaveCommunityMutation({
-											userId: user.id,
 											communityId: community.id,
 										});
 									}

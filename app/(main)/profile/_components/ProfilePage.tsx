@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "@clerk/nextjs";
+
 import { toast } from "sonner";
 
 import type { Prisma } from "@prisma/client";
@@ -21,10 +21,8 @@ type PostsWithOwner = Prisma.PostGetPayload<{
 }>;
 
 const ProfilePage = () => {
-	const { userId } = useAuth();
-
 	const getUserPosts = async () => {
-		const res = await fetch(`/api/posts?userId=${userId}`);
+		const res = await fetch(`/api/posts`);
 
 		if (!res.ok) {
 			toast.error("Failed to fetch user posts");
@@ -35,8 +33,7 @@ const ProfilePage = () => {
 
 	const { data: posts = [], isLoading } = useQuery({
 		queryFn: getUserPosts,
-		queryKey: ["userPosts", userId],
-		enabled: !!userId,
+		queryKey: ["userPosts"],
 	});
 
 	if (isLoading) {

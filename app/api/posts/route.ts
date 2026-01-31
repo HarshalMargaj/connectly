@@ -1,18 +1,17 @@
 import { db } from "@/lib/db";
+import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
 	const url = new URL(req.url);
-	const userId = url.searchParams.get("userId");
+	const { userId } = await auth();
 	const communityId = url.searchParams.get("communityId");
 
 	try {
 		let posts;
-		if (userId) {
+		if (communityId) {
 			posts = await db.post.findMany({
-				where: {
-					userId,
-				},
+				where: { communityId },
 				include: {
 					owner: true,
 					comments: true,
@@ -23,9 +22,11 @@ export async function GET(req: Request) {
 					createdAt: "desc",
 				},
 			});
-		} else if (communityId) {
+		} else if (userId) {
 			posts = await db.post.findMany({
-				where: { communityId },
+				where: {
+					userId,
+				},
 				include: {
 					owner: true,
 					comments: true,

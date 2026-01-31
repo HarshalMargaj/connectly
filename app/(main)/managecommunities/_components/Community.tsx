@@ -1,10 +1,12 @@
-import { leaveCommunity } from "@/actions/leave-community";
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { playSound } from "@/lib/PlaySound";
 import type { Community } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Handshake } from "lucide-react";
 import React from "react";
+import { toast } from "sonner";
 
 interface CommunityProps {
 	community: Community;
@@ -14,6 +16,19 @@ interface CommunityProps {
 const Community = ({ community, data }: CommunityProps) => {
 	const isJoined = data.find(c => c.id === community.id);
 	const queryClient = useQueryClient();
+
+	const leaveCommunity = async ({ communityId }: { communityId: string }) => {
+		const res = await fetch("/api/communities/leave", {
+			method: "DELETE",
+			body: JSON.stringify({ communityId }),
+		});
+
+		if (!res.ok) {
+			toast.error("Failed to leave community");
+		}
+
+		return res.json();
+	};
 
 	const { mutateAsync: leaveCommunityMutaiton } = useMutation({
 		mutationFn: leaveCommunity,
@@ -43,7 +58,11 @@ const Community = ({ community, data }: CommunityProps) => {
 			<Button
 				onClick={() => {
 					playSound();
-					leaveCommunityMutaiton(community.id);
+					if (community.id) {
+						leaveCommunityMutaiton({
+							communityId: community.id,
+						});
+					}
 				}}
 				size="sm"
 				className="bg-gradient-to-r from-[#8B5CF6] to-[#6366F1] text-white rounded-lg font-medium hover:from-[#7C3AED] hover:to-[#5B21B6] transition hover:text-white"

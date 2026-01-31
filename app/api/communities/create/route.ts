@@ -2,10 +2,10 @@ import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-export async function DELETE(req: Request) {
-	const { communityId } = await req.json();
-
+export async function POST(req: Request) {
 	const { userId } = await auth();
+	const { description, slug, name } = await req.json();
+	console.log(description, slug, name);
 
 	if (!userId) {
 		return NextResponse.json({
@@ -14,20 +14,27 @@ export async function DELETE(req: Request) {
 		});
 	}
 
+	if (!name || !description || !slug) {
+		return NextResponse.json(
+			{ error: "Missing required fields" },
+			{ status: 400 },
+		);
+	}
+
 	try {
-		await db.user.update({
-			where: { id: userId },
+		await db.community.create({
 			data: {
-				joinedCommunities: {
-					disconnect: { id: communityId },
-				},
+				name: `r/${name}`,
+				description,
+				userId,
+				slug,
 			},
 		});
 
 		return NextResponse.json({ success: true });
 	} catch (error) {
 		return NextResponse.json({
-			error: "Failed to leave community",
+			error: "Failed to create community",
 			status: 500,
 		});
 	}

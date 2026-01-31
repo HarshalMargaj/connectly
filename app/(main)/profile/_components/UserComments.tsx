@@ -3,7 +3,6 @@
 import React from "react";
 
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "@clerk/nextjs";
 
 import CommentCard from "./CommentCard";
 import CommentCardSkeleton from "@/components/skeletons/CommentCardSkeleton";
@@ -24,10 +23,8 @@ type Comment = Prisma.CommentGetPayload<{
 }>;
 
 const UserComments = () => {
-	const { userId } = useAuth();
-
 	const getUserComments = async () => {
-		const res = await fetch(`/api/posts/comments?userId=${userId}`);
+		const res = await fetch(`/api/posts/comments`);
 
 		if (!res.ok) {
 			toast.error("Failed to fetch user comments");
@@ -38,8 +35,7 @@ const UserComments = () => {
 
 	const { data: comments = [], isLoading } = useQuery({
 		queryFn: getUserComments,
-		queryKey: ["comments", userId],
-		enabled: !!userId,
+		queryKey: ["comments"],
 	});
 
 	if (isLoading) {

@@ -23,15 +23,13 @@ export function DialogDemo({
 }: DialogDemoProps) {
 	return (
 		<Dialog open={open} onOpenChange={setIsOpen}>
-			<form>
-				<DialogContent className="sm:max-w-[425px]">
-					<DialogHeader>
-						<DialogTitle>{title}</DialogTitle>
-						<DialogDescription>{description}</DialogDescription>
-					</DialogHeader>
-					{children}
-				</DialogContent>
-			</form>
+			<DialogContent className="sm:max-w-[425px]">
+				<DialogHeader>
+					<DialogTitle>{title}</DialogTitle>
+					<DialogDescription>{description}</DialogDescription>
+				</DialogHeader>
+				{children}
+			</DialogContent>
 		</Dialog>
 	);
 }

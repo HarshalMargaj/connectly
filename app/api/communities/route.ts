@@ -1,28 +1,13 @@
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 
-export async function GET(req: Request) {
-	const url = new URL(req.url);
-	const userId = url.searchParams.get("userId");
-
+export async function GET() {
 	try {
-		let communities;
-		if (userId) {
-			communities = await db.community.findMany({
-				where: {
-					userId,
-				},
-				include: {
-					joinedBy: true,
-				},
-			});
-		} else {
-			communities = await db.community.findMany({
-				include: {
-					joinedBy: true,
-				},
-			});
-		}
+		const communities = await db.community.findMany({
+			include: {
+				joinedBy: true,
+			},
+		});
 
 		return NextResponse.json(communities);
 	} catch (error) {

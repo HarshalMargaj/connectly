@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { ensureUserExists } from "@/actions/user";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Rubik } from "next/font/google";
 import { Toaster } from "sonner";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const rubik = Rubik({
 	subsets: ["latin"],
@@ -21,29 +21,29 @@ export const metadata: Metadata = {
 	},
 };
 
-export default async function RootLayout({
+export default function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	await ensureUserExists();
-
 	return (
-		<html lang="en" className="h-full" suppressHydrationWarning>
-			<body
-				className={`${rubik.variable} font-heading antialiased h-full overflow-hidden`}
-				suppressHydrationWarning
-			>
-				<Toaster />
-				<ThemeProvider
-					attribute="class"
-					defaultTheme="system"
-					enableSystem
-					disableTransitionOnChange
+		<ClerkProvider>
+			<html lang="en" className="h-full" suppressHydrationWarning>
+				<body
+					className={`${rubik.variable} font-heading antialiased h-full overflow-hidden`}
+					suppressHydrationWarning
 				>
-					{children}
-				</ThemeProvider>
-			</body>
-		</html>
+					<Toaster />
+					<ThemeProvider
+						attribute="class"
+						defaultTheme="system"
+						enableSystem
+						disableTransitionOnChange
+					>
+						{children}
+					</ThemeProvider>
+				</body>
+			</html>
+		</ClerkProvider>
 	);
 }

@@ -23,8 +23,8 @@ import { savePost } from "@/actions/save-post";
 import NoPosts from "@/components/NotPosts";
 import { DialogDemo } from "@/components/reusable-dialog";
 import CreatePostForm from "./CreatePostForm";
-import { getSavedPosts } from "@/actions/get-saved-posts";
 import { unsavePost } from "@/actions/unsave-post";
+import { toast } from "sonner";
 
 type PostWithOwner = Prisma.PostGetPayload<{
 	include: {
@@ -79,12 +79,23 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 		},
 	});
 
+	const getUserSavedPosts = async () => {
+		const res = await fetch(`/api/posts/saved`);
+		if (!res.ok) {
+			toast.error("Failed to fetch user saved posts");
+		}
+
+		return res.json();
+	};
+
 	const { data: saved } = useQuery({
-		queryFn: getSavedPosts,
+		queryFn: getUserSavedPosts,
 		queryKey: ["savedPosts"],
 	});
 
-	const hasSaved = saved?.find(sp => sp.id === post.id);
+	const hasSaved = saved?.savedPosts?.find(
+		(sp: PostWithOwner) => sp.id === post.id,
+	);
 
 	const { mutateAsync: savePostMutation } = useMutation({
 		mutationFn: hasSaved ? unsavePost : savePost,

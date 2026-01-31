@@ -1,8 +1,18 @@
 import { db } from "@/lib/db";
+import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-	const { userId, communityId } = await req.json();
+	const { communityId } = await req.json();
+	const { userId } = await auth();
+
+	if (!userId) {
+		return NextResponse.json({
+			error: "Unauthorized",
+			status: 400,
+		});
+	}
+
 	try {
 		await db.user.update({
 			where: {

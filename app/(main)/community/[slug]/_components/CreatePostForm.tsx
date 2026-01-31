@@ -1,5 +1,3 @@
-import { createPost } from "@/actions/create-post";
-import { updatePost } from "@/actions/update-post";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -10,6 +8,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const schema = z.object({
@@ -22,6 +21,13 @@ const schema = z.object({
 
 type FieldValues = z.infer<typeof schema>;
 
+type PostPyload = {
+	title: string;
+	description: string;
+	postId?: string;
+	communityId: string;
+};
+
 interface CreatePostFormProps {
 	post?: Post;
 	communityId: string;
@@ -29,12 +35,7 @@ interface CreatePostFormProps {
 	mode: string;
 }
 
-const CreatePostForm = ({
-	post,
-	communityId,
-	setOpen,
-	mode,
-}: CreatePostFormProps) => {
+const CreatePostForm = ({ post, communityId, mode }: CreatePostFormProps) => {
 	const {
 		register,
 		handleSubmit,
@@ -48,6 +49,32 @@ const CreatePostForm = ({
 	});
 
 	const queryClient = useQueryClient();
+
+	const createPost = async (payload: PostPyload) => {
+		const res = await fetch("/api/posts/create", {
+			method: "POST",
+			body: JSON.stringify(payload),
+		});
+
+		if (!res.ok) {
+			toast.error("Failed to create post");
+		}
+
+		return res.json();
+	};
+
+	const updatePost = async (payload: PostPyload) => {
+		const res = await fetch("/api/posts/update", {
+			method: "PULL",
+			body: JSON.stringify(payload),
+		});
+
+		if (!res.ok) {
+			toast.error("Failed to update post");
+		}
+
+		return res.json();
+	};
 
 	const { mutateAsync: PostMutaiton } = useMutation({
 		mutationFn: mode === "create" ? createPost : updatePost,
@@ -63,18 +90,12 @@ const CreatePostForm = ({
 	});
 
 	const onSubmit: SubmitHandler<FieldValues> = async data => {
-		const formData = new FormData();
-		formData.append("title", data.title);
-		formData.append("description", data.description);
-		formData.append("communityId", communityId);
-		formData.append("postId", post?.id as string);
-
-		await PostMutaiton(formData);
-		if (isSubmitting) {
-			setOpen(true);
-		} else {
-			setOpen(false);
-		}
+		await PostMutaiton({
+			title: data.title,
+			description: data.title,
+			communityId: communityId,
+			postId: mode === "create" ? undefined : post?.id,
+		});
 	};
 
 	return (

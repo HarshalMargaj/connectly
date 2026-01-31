@@ -3,7 +3,7 @@
 import React from "react";
 
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "@clerk/nextjs";
+
 import { toast } from "sonner";
 import { Prisma } from "@prisma/client";
 
@@ -21,10 +21,8 @@ type Post = Prisma.PostGetPayload<{
 }>;
 
 const SavedPosts = () => {
-	const { userId } = useAuth();
-
 	const getUserSavedPosts = async () => {
-		const res = await fetch(`/api/posts/saved?userId=${userId}`);
+		const res = await fetch(`/api/posts/saved`);
 		if (!res.ok) {
 			toast.error("Failed to fetch user saved posts");
 		}
@@ -34,8 +32,7 @@ const SavedPosts = () => {
 
 	const { data: savedPosts = [], isLoading } = useQuery({
 		queryFn: getUserSavedPosts,
-		queryKey: ["savedPosts", userId],
-		enabled: !!userId,
+		queryKey: ["savedPosts"],
 	});
 
 	console.log(savedPosts);
