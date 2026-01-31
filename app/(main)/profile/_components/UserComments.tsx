@@ -1,15 +1,43 @@
 "use client";
 
-import { getCommentsByUser } from "@/actions/get-comments-by-user";
-import { useQuery } from "@tanstack/react-query";
 import React from "react";
+
+import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "@clerk/nextjs";
+
 import CommentCard from "./CommentCard";
 import CommentCardSkeleton from "@/components/skeletons/CommentCardSkeleton";
 import NoPosts from "@/components/NotPosts";
 
+import { toast } from "sonner";
+import { Prisma } from "@prisma/client";
+
+type Comment = Prisma.CommentGetPayload<{
+	include: {
+		author: true;
+		post: {
+			include: {
+				community: true;
+			};
+		};
+	};
+}>;
+
 const UserComments = () => {
+	const { userId } = useAuth();
+
+	const getUserComments = async () => {
+		const res = await fetch(`/api/posts/comments?userId=${userId}`);
+
+		if (!res.ok) {
+			toast.error("Failed to fetch user comments");
+		}
+
+		return res.json();
+	};
+
 	const { data: comments = [], isLoading } = useQuery({
-		queryFn: getCommentsByUser,
+		queryFn: getUserComments,
 		queryKey: ["comments"],
 	});
 
@@ -25,8 +53,8 @@ const UserComments = () => {
 
 	return (
 		<div className=" pt-4 space-y-4">
-			{comments?.length > 0 ? (
-				comments?.map(comment => (
+			{comments.Comment?.length > 0 ? (
+				comments.Comment?.map((comment: Comment) => (
 					<CommentCard key={comment.id} comment={comment} />
 				))
 			) : (
