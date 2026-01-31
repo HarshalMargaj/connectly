@@ -14,16 +14,22 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { DialogDemo } from "@/components/reusable-dialog";
-import CommunityForm from "./CommunityForm";
-import { useQuery } from "@tanstack/react-query";
-import { useUser } from "@clerk/nextjs";
-
-import { getByUser } from "@/actions/get-community";
-import { getJoinedCommunities } from "@/actions/joined-communities";
 import CommunityItem from "./CommunityItem";
+import CommunityForm from "./CommunityForm";
 import { playSound } from "@/lib/PlaySound";
 import { SkeletonDemo } from "@/components/skeletons/YourCommSkeleton";
+import { toast } from "sonner";
+import { Prisma } from "@prisma/client";
+
+import { useQuery } from "@tanstack/react-query";
+import { useAuth, useUser } from "@clerk/nextjs";
 import { useSidebar } from "@/store/sidebar.store";
+
+type Community = Prisma.CommunityGetPayload<{
+	include: {
+		joinedBy: true;
+	};
+}>;
 
 export const SidebarItems = [
 	{ id: 1, item: "Home", path: "/home", icon: <House /> },
@@ -39,9 +45,30 @@ const Sidebar = () => {
 	const isSidebarOpen = useSidebar(state => state.isSidebarOpen);
 	const toggleSidebar = useSidebar(state => state.toggleSidebar);
 	const pathname = usePathname();
+	const { userId } = useAuth();
+
+	const getUserCommunities = async () => {
+		const res = await fetch(`/api/communities?userId=${userId}`);
+
+		if (!res.ok) {
+			toast.error("Failed to fetch user communities");
+		}
+
+		return res.json();
+	};
+
+	const getUserJoinedCommunities = async () => {
+		const res = await fetch(`/api/communities/joined?userId=${userId}`);
+
+		if (!res.ok) {
+			toast.error("Failed to fetch user joined communities");
+		}
+
+		return res.json();
+	};
 
 	const { data: communities = [], isLoading } = useQuery({
-		queryFn: () => getByUser(user?.id as string),
+		queryFn: getUserCommunities,
 		queryKey: ["communities", user?.id],
 		enabled: !!user?.id,
 	});
@@ -50,7 +77,7 @@ const Sidebar = () => {
 		data: joinedCommunities = [],
 		isLoading: isJoinedCommunitiesLoading,
 	} = useQuery({
-		queryFn: () => getJoinedCommunities(user?.id as string),
+		queryFn: getUserJoinedCommunities,
 		queryKey: ["joinedCommunities", user?.id],
 		enabled: !!user?.id,
 	});
@@ -162,12 +189,14 @@ const Sidebar = () => {
 											<div className="p-2 text-sm font-bold text-[#18181B] dark:text-white tracking-wide">
 												YOUR COMMUNITIES
 											</div>
-											{communities.map(community => (
-												<CommunityItem
-													community={community}
-													key={community.id}
-												/>
-											))}
+											{communities.map(
+												(community: Community) => (
+													<CommunityItem
+														community={community}
+														key={community.id}
+													/>
+												),
+											)}
 										</div>
 									) : null}
 
@@ -180,7 +209,7 @@ const Sidebar = () => {
 													JOINED COMMUNITIES
 												</div>
 												{joinedCommunities?.map(
-													community => (
+													(community: Community) => (
 														<CommunityItem
 															community={
 																community
