@@ -38,7 +38,8 @@ const UserComments = () => {
 
 	const { data: comments = [], isLoading } = useQuery({
 		queryFn: getUserComments,
-		queryKey: ["comments"],
+		queryKey: ["comments", userId],
+		enabled: !!userId,
 	});
 
 	if (isLoading) {

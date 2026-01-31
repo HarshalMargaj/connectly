@@ -34,8 +34,11 @@ const SavedPosts = () => {
 
 	const { data: savedPosts = [], isLoading } = useQuery({
 		queryFn: getUserSavedPosts,
-		queryKey: ["savedPosts"],
+		queryKey: ["savedPosts", userId],
+		enabled: !!userId,
 	});
+
+	console.log(savedPosts);
 
 	if (isLoading) {
 		return (
@@ -49,8 +52,8 @@ const SavedPosts = () => {
 
 	return (
 		<div className="space-y-4 pt-4">
-			{savedPosts?.length > 0 ? (
-				savedPosts?.map((post: Post) => (
+			{savedPosts.savedPosts?.length > 0 ? (
+				savedPosts.savedPosts?.map((post: Post) => (
 					<PostCard
 						key={post.id}
 						post={post}

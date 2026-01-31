@@ -35,7 +35,8 @@ const ProfilePage = () => {
 
 	const { data: posts = [], isLoading } = useQuery({
 		queryFn: getUserPosts,
-		queryKey: ["userPosts"],
+		queryKey: ["userPosts", userId],
+		enabled: !!userId,
 	});
 
 	if (isLoading) {
