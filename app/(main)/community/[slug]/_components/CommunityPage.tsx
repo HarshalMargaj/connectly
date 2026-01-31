@@ -1,22 +1,20 @@
 "use client";
 
-import { joinCommunity } from "@/actions/join-community";
-import { getJoinedCommunities } from "@/actions/joined-communities";
-import { DialogDemo } from "@/components/reusable-dialog";
-import { Button } from "@/components/ui/button";
-import { playSound } from "@/lib/PlaySound";
 import { useUser } from "@clerk/nextjs";
-import { Ellipsis, OctagonMinus } from "lucide-react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import React, { useState } from "react";
+
+import { Ellipsis, OctagonMinus, Handshake, Plus } from "lucide-react";
 
 import { Prisma } from "@prisma/client";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Handshake, Plus } from "lucide-react";
-import React, { useState } from "react";
 import CreatePostForm from "./CreatePostForm";
 import PostSection from "./PostSection";
 import { CommunityMenu } from "@/components/community-menu";
 import AboutCommunity from "./AboutCommunity";
-import { leaveCommunity } from "@/actions/leave-community";
+import { DialogDemo } from "@/components/reusable-dialog";
+import { Button } from "@/components/ui/button";
+import { playSound } from "@/lib/PlaySound";
+import { toast } from "sonner";
 
 type CommunityWithJoinedByUsers = Prisma.CommunityGetPayload<{
 	include: { joinedBy: true; posts: true };
@@ -30,12 +28,43 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 	const queryClient = useQueryClient();
 	const { user } = useUser();
 
+	const getUserJoinedCommunities = async () => {
+		const res = await fetch(`/api/communities/joined?userId=${user?.id}`);
+
+		if (!res.ok) {
+			toast.error("Failed to fetch user joined communities");
+		}
+
+		return res.json();
+	};
+
 	const { data: joinedCommunities } = useQuery({
-		queryFn: () => getJoinedCommunities(user?.id as string),
+		queryFn: getUserJoinedCommunities,
 		queryKey: ["joinedCommunities", user?.id],
 	});
 
-	const isJoined = joinedCommunities?.find(c => c.id === community.id);
+	const isJoined = joinedCommunities?.joinedCommunities?.find(
+		(c: CommunityWithJoinedByUsers) => c.id === community.id,
+	);
+
+	const joinCommunity = async ({
+		userId,
+		communityId,
+	}: {
+		userId: string;
+		communityId: string;
+	}) => {
+		const res = await fetch("/api/communities/join", {
+			method: "POST",
+			body: JSON.stringify({ userId, communityId }),
+		});
+
+		if (!res.ok) {
+			toast.error("Failed to join community");
+		}
+
+		return res.json();
+	};
 
 	const { mutate: joinCommunityMutation } = useMutation({
 		mutationFn: joinCommunity,
@@ -44,10 +73,26 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 			queryClient.invalidateQueries({ queryKey: ["joinedcommunities"] });
 			queryClient.invalidateQueries({ queryKey: ["community"] });
 		},
-		onError: () => {
-			console.log("error joining community");
-		},
 	});
+
+	const leaveCommunity = async ({
+		userId,
+		communityId,
+	}: {
+		userId: string;
+		communityId: string;
+	}) => {
+		const res = await fetch("/api/communities/leave", {
+			method: "DELETE",
+			body: JSON.stringify({ userId, communityId }),
+		});
+
+		if (!res.ok) {
+			toast.error("Failed to leave community");
+		}
+
+		return res.json();
+	};
 
 	const { mutateAsync: leaveCommunityMutation } = useMutation({
 		mutationFn: leaveCommunity,
@@ -55,9 +100,6 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 			queryClient.invalidateQueries({ queryKey: ["joinedcommunities"] });
 			queryClient.invalidateQueries({ queryKey: ["joinedCommunities"] });
 			queryClient.invalidateQueries({ queryKey: ["community"] });
-		},
-		onError: error => {
-			console.log(error);
 		},
 	});
 
@@ -108,7 +150,12 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 					{community.userId !== user?.id && (
 						<Button
 							onClick={() => {
-								joinCommunityMutation(community.id);
+								if (user?.id && community.id) {
+									joinCommunityMutation({
+										userId: user?.id,
+										communityId: community.id,
+									});
+								}
 								playSound();
 							}}
 							className="bg-gradient-to-r from-[#8B5CF6] to-[#6366F1] text-white font-medium hover:from-[#7C3AED] hover:to-[#5B21B6] transition hover:text-white rounded-4xl"
@@ -125,8 +172,14 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 							{
 								id: "1",
 								name: "Leave Community",
-								action: () =>
-									leaveCommunityMutation(community.id),
+								action: () => {
+									if (user?.id && community?.id) {
+										leaveCommunityMutation({
+											userId: user.id,
+											communityId: community.id,
+										});
+									}
+								},
 								icon: <OctagonMinus />,
 							},
 						]}
