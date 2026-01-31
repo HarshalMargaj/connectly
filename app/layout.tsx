@@ -3,6 +3,7 @@ import "./globals.css";
 import { ensureUserExists } from "@/actions/user";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Rubik } from "next/font/google";
+import { Toaster } from "sonner";
 
 const rubik = Rubik({
 	subsets: ["latin"],
@@ -33,6 +34,7 @@ export default async function RootLayout({
 				className={`${rubik.variable} font-heading antialiased h-full overflow-hidden`}
 				suppressHydrationWarning
 			>
+				<Toaster />
 				<ThemeProvider
 					attribute="class"
 					defaultTheme="system"

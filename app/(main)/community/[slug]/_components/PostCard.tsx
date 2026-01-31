@@ -177,7 +177,9 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 									</div>
 								)}
 								<Dot className="dark:text-[#71717A] text-[#A1A1AA]" />
-								<div className="text-xs dark:text-[#71717A] text-[#A1A1AA] ">{`${post.createdAt.toDateString()}`}</div>
+								<div className="text-xs dark:text-[#71717A] text-[#A1A1AA] ">{`${new Date(
+									post.createdAt,
+								).toDateString()}`}</div>
 							</div>
 							{showCommunity && (
 								<div className="dark:text-[#71717A] text-[#A1A1AA]">

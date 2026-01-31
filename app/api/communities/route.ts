@@ -11,7 +11,7 @@ export async function GET() {
 
 		return NextResponse.json(communities);
 	} catch (error) {
-		NextResponse.json({
+		return NextResponse.json({
 			error: "Failed to fetch communities",
 			status: 500,
 		});
