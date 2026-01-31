@@ -13,8 +13,6 @@ interface CardProps {
 const Card = ({ community }: CardProps) => {
 	const router = useRouter();
 
-	console.log("community form card", community.slug);
-
 	return (
 		<div
 			onClick={() => router.push(`/community/${community.slug}`)}

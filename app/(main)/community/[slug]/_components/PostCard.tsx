@@ -76,7 +76,6 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 			queryClient.invalidateQueries({ queryKey: ["userPosts"] });
 			queryClient.invalidateQueries({ queryKey: ["savedPosts"] });
 			queryClient.invalidateQueries({ queryKey: ["community"] });
-			console.log("post deleted", post.id);
 		},
 	});
 
@@ -96,7 +95,6 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 			queryClient.invalidateQueries({ queryKey: ["allPosts"] });
 			queryClient.invalidateQueries({ queryKey: ["userPosts"] });
 			queryClient.invalidateQueries({ queryKey: ["savedPosts"] });
-			console.log("post saved", post.id);
 		},
 	});
 

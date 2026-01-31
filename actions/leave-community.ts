@@ -19,6 +19,4 @@ export const leaveCommunity = async (communityId: string) => {
 			},
 		},
 	});
-
-	console.log("leave success");
 };

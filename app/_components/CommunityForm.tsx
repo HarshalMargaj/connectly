@@ -50,7 +50,6 @@ const CommunityForm = ({ setIsOpen }: CommunityFormProps) => {
 		mutationFn: create,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["communities"] });
-			console.log("community has been created successfully");
 		},
 	});
 
