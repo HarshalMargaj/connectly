@@ -2,14 +2,11 @@ import { db } from "@/lib/db";
 import { getUserId } from "@/lib/getUserId";
 import { NextResponse } from "next/server";
 
-export async function POST(
-	req: Request,
-	{
-		params,
-	}: {
-		params: Promise<{ postId: string }>;
-	},
-) {
+export async function POST({
+	params,
+}: {
+	params: Promise<{ postId: string }>;
+}) {
 	const userId = await getUserId();
 	const resolvedParams = await params;
 	const { postId } = resolvedParams;
