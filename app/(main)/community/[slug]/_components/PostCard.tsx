@@ -264,10 +264,7 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 			</div>
 			{openComment && (
 				<div className="space-y-4 ">
-					<AddCommentForm
-						postId={post.id}
-						userId={user?.id as string}
-					/>
+					<AddCommentForm postId={post.id} />
 					<div className="space-y-2 overflow-y-scroll scrollbar-hide max-h-[400px]">
 						{comments?.length > 0 ? (
 							comments?.map(comment => (

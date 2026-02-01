@@ -1,13 +1,16 @@
-import { addComment } from "@/actions/add-comment";
+import React from "react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+
 import { playSound } from "@/lib/PlaySound";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Loader } from "lucide-react";
-import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
+
+import { Loader } from "lucide-react";
 
 const schema = z.object({
 	content: z.string().min(1, "Comment is required"),
@@ -15,12 +18,16 @@ const schema = z.object({
 
 type FormFields = z.infer<typeof schema>;
 
+type CommentPayload = {
+	content: string;
+	postId: string;
+};
+
 interface AddCommentFormProps {
 	postId: string;
-	userId: string;
 }
 
-const AddCommentForm = ({ postId, userId }: AddCommentFormProps) => {
+const AddCommentForm = ({ postId }: AddCommentFormProps) => {
 	const {
 		register,
 		handleSubmit,
@@ -30,6 +37,25 @@ const AddCommentForm = ({ postId, userId }: AddCommentFormProps) => {
 	});
 	const queryClient = useQueryClient();
 
+	const addComment = async (payload: CommentPayload) => {
+		const res = await fetch("/api/posts/comments/create", {
+			method: "POST",
+			headers: {
+				"content-type": "application/json",
+			},
+			body: JSON.stringify({
+				content: payload.content,
+				postId: payload.postId,
+			}),
+		});
+
+		if (!res.ok) {
+			toast.error("Failed to add comment");
+		}
+
+		return res.json();
+	};
+
 	const { mutateAsync: addCommentMutation } = useMutation({
 		mutationFn: addComment,
 		onSuccess: () => {
@@ -37,19 +63,13 @@ const AddCommentForm = ({ postId, userId }: AddCommentFormProps) => {
 			queryClient.invalidateQueries({ queryKey: ["allPosts"] });
 			queryClient.invalidateQueries({ queryKey: ["posts"] });
 		},
-
 		onError: error => {
 			console.error(error);
 		},
 	});
 
 	const onSubmit: SubmitHandler<FormFields> = async data => {
-		const formData = new FormData();
-		formData.append("content", data.content);
-		formData.append("postId", postId);
-		formData.append("userId", userId);
-
-		await addCommentMutation(formData);
+		await addCommentMutation({ content: data.content, postId: postId });
 	};
 
 	return (
