@@ -22,8 +22,6 @@ import Comment from "./Comment";
 import AddCommentForm from "./AddCommentForm";
 import CreatePostForm from "./CreatePostForm";
 
-import { toggleReaction } from "@/actions/toggle-reaction";
-
 import { toast } from "sonner";
 
 type PostWithOwner = Prisma.PostGetPayload<{
@@ -68,9 +66,24 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 		queryKey: ["comments", post.id],
 	});
 
+	const toggleReaction = async (type: string) => {
+		const res = await fetch(`/api/posts/${post.id}/reaction`, {
+			method: "POST",
+			headers: {
+				"content-type": "application/json",
+			},
+			body: JSON.stringify({ type }),
+		});
+
+		if (!res.ok) {
+			toast.error("Failed to react");
+		}
+
+		return res.json();
+	};
+
 	const { mutate: toggleReactionMutation } = useMutation({
-		mutationFn: (reactionType: "LIKE" | "DISLIKE") =>
-			toggleReaction(post.id, reactionType), // your API
+		mutationFn: toggleReaction, // your API
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["allPosts"] });
 			queryClient.invalidateQueries({ queryKey: ["userPosts"] });
