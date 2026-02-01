@@ -35,7 +35,7 @@ export async function POST(
 }
 
 export async function DELETE(
-	req: Request,
+	_req: Request,
 	{
 		params,
 	}: {
