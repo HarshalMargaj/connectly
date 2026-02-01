@@ -21,7 +21,7 @@ const Comment = ({ comment }: CommentProps) => {
 				<div className="dark:text-white text-[#18181B]">
 					{comment.author.userName}
 				</div>
-				<div className="text-xs dark:text-neutral-500 text-gray-500">{`${comment.createdAt.toDateString()} ${comment.createdAt.toLocaleTimeString()}`}</div>
+				<div className="text-xs dark:text-neutral-500 text-gray-500">{`${new Date(comment.createdAt).toDateString()} ${new Date(comment.createdAt).toLocaleTimeString()}`}</div>
 			</div>
 			<div className="text-gray-600 dark:text-white">
 				{comment.content}

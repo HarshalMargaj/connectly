@@ -1,4 +1,3 @@
-import { Prisma } from "@prisma/client";
 import {
 	Bookmark,
 	BookmarkCheck,
@@ -10,19 +9,23 @@ import {
 	ThumbsUp,
 	Trash,
 } from "lucide-react";
+
 import React, { useState } from "react";
-import AddCommentForm from "./AddCommentForm";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getCommentsById } from "@/actions/get-comments-by-id";
-import Comment from "./Comment";
-import { toggleReaction } from "@/actions/toggle-reaction";
 import { useUser } from "@clerk/nextjs";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Prisma } from "@prisma/client";
+
 import { CommunityMenu } from "@/components/community-menu";
-import { savePost } from "@/actions/save-post";
 import NoPosts from "@/components/NotPosts";
 import { DialogDemo } from "@/components/reusable-dialog";
+import Comment from "./Comment";
+import AddCommentForm from "./AddCommentForm";
 import CreatePostForm from "./CreatePostForm";
+
+import { toggleReaction } from "@/actions/toggle-reaction";
+import { savePost } from "@/actions/save-post";
 import { unsavePost } from "@/actions/unsave-post";
+
 import { toast } from "sonner";
 
 type PostWithOwner = Prisma.PostGetPayload<{
@@ -31,6 +34,12 @@ type PostWithOwner = Prisma.PostGetPayload<{
 		comments: true;
 		PostReaction: true;
 		community: true;
+	};
+}>;
+
+type Comment = Prisma.CommentGetPayload<{
+	include: {
+		author: true;
 	};
 }>;
 
@@ -44,13 +53,24 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 	const [openComment, setOpenComment] = useState<boolean>(false);
 	const [open, setOpen] = useState<boolean>(false);
 	const { user } = useUser();
+	const queryClient = useQueryClient();
+
+	const getPostComments = async () => {
+		const res = await fetch(`/api/posts/comments/${post.id}`);
+
+		if (!res.ok) {
+			toast.error("Failed to fetch comments");
+		}
+
+		return res.json();
+	};
 
 	const { data: comments = [] } = useQuery({
-		queryFn: () => getCommentsById(post.id),
+		queryFn: getPostComments,
 		queryKey: ["comments", post.id],
 	});
 
-	const queryClient = useQueryClient();
+	console.log("comments: ", comments);
 
 	const { mutate: toggleReactionMutation } = useMutation({
 		mutationFn: (reactionType: "LIKE" | "DISLIKE") =>
@@ -282,7 +302,7 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 					<AddCommentForm postId={post.id} />
 					<div className="space-y-2 overflow-y-scroll scrollbar-hide max-h-[400px]">
 						{comments?.length > 0 ? (
-							comments?.map(comment => (
+							comments?.map((comment: Comment) => (
 								<Comment key={comment.id} comment={comment} />
 							))
 						) : (
