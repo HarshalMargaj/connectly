@@ -23,8 +23,6 @@ import AddCommentForm from "./AddCommentForm";
 import CreatePostForm from "./CreatePostForm";
 
 import { toggleReaction } from "@/actions/toggle-reaction";
-import { savePost } from "@/actions/save-post";
-import { unsavePost } from "@/actions/unsave-post";
 
 import { toast } from "sonner";
 
@@ -69,8 +67,6 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 		queryFn: getPostComments,
 		queryKey: ["comments", post.id],
 	});
-
-	console.log("comments: ", comments);
 
 	const { mutate: toggleReactionMutation } = useMutation({
 		mutationFn: (reactionType: "LIKE" | "DISLIKE") =>
@@ -132,6 +128,30 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 		(sp: PostWithOwner) => sp.id === post.id,
 	);
 
+	const savePost = async () => {
+		const res = await fetch(`/api/posts/${post.id}/save`, {
+			method: "POST",
+		});
+
+		if (!res.ok) {
+			toast.error("Failed to save post");
+		}
+
+		return res.json();
+	};
+
+	const unsavePost = async () => {
+		const res = await fetch(`/api/posts/${post.id}/save`, {
+			method: "DELETE",
+		});
+
+		if (!res.ok) {
+			toast.error("Failed to unsave post");
+		}
+
+		return res.json();
+	};
+
 	const { mutateAsync: savePostMutation } = useMutation({
 		mutationFn: hasSaved ? unsavePost : savePost,
 		onSuccess: () => {
@@ -170,7 +190,7 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 		{
 			id: "2",
 			name: hasSaved ? "Remove from saved" : "Save",
-			action: () => savePostMutation(post.id),
+			action: savePostMutation,
 			icon: hasSaved ? <BookmarkCheck /> : <Bookmark />,
 		},
 		{
@@ -185,7 +205,7 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 		{
 			id: "1",
 			name: hasSaved ? "Remove from saved" : "Save",
-			action: () => savePostMutation(post.id),
+			action: savePostMutation,
 			icon: <Bookmark />,
 		},
 	];

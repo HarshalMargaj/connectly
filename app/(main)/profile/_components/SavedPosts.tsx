@@ -35,8 +35,6 @@ const SavedPosts = () => {
 		queryKey: ["savedPosts"],
 	});
 
-	console.log(savedPosts);
-
 	if (isLoading) {
 		return (
 			<div className="space-y-4">

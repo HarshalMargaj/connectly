@@ -10,6 +10,7 @@ import NoPosts from "@/components/NotPosts";
 
 import { toast } from "sonner";
 import { Prisma } from "@prisma/client";
+import { useAuth } from "@clerk/nextjs";
 
 type Comment = Prisma.CommentGetPayload<{
 	include: {
@@ -23,8 +24,10 @@ type Comment = Prisma.CommentGetPayload<{
 }>;
 
 const UserComments = () => {
+	const { userId } = useAuth();
+
 	const getUserComments = async () => {
-		const res = await fetch(`/api/posts/comments`);
+		const res = await fetch(`/api/users/${userId}/comments`);
 
 		if (!res.ok) {
 			toast.error("Failed to fetch user comments");
