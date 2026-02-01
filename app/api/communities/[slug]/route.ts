@@ -1,7 +1,14 @@
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 
-export async function GET({ params }: { params: Promise<{ slug: string }> }) {
+export async function GET(
+	req: Request,
+	{
+		params,
+	}: {
+		params: Promise<{ slug: string }>;
+	},
+) {
 	const resolvedParams = await params;
 	const { slug } = resolvedParams;
 
