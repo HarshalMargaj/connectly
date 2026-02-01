@@ -4,7 +4,11 @@ import { NextResponse } from "next/server";
 
 export async function POST(
 	req: Request,
-	{ params }: { params: { postId: string } },
+	{
+		params,
+	}: {
+		params: Promise<{ postId: string }>;
+	},
 ) {
 	const userId = await getUserId();
 	const resolvedParams = await params;
@@ -32,7 +36,11 @@ export async function POST(
 
 export async function DELETE(
 	req: Request,
-	{ params }: { params: { postId: string } },
+	{
+		params,
+	}: {
+		params: Promise<{ postId: string }>;
+	},
 ) {
 	const userId = await getUserId();
 	const resolvedParams = await params;

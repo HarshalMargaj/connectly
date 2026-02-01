@@ -3,7 +3,11 @@ import { NextResponse } from "next/server";
 
 export async function GET(
 	req: Request,
-	{ params }: { params: { postId: string } },
+	{
+		params,
+	}: {
+		params: Promise<{ postId: string }>;
+	},
 ) {
 	const resolvedParams = await params;
 	const { postId } = resolvedParams;
