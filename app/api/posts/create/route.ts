@@ -24,6 +24,8 @@ export async function POST(req: Request) {
 				dislikes: 0,
 			},
 		});
+
+		return NextResponse.json({ success: true });
 	} catch (error) {
 		return NextResponse.json({
 			error: "Failed to create post",

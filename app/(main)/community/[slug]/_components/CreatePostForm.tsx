@@ -14,7 +14,7 @@ import { z } from "zod";
 const schema = z.object({
 	title: z
 		.string()
-		.min(1, { message: "Title is required" })
+		.min(5, { message: "Title is required" })
 		.max(100, { message: "Title must be at most 100 characters" }),
 	description: z.string().min(1, { message: "Description is required" }),
 });
@@ -53,7 +53,14 @@ const CreatePostForm = ({ post, communityId, mode }: CreatePostFormProps) => {
 	const createPost = async (payload: PostPyload) => {
 		const res = await fetch("/api/posts/create", {
 			method: "POST",
-			body: JSON.stringify(payload),
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				title: payload.title,
+				description: payload.description,
+				communityId: payload.communityId,
+			}),
 		});
 
 		if (!res.ok) {
@@ -65,8 +72,15 @@ const CreatePostForm = ({ post, communityId, mode }: CreatePostFormProps) => {
 
 	const updatePost = async (payload: PostPyload) => {
 		const res = await fetch("/api/posts/update", {
-			method: "PULL",
-			body: JSON.stringify(payload),
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				title: payload.title,
+				description: payload.description,
+				postId: payload.postId,
+			}),
 		});
 
 		if (!res.ok) {
@@ -92,9 +106,9 @@ const CreatePostForm = ({ post, communityId, mode }: CreatePostFormProps) => {
 	const onSubmit: SubmitHandler<FieldValues> = async data => {
 		await PostMutaiton({
 			title: data.title,
-			description: data.title,
+			description: data.description,
 			communityId: communityId,
-			postId: mode === "create" ? undefined : post?.id,
+			postId: post?.id,
 		});
 	};
 
