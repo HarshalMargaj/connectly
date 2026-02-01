@@ -7,7 +7,6 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { useUser } from "@clerk/nextjs";
 import { CommandDialogDemo } from "@/components/search-dialog";
 import { useQuery } from "@tanstack/react-query";
-import { get } from "@/actions/get-communities";
 import { playSound } from "@/lib/PlaySound";
 import MobileNavbar from "./MobileNavbar";
 import MobileSidebar from "./MobileSidebar";
@@ -18,8 +17,18 @@ const Navbar = () => {
 	const [open, setOpen] = useState<boolean>(false);
 	const router = useRouter();
 
+	const getCommunities = async () => {
+		const res = await fetch("api/communities");
+
+		if (!res.ok) {
+			throw new Error("Failed to fetch communities");
+		}
+
+		return res.json();
+	};
+
 	const { data: communities } = useQuery({
-		queryFn: get,
+		queryFn: getCommunities,
 		queryKey: ["allcom"],
 	});
 
