@@ -18,7 +18,7 @@ const AboutCommunity = ({ community }: AboutCommunityProps) => {
 			</div>
 			<div className=" dark:text-[#FAFAFA]  text-[#52525B] flex items-center gap-2">
 				<CalendarPlus2 size={15} />
-				Created {`${community.createdAt.toDateString()}`}
+				Created {`${new Date(community.createdAt).toDateString()}`}
 			</div>
 			<div className="dark:text-[#FAFAFA]  text-[#52525B] flex items-center gap-2">
 				<Globe size={15} />

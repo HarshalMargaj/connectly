@@ -1,0 +1,32 @@
+import { db } from "@/lib/db";
+import { NextResponse } from "next/server";
+
+interface Params {
+	params: {
+		slug: string;
+	};
+}
+
+export async function GET(req: Request, { params }: Params) {
+	const resolvedParams = await params;
+	const { slug } = resolvedParams;
+
+	try {
+		const community = await db.community.findUnique({
+			where: {
+				slug,
+			},
+			include: {
+				joinedBy: true,
+				posts: true,
+			},
+		});
+
+		return NextResponse.json(community);
+	} catch (error) {
+		return NextResponse.json({
+			error: "Failed to fetch community",
+			status: 500,
+		});
+	}
+}

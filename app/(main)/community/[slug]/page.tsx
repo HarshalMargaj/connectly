@@ -1,7 +1,8 @@
 import React from "react";
-import { getByComId } from "@/actions/get-communityBySlug";
+
 import Community from "./_components/Community";
 import type { Metadata } from "next";
+import { toast } from "sonner";
 
 export async function generateMetadata({
 	params,
@@ -9,7 +10,20 @@ export async function generateMetadata({
 	params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
 	const { slug } = await params;
-	const community = await getByComId(slug);
+
+	const getCommunity = async () => {
+		const res = await fetch(
+			`http://localhost:3000/api/communities/${slug}`,
+		);
+
+		if (!res.ok) {
+			toast.error("Failed to fetch community");
+		}
+
+		return res.json();
+	};
+
+	const community = await getCommunity();
 
 	return {
 		title: `${community?.name} | Community`,
