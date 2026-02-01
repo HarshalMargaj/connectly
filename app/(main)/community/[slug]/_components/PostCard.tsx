@@ -18,7 +18,6 @@ import Comment from "./Comment";
 import { toggleReaction } from "@/actions/toggle-reaction";
 import { useUser } from "@clerk/nextjs";
 import { CommunityMenu } from "@/components/community-menu";
-import { deletePost } from "@/actions/delete-post";
 import { savePost } from "@/actions/save-post";
 import NoPosts from "@/components/NotPosts";
 import { DialogDemo } from "@/components/reusable-dialog";
@@ -65,6 +64,22 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 			});
 		},
 	});
+
+	const deletePost = async () => {
+		const res = await fetch("/api/posts/delete", {
+			method: "DELETE",
+			headers: {
+				"content-type": "application/json",
+			},
+			body: JSON.stringify({ postId: post.id }),
+		});
+
+		if (!res.ok) {
+			toast.error("Failed to delete post");
+		}
+
+		return res.json();
+	};
 
 	const { mutateAsync: deletePostMutation } = useMutation({
 		mutationFn: deletePost,
@@ -129,7 +144,7 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 		{
 			id: "1",
 			name: "Delete",
-			action: () => deletePostMutation(post.id),
+			action: deletePostMutation,
 			icon: <Trash />,
 		},
 		{
