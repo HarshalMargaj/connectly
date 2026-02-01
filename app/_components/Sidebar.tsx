@@ -156,14 +156,7 @@ const Sidebar = () => {
 										<Plus />
 										Create a Community
 									</Button>
-									<DialogDemo
-										open={isOpen}
-										setIsOpen={setIsOpen}
-										title="Tell us about your community"
-										description="A name and description help people understand what your community is all about."
-									>
-										<CommunityForm setIsOpen={setIsOpen} />
-									</DialogDemo>
+
 									{user?.id && (
 										<Button
 											className="w-full"
@@ -236,6 +229,14 @@ const Sidebar = () => {
 			>
 				<Menu size={15} />
 			</div>
+			<DialogDemo
+				open={isOpen}
+				setIsOpen={setIsOpen}
+				title="Tell us about your community"
+				description="A name and description help people understand what your community is all about."
+			>
+				<CommunityForm setIsOpen={setIsOpen} />
+			</DialogDemo>
 		</div>
 	);
 };

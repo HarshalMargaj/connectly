@@ -47,9 +47,16 @@ const CommunityForm = ({ setIsOpen }: CommunityFormProps) => {
 		register,
 		handleSubmit,
 		formState: { errors, isSubmitting },
-	} = useForm({
+		getValues,
+	} = useForm<FieldValues>({
 		resolver: zodResolver(schema),
+		defaultValues: {
+			name: "",
+			description: "",
+		},
 	});
+
+	const values = getValues();
 
 	const createCommunity = async (payload: CreateCommunityPayload) => {
 		const slug = slugify(payload.name, { lower: true });
@@ -76,11 +83,15 @@ const CommunityForm = ({ setIsOpen }: CommunityFormProps) => {
 		mutationFn: createCommunity,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["communities"] });
+			setIsOpen(false);
+			toast.success(`${values.name} Community was created!`);
+		},
+		onError: error => {
+			toast.error(error.message);
 		},
 	});
 
 	const onSubmit: SubmitHandler<FieldValues> = async data => {
-		console.log("called submit");
 		playSound();
 
 		if (!user?.id) {
@@ -88,21 +99,14 @@ const CommunityForm = ({ setIsOpen }: CommunityFormProps) => {
 			return;
 		}
 
-		try {
-			await createCommunityMutation({
-				name: data.name,
-				description: data.description,
-			});
-			toast.success("Community created!");
-			setIsOpen(false);
-		} catch (error) {
-			console.error("Error creating community:", error);
-			toast.error("Failed to create community");
-		}
+		await createCommunityMutation({
+			name: data.name,
+			description: data.description,
+		});
 	};
 
 	return (
-		<form onClick={handleSubmit(onSubmit)} className="space-y-4">
+		<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 			<Label htmlFor="name-1">Community Name</Label>
 			<div>
 				<Input

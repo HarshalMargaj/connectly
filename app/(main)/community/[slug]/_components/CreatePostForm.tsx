@@ -35,7 +35,12 @@ interface CreatePostFormProps {
 	mode: string;
 }
 
-const CreatePostForm = ({ post, communityId, mode }: CreatePostFormProps) => {
+const CreatePostForm = ({
+	post,
+	communityId,
+	mode,
+	setOpen,
+}: CreatePostFormProps) => {
 	const {
 		register,
 		handleSubmit,
@@ -97,9 +102,11 @@ const CreatePostForm = ({ post, communityId, mode }: CreatePostFormProps) => {
 			queryClient.invalidateQueries({ queryKey: ["allPosts"] });
 			queryClient.invalidateQueries({ queryKey: ["userPosts"] });
 			queryClient.invalidateQueries({ queryKey: ["community"] });
+			setOpen(false);
+			toast.success("Post Created");
 		},
 		onError: error => {
-			console.error("error creating post:", error);
+			toast.error(error.message);
 		},
 	});
 
