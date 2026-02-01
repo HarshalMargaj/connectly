@@ -1,3 +1,5 @@
+"use client";
+
 import { Prisma } from "@prisma/client";
 import { Handshake } from "lucide-react";
 import { useRouter } from "next/navigation";

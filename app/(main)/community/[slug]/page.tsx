@@ -2,7 +2,6 @@ import React from "react";
 
 import Community from "./_components/Community";
 import type { Metadata } from "next";
-import { toast } from "sonner";
 
 export async function generateMetadata({
 	params,
@@ -17,7 +16,7 @@ export async function generateMetadata({
 		);
 
 		if (!res.ok) {
-			toast.error("Failed to fetch community");
+			console.error("Failed to fetch community");
 		}
 
 		return res.json();
