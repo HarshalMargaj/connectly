@@ -3,7 +3,7 @@ import { getUserId } from "@/lib/getUserId";
 import { NextResponse } from "next/server";
 
 export async function POST(
-	req: Request,
+	_req: Request,
 	{
 		params,
 	}: {
