@@ -1,13 +1,10 @@
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 
-interface Params {
-	params: {
-		postId: string;
-	};
-}
-
-export async function GET(req: Request, { params }: Params) {
+export async function GET(
+	req: Request,
+	{ params }: { params: { postId: string } },
+) {
 	const resolvedParams = await params;
 	const { postId } = resolvedParams;
 

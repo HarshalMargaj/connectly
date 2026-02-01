@@ -2,13 +2,10 @@ import { db } from "@/lib/db";
 import { getUserId } from "@/lib/getUserId";
 import { NextResponse } from "next/server";
 
-interface Params {
-	params: {
-		postId: string;
-	};
-}
-
-export async function POST(req: Request, { params }: Params) {
+export async function POST(
+	req: Request,
+	{ params }: { params: { postId: string } },
+) {
 	const userId = await getUserId();
 	const resolvedParams = await params;
 	const { postId } = resolvedParams;
@@ -33,7 +30,10 @@ export async function POST(req: Request, { params }: Params) {
 	}
 }
 
-export async function DELETE(req: Request, { params }: Params) {
+export async function DELETE(
+	req: Request,
+	{ params }: { params: { postId: string } },
+) {
 	const userId = await getUserId();
 	const resolvedParams = await params;
 	const { postId } = resolvedParams;

@@ -1,13 +1,10 @@
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 
-interface Params {
-	params: {
-		slug: string;
-	};
-}
-
-export async function GET(req: Request, { params }: Params) {
+export async function GET(
+	req: Request,
+	{ params }: { params: { slug: string } },
+) {
 	const resolvedParams = await params;
 	const { slug } = resolvedParams;
 

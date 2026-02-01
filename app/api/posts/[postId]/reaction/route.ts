@@ -2,13 +2,10 @@ import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-interface Params {
-	params: {
-		postId: string;
-	};
-}
-
-export async function POST(req: Request, { params }: Params) {
+export async function POST(
+	req: Request,
+	{ params }: { params: { postId: string } },
+) {
 	const { type } = await req.json();
 	const resolvedParams = await params;
 	const { postId } = resolvedParams;
