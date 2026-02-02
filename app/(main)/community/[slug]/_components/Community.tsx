@@ -1,34 +1,23 @@
-"use client";
-
-import { useQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
 import React from "react";
 import CommunityPage from "./CommunityPage";
-import CommunityPageSkeleton from "@/components/skeletons/CommunityPageSkeleton";
-import { toast } from "sonner";
 import type { Community } from "@prisma/client";
+import { db } from "@/lib/db";
 
-const Community = () => {
-	const params = useParams();
-	const slug = params?.slug as string;
+interface CommunityProps {
+	slug: string;
+}
 
-	const getCommunity = async () => {
-		const res = await fetch(`/api/communities/${slug}`);
-
-		if (!res.ok) {
-			toast.error("Failed to fetch community");
-		}
-
-		return res.json();
-	};
-
-	const { data: community, isLoading } = useQuery({
-		queryFn: getCommunity,
-		queryKey: ["community", slug],
-		enabled: !!slug,
+const Community = async ({ slug }: CommunityProps) => {
+	const community = await db.community.findUnique({
+		where: {
+			slug,
+		},
+		include: {
+			joinedBy: true,
+			posts: true,
+		},
 	});
 
-	if (isLoading) return <CommunityPageSkeleton />;
 	if (!community) return <div>Community not found</div>;
 
 	return (

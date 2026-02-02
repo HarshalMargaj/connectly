@@ -29,7 +29,7 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 	const { user } = useUser();
 
 	const getUserJoinedCommunities = async () => {
-		const res = await fetch(`/api/communities/joined?userId=${user?.id}`);
+		const res = await fetch(`/api/users/${user?.id}/joinedCommunities`);
 
 		if (!res.ok) {
 			toast.error("Failed to fetch user joined communities");
@@ -48,9 +48,8 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 	);
 
 	const joinCommunity = async ({ communityId }: { communityId: string }) => {
-		const res = await fetch("/api/communities/join", {
+		const res = await fetch(`/api/communities/${communityId}/join`, {
 			method: "POST",
-			body: JSON.stringify({ communityId }),
 		});
 
 		if (!res.ok) {
@@ -70,9 +69,8 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 	});
 
 	const leaveCommunity = async ({ communityId }: { communityId: string }) => {
-		const res = await fetch("/api/communities/leave", {
+		const res = await fetch(`/api/communities/${communityId}/leave`, {
 			method: "DELETE",
-			body: JSON.stringify({ communityId }),
 		});
 
 		if (!res.ok) {

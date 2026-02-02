@@ -24,7 +24,7 @@ interface PostSectionProps {
 
 const PostSection = ({ communityId }: PostSectionProps) => {
 	const getCommunityPosts = async () => {
-		const res = await fetch(`/api/posts?communityId=${communityId}`);
+		const res = await fetch(`/api/communities/${communityId}/posts`);
 
 		if (!res.ok) {
 			toast.error("Failed to fetch community posts");

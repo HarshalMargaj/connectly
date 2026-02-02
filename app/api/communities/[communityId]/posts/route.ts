@@ -1,9 +1,21 @@
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(
+	_req: Request,
+	{
+		params,
+	}: {
+		params: Promise<{ communityId: string }>;
+	},
+) {
 	try {
+		const { communityId } = await params;
+
+		console.log(communityId);
+
 		const posts = await db.post.findMany({
+			where: { communityId },
 			include: {
 				owner: true,
 				comments: true,
@@ -18,7 +30,7 @@ export async function GET() {
 		return NextResponse.json(posts);
 	} catch (error) {
 		return NextResponse.json({
-			error: "Failed to fetch posts",
+			error: "Failed to fetch community posts",
 			status: 500,
 		});
 	}

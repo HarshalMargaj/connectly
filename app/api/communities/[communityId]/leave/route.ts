@@ -2,8 +2,15 @@ import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-export async function DELETE(req: Request) {
-	const { communityId } = await req.json();
+export async function DELETE(
+	_req: Request,
+	{
+		params,
+	}: {
+		params: Promise<{ communityId: string }>;
+	},
+) {
+	const { communityId } = await params;
 
 	const { userId } = await auth();
 

@@ -18,9 +18,8 @@ const Community = ({ community, data }: CommunityProps) => {
 	const queryClient = useQueryClient();
 
 	const leaveCommunity = async ({ communityId }: { communityId: string }) => {
-		const res = await fetch("/api/communities/leave", {
+		const res = await fetch(`/api/communities/${communityId}/leave`, {
 			method: "DELETE",
-			body: JSON.stringify({ communityId }),
 		});
 
 		if (!res.ok) {

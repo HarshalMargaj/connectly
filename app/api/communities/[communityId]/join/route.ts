@@ -2,8 +2,15 @@ import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-export async function DELETE(req: Request) {
-	const { postId } = await req.json();
+export async function POST(
+	_req: Request,
+	{
+		params,
+	}: {
+		params: Promise<{ communityId: string }>;
+	},
+) {
+	const { communityId } = await params;
 	const { userId } = await auth();
 
 	if (!userId) {
@@ -14,27 +21,21 @@ export async function DELETE(req: Request) {
 	}
 
 	try {
-		await db.postReaction.deleteMany({
-			where: { postId },
-		});
-
-		// 2. Delete comments
-		await db.comment.deleteMany({
-			where: { postId },
-		});
-
-		// 3. Delete the post
-		await db.post.delete({
+		await db.user.update({
 			where: {
-				id: postId,
-				userId,
+				id: userId,
+			},
+			data: {
+				joinedCommunities: {
+					connect: { id: communityId },
+				},
 			},
 		});
 
 		return NextResponse.json({ success: true });
 	} catch (error) {
 		return NextResponse.json({
-			error: "Failed to delete post",
+			error: "Failed to join community",
 			status: 500,
 		});
 	}

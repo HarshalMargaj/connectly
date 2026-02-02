@@ -10,6 +10,7 @@ import type { Prisma } from "@prisma/client";
 import NoPosts from "@/components/NotPosts";
 import PostCard from "@/app/(main)/community/[slug]/_components/PostCard";
 import ProfileSkeleton from "@/components/skeletons/ProfileSkeleton";
+import { useAuth } from "@clerk/nextjs";
 
 type PostsWithOwner = Prisma.PostGetPayload<{
 	include: {
@@ -21,8 +22,10 @@ type PostsWithOwner = Prisma.PostGetPayload<{
 }>;
 
 const ProfilePage = () => {
+	const { userId } = useAuth();
+
 	const getUserPosts = async () => {
-		const res = await fetch(`/api/posts`);
+		const res = await fetch(`/api/users/${userId}/posts`);
 
 		if (!res.ok) {
 			toast.error("Failed to fetch user posts");
@@ -33,7 +36,7 @@ const ProfilePage = () => {
 
 	const { data: posts = [], isLoading } = useQuery({
 		queryFn: getUserPosts,
-		queryKey: ["userPosts"],
+		queryKey: ["userPosts", userId],
 	});
 
 	if (isLoading) {

@@ -97,12 +97,8 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 	});
 
 	const deletePost = async () => {
-		const res = await fetch("/api/posts/delete", {
+		const res = await fetch(`/api/posts/${post.id}/delete`, {
 			method: "DELETE",
-			headers: {
-				"content-type": "application/json",
-			},
-			body: JSON.stringify({ postId: post.id }),
 		});
 
 		if (!res.ok) {
@@ -126,7 +122,7 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 	});
 
 	const getUserSavedPosts = async () => {
-		const res = await fetch(`/api/posts/saved`);
+		const res = await fetch(`/api/users/${user?.id}/savedPosts`);
 		if (!res.ok) {
 			toast.error("Failed to fetch user saved posts");
 		}

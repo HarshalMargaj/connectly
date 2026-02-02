@@ -47,7 +47,7 @@ const Sidebar = () => {
 	const pathname = usePathname();
 
 	const getUserCommunities = async () => {
-		const res = await fetch(`/api/communities/own`);
+		const res = await fetch(`/api/users/${user?.id}/communities`);
 
 		if (!res.ok) {
 			toast.error("Failed to fetch user communities");
@@ -57,7 +57,7 @@ const Sidebar = () => {
 	};
 
 	const getUserJoinedCommunities = async () => {
-		const res = await fetch(`/api/communities/joined`);
+		const res = await fetch(`/api/users/${user?.id}/joinedCommunities`);
 
 		if (!res.ok) {
 			toast.error("Failed to fetch user joined communities");

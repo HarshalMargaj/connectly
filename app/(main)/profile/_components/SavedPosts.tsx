@@ -10,6 +10,7 @@ import { Prisma } from "@prisma/client";
 import ProfileSkeleton from "@/components/skeletons/ProfileSkeleton";
 import PostCard from "@/app/(main)/community/[slug]/_components/PostCard";
 import NoPosts from "@/components/NotPosts";
+import { useAuth } from "@clerk/nextjs";
 
 type Post = Prisma.PostGetPayload<{
 	include: {
@@ -21,8 +22,9 @@ type Post = Prisma.PostGetPayload<{
 }>;
 
 const SavedPosts = () => {
+	const { userId } = useAuth();
 	const getUserSavedPosts = async () => {
-		const res = await fetch(`/api/posts/saved`);
+		const res = await fetch(`/api/users/${userId}/savedPosts`);
 		if (!res.ok) {
 			toast.error("Failed to fetch user saved posts");
 		}

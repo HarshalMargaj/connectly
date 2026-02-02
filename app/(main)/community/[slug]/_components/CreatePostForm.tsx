@@ -78,7 +78,7 @@ const CreatePostForm = ({
 	};
 
 	const updatePost = async (payload: PostPyload) => {
-		const res = await fetch("/api/posts/update", {
+		const res = await fetch(`/api/posts/${payload.postId}/update`, {
 			method: "PUT",
 			headers: {
 				"Content-Type": "application/json",
@@ -86,7 +86,6 @@ const CreatePostForm = ({
 			body: JSON.stringify({
 				title: payload.title,
 				description: payload.description,
-				postId: payload.postId,
 			}),
 		});
 
