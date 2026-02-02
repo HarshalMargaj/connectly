@@ -13,9 +13,7 @@ const Community = () => {
 	const slug = params?.slug as string;
 
 	const getCommunity = async () => {
-		const res = await fetch(
-			`http://localhost:3000/api/communities/${slug}`,
-		);
+		const res = await fetch(`/api/communities/${slug}`);
 
 		if (!res.ok) {
 			toast.error("Failed to fetch community");

@@ -2,6 +2,7 @@ import React from "react";
 
 import Community from "./_components/Community";
 import type { Metadata } from "next";
+import { db } from "@/lib/db";
 
 export async function generateMetadata({
 	params,
@@ -10,19 +11,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
 	const { slug } = await params;
 
-	const getCommunity = async () => {
-		const res = await fetch(
-			`http://localhost:3000/api/communities/${slug}`,
-		);
-
-		if (!res.ok) {
-			console.error("Failed to fetch community");
-		}
-
-		return res.json();
-	};
-
-	const community = await getCommunity();
+	const community = await db.community.findUnique({
+		where: { slug },
+		select: {
+			name: true,
+			description: true,
+		},
+	});
 
 	return {
 		title: `${community?.name} | Community`,
