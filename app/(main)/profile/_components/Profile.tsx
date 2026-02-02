@@ -24,7 +24,7 @@ const Profile = () => {
 							className="rounded-full md:w-[130px] md:h-[130px] w-[80px] h-[80px]"
 						/>
 						<div className="md:text-2xl text-md tracking-wider">
-							u/{user?.firstName}
+							u/{user?.fullName?.split(" ").join("")}
 						</div>
 					</div>
 				</div>
