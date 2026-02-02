@@ -31,10 +31,12 @@ const HomePage = () => {
 		return res.json();
 	};
 
-	const { data: posts, isLoading } = useQuery({
+	const { data: posts = [], isLoading } = useQuery({
 		queryFn: getAllPosts,
 		queryKey: ["allPosts"],
 	});
+
+	console.log(posts);
 
 	if (isLoading) {
 		return (

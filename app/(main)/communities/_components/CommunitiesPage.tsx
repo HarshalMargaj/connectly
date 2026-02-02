@@ -25,10 +25,12 @@ const CommunitiesPage = () => {
 		return res.json();
 	};
 
-	const { data: communities, isLoading } = useQuery({
+	const { data: communities = [], isLoading } = useQuery({
 		queryFn: getCommunities,
 		queryKey: ["allCommunities"],
 	});
+
+	console.log(communities);
 
 	const isSidebarOpen = useSidebar(state => state.isSidebarOpen);
 

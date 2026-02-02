@@ -33,7 +33,7 @@ const PostSection = ({ communityId }: PostSectionProps) => {
 		return res.json();
 	};
 
-	const { data: posts } = useQuery({
+	const { data: posts = [] } = useQuery({
 		queryFn: getCommunityPosts,
 		queryKey: ["posts", communityId],
 	});
