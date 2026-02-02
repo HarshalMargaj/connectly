@@ -30,8 +30,6 @@ const CommunitiesPage = () => {
 		queryKey: ["allCommunities"],
 	});
 
-	console.log(communities);
-
 	const isSidebarOpen = useSidebar(state => state.isSidebarOpen);
 
 	if (isLoading) {

@@ -37,8 +37,6 @@ const HomePage = () => {
 		queryKey: ["allPosts"],
 	});
 
-	console.log(posts);
-
 	if (isLoading) {
 		return (
 			<div className="space-y-4 p-5">
