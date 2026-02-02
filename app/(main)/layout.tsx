@@ -2,8 +2,8 @@ import QueryProvider from "@/lib/query-provider";
 
 import React from "react";
 
-import Navbar from "../_components/Navbar";
-import Sidebar from "../_components/Sidebar";
+import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar";
 import { ensureUserExists } from "@/actions/user";
 
 const mainLayout = async ({ children }: { children: React.ReactNode }) => {
