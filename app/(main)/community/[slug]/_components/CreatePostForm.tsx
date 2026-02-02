@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { playSound } from "@/lib/PlaySound";
+import { useAuth } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Post } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -43,6 +44,7 @@ const CreatePostForm = ({
 	mode,
 	setOpen,
 }: CreatePostFormProps) => {
+	const { userId } = useAuth();
 	const {
 		register,
 		handleSubmit,
@@ -101,8 +103,8 @@ const CreatePostForm = ({
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["posts", communityId] });
 			queryClient.invalidateQueries({ queryKey: ["allPosts"] });
-			queryClient.invalidateQueries({ queryKey: ["userPosts"] });
-			queryClient.invalidateQueries({ queryKey: ["community"] });
+			queryClient.invalidateQueries({ queryKey: ["userPosts", userId] });
+
 			setOpen(false);
 			toast.success("Post Created");
 		},

@@ -63,8 +63,6 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 		mutationFn: joinCommunity,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["joinedCommunities"] });
-			queryClient.invalidateQueries({ queryKey: ["joinedcommunities"] });
-			queryClient.invalidateQueries({ queryKey: ["community"] });
 		},
 	});
 
@@ -83,9 +81,7 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 	const { mutateAsync: leaveCommunityMutation } = useMutation({
 		mutationFn: leaveCommunity,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["joinedcommunities"] });
 			queryClient.invalidateQueries({ queryKey: ["joinedCommunities"] });
-			queryClient.invalidateQueries({ queryKey: ["community"] });
 		},
 	});
 

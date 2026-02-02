@@ -34,7 +34,7 @@ const SavedPosts = () => {
 
 	const { data: savedPosts = [], isLoading } = useQuery({
 		queryFn: getUserSavedPosts,
-		queryKey: ["savedPosts"],
+		queryKey: ["savedPosts", userId],
 	});
 
 	if (isLoading) {

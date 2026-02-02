@@ -88,8 +88,12 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 		mutationFn: toggleReaction, // your API
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["allPosts"] });
-			queryClient.invalidateQueries({ queryKey: ["userPosts"] });
-			queryClient.invalidateQueries({ queryKey: ["savedPosts"] });
+			queryClient.invalidateQueries({
+				queryKey: ["userPosts", user?.id],
+			});
+			queryClient.invalidateQueries({
+				queryKey: ["savedPosts", user?.id],
+			});
 			queryClient.invalidateQueries({
 				queryKey: ["posts", post.communityId],
 			});
@@ -115,9 +119,12 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 				queryKey: ["posts", post.communityId],
 			});
 			queryClient.invalidateQueries({ queryKey: ["allPosts"] });
-			queryClient.invalidateQueries({ queryKey: ["userPosts"] });
-			queryClient.invalidateQueries({ queryKey: ["savedPosts"] });
-			queryClient.invalidateQueries({ queryKey: ["community"] });
+			queryClient.invalidateQueries({
+				queryKey: ["userPosts", user?.id],
+			});
+			queryClient.invalidateQueries({
+				queryKey: ["savedPosts", user?.id],
+			});
 		},
 	});
 
@@ -132,7 +139,7 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 
 	const { data: saved } = useQuery({
 		queryFn: getUserSavedPosts,
-		queryKey: ["savedPosts"],
+		queryKey: ["savedPosts", user?.id],
 	});
 
 	const hasSaved = saved?.savedPosts?.find(
@@ -170,8 +177,12 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 				queryKey: ["posts", post.communityId],
 			});
 			queryClient.invalidateQueries({ queryKey: ["allPosts"] });
-			queryClient.invalidateQueries({ queryKey: ["userPosts"] });
-			queryClient.invalidateQueries({ queryKey: ["savedPosts"] });
+			queryClient.invalidateQueries({
+				queryKey: ["userPosts", user?.id],
+			});
+			queryClient.invalidateQueries({
+				queryKey: ["savedPosts", user?.id],
+			});
 		},
 	});
 

@@ -32,7 +32,6 @@ const Community = ({ community, data }: CommunityProps) => {
 	const { mutateAsync: leaveCommunityMutaiton } = useMutation({
 		mutationFn: leaveCommunity,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["joinedcommunities"] });
 			queryClient.invalidateQueries({ queryKey: ["joinedCommunities"] });
 		},
 		onError: error => {

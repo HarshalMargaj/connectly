@@ -13,6 +13,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Loader } from "lucide-react";
+import { useAuth } from "@clerk/nextjs";
 
 const schema = z.object({
 	content: z.string().min(1, "Comment is required"),
@@ -30,6 +31,7 @@ interface AddCommentFormProps {
 }
 
 const AddCommentForm = ({ postId }: AddCommentFormProps) => {
+	const { userId } = useAuth();
 	const {
 		register,
 		handleSubmit,
@@ -38,7 +40,6 @@ const AddCommentForm = ({ postId }: AddCommentFormProps) => {
 		resolver: zodResolver(schema),
 	});
 	const queryClient = useQueryClient();
-
 	const addComment = async (payload: CommentPayload) => {
 		const res = await fetch("/api/posts/comments/create", {
 			method: "POST",
@@ -61,7 +62,12 @@ const AddCommentForm = ({ postId }: AddCommentFormProps) => {
 	const { mutateAsync: addCommentMutation } = useMutation({
 		mutationFn: addComment,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["comments", postId] });
+			queryClient.invalidateQueries({
+				queryKey: ["comments", postId],
+			});
+			queryClient.invalidateQueries({
+				queryKey: ["comments", userId],
+			});
 			queryClient.invalidateQueries({ queryKey: ["allPosts"] });
 			queryClient.invalidateQueries({ queryKey: ["posts"] });
 		},
