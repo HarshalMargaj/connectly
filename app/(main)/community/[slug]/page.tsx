@@ -34,7 +34,7 @@ export default async function Page({
 	const { slug } = await params;
 	return (
 		<Suspense fallback={<CommunityPageSkeleton />}>
-			<Community slug={slug} />;
+			<Community slug={slug} />
 		</Suspense>
 	);
 }
