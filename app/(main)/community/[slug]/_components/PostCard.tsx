@@ -183,6 +183,11 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 			queryClient.invalidateQueries({
 				queryKey: ["savedPosts", user?.id],
 			});
+			if (hasSaved) {
+				toast.success("Post Unsaved");
+			} else {
+				toast.success("Post saved");
+			}
 		},
 	});
 
