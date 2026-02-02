@@ -26,6 +26,7 @@ const HomePage = () => {
 
 		if (!res.ok) {
 			toast.error("Failed to fetch posts");
+			throw new Error("Failed to fetch posts");
 		}
 
 		return res.json();

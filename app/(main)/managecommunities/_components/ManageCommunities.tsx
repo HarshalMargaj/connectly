@@ -18,9 +18,10 @@ const ManageCommunities = () => {
 		queryKey: ["joinedcommunities", user?.id],
 	});
 
-	const filterCommunities = communities.filter(c =>
-		c.name.toLowerCase().includes(searchQuery.toLowerCase())
-	);
+	const filterCommunities =
+		communities.filter(c =>
+			c.name.toLowerCase().includes(searchQuery.toLowerCase()),
+		) || [];
 
 	if (isLoading) return <ManageCommunitiesSkeleton />;
 
