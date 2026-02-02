@@ -9,7 +9,7 @@ export function TabsDemo() {
 	return (
 		<div className="flex w-full flex-col gap-6">
 			<Tabs defaultValue="posts">
-				<TabsList>
+				<TabsList className="dark:bg-[#141416]">
 					<TabsTrigger value="posts">Posts</TabsTrigger>
 					<TabsTrigger value="saved">Saved</TabsTrigger>
 					<TabsTrigger value="comments">Comments</TabsTrigger>
