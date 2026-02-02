@@ -14,25 +14,6 @@ interface DialogDemoProps {
 	description: string;
 }
 
-// export function DialogDemo({
-// 	open,
-// 	setIsOpen,
-// 	children,
-// 	title,
-// 	description,
-// }: DialogDemoProps) {
-// 	return (
-// 		<Dialog open={open} onOpenChange={setIsOpen}>
-// 			<DialogContent className="sm:max-w-[425px]">
-// 				<DialogHeader>
-// 					<DialogTitle>{title}</DialogTitle>
-// 					<DialogDescription>{description}</DialogDescription>
-// 				</DialogHeader>
-// 				{children}
-// 			</DialogContent>
-// 		</Dialog>
-// 	);
-// }
 export function DialogDemo({
 	open,
 	setIsOpen,
@@ -42,12 +23,7 @@ export function DialogDemo({
 }: DialogDemoProps) {
 	return (
 		<Dialog open={open} onOpenChange={setIsOpen}>
-			<DialogContent
-				className="sm:max-w-[425px]"
-				onInteractOutside={e => {
-					e.preventDefault(); // Prevent closing on outside click
-				}}
-			>
+			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
 					<DialogTitle>{title}</DialogTitle>
 					<DialogDescription>{description}</DialogDescription>
