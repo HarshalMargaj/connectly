@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Rubik } from "next/font/google";
 import { Toaster } from "sonner";
 import { ClerkProvider } from "@clerk/nextjs";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const rubik = Rubik({
 	subsets: ["latin"],
@@ -42,6 +43,7 @@ export default function RootLayout({
 					>
 						{children}
 					</ThemeProvider>
+					<SpeedInsights />
 				</body>
 			</html>
 		</ClerkProvider>
