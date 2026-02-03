@@ -25,6 +25,7 @@ import AddCommentForm from "./AddCommentForm";
 import CreatePostForm from "./CreatePostForm";
 
 import { toast } from "sonner";
+import { useUserSavedPostsQuery } from "@/hooks/useUserSavedPostsQuery";
 
 type PostWithOwner = Prisma.PostGetPayload<{
 	include: {
@@ -128,23 +129,11 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 		},
 	});
 
-	const getUserSavedPosts = async () => {
-		const res = await fetch(`/api/users/${user?.id}/savedPosts`);
-		if (!res.ok) {
-			toast.error("Failed to fetch user saved posts");
-		}
-
-		return res.json();
-	};
-
-	const { data: saved } = useQuery({
-		queryFn: getUserSavedPosts,
-		queryKey: ["savedPosts", user?.id],
+	const { data: savedPosts = [] } = useUserSavedPostsQuery({
+		userId: user?.id,
 	});
 
-	const hasSaved = saved?.savedPosts?.find(
-		(sp: PostWithOwner) => sp.id === post.id,
-	);
+	const hasSaved = savedPosts?.find((sp: PostWithOwner) => sp.id === post.id);
 
 	const savePost = async () => {
 		const res = await fetch(`/api/posts/${post.id}/save`, {

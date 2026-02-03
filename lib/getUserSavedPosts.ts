@@ -1,0 +1,8 @@
+export async function getUserSavedPosts(userId?: string) {
+	const res = await fetch(`/api/users/${userId}/savedPosts`);
+	if (!res.ok) {
+		console.error("Failed to fetch user saved posts");
+	}
+
+	return res.json();
+}

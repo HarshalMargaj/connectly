@@ -2,15 +2,13 @@
 
 import React from "react";
 
-import { useQuery } from "@tanstack/react-query";
-
-import { toast } from "sonner";
 import { Prisma } from "@prisma/client";
 
 import ProfileSkeleton from "@/components/skeletons/ProfileSkeleton";
 import PostCard from "@/app/(main)/community/[slug]/_components/PostCard";
 import NoPosts from "@/components/NotPosts";
 import { useAuth } from "@clerk/nextjs";
+import { useUserSavedPostsQuery } from "@/hooks/useUserSavedPostsQuery";
 
 type Post = Prisma.PostGetPayload<{
 	include: {
@@ -23,18 +21,11 @@ type Post = Prisma.PostGetPayload<{
 
 const SavedPosts = () => {
 	const { userId } = useAuth();
-	const getUserSavedPosts = async () => {
-		const res = await fetch(`/api/users/${userId}/savedPosts`);
-		if (!res.ok) {
-			toast.error("Failed to fetch user saved posts");
-		}
 
-		return res.json();
-	};
+	if (!userId) return null;
 
-	const { data: savedPosts = [], isLoading } = useQuery({
-		queryFn: getUserSavedPosts,
-		queryKey: ["savedPosts", userId],
+	const { data: savedPosts = [], isLoading } = useUserSavedPostsQuery({
+		userId: userId,
 	});
 
 	if (isLoading) {
@@ -49,8 +40,8 @@ const SavedPosts = () => {
 
 	return (
 		<div className="space-y-4 pt-4">
-			{savedPosts.savedPosts?.length > 0 ? (
-				savedPosts.savedPosts?.map((post: Post) => (
+			{savedPosts?.length > 0 ? (
+				savedPosts?.map((post: Post) => (
 					<PostCard
 						key={post.id}
 						post={post}
