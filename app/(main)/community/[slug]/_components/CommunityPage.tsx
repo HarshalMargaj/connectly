@@ -1,7 +1,7 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 
 import { Ellipsis, OctagonMinus, Handshake, Plus } from "lucide-react";
@@ -15,6 +15,7 @@ import { DialogDemo } from "@/components/reusable-dialog";
 import { Button } from "@/components/ui/button";
 import { playSound } from "@/lib/PlaySound";
 import { toast } from "sonner";
+import { useJoinedCommunitiesQuery } from "@/hooks/useJoinedCommunitiesQuery";
 
 type CommunityWithJoinedByUsers = Prisma.CommunityGetPayload<{
 	include: { joinedBy: true; posts: true };
@@ -28,22 +29,11 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 	const queryClient = useQueryClient();
 	const { user } = useUser();
 
-	const getUserJoinedCommunities = async () => {
-		const res = await fetch(`/api/users/${user?.id}/joinedCommunities`);
-
-		if (!res.ok) {
-			toast.error("Failed to fetch user joined communities");
-		}
-
-		return res.json();
-	};
-
-	const { data: joinedCommunities } = useQuery({
-		queryFn: getUserJoinedCommunities,
-		queryKey: ["joinedCommunities", user?.id],
+	const { data: communities = [] } = useJoinedCommunitiesQuery({
+		userId: user?.id,
 	});
 
-	const isJoined = joinedCommunities?.joinedCommunities?.find(
+	const isJoined = communities?.find(
 		(c: CommunityWithJoinedByUsers) => c.id === community.id,
 	);
 
@@ -62,7 +52,9 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 	const { mutate: joinCommunityMutation } = useMutation({
 		mutationFn: joinCommunity,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["joinedCommunities"] });
+			queryClient.invalidateQueries({
+				queryKey: ["joinedCommunities", user?.id],
+			});
 		},
 	});
 
@@ -81,7 +73,9 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 	const { mutateAsync: leaveCommunityMutation } = useMutation({
 		mutationFn: leaveCommunity,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["joinedCommunities"] });
+			queryClient.invalidateQueries({
+				queryKey: ["joinedCommunities", user?.id],
+			});
 		},
 	});
 

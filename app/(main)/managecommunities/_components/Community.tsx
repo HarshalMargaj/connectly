@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { playSound } from "@/lib/PlaySound";
+import { useAuth } from "@clerk/nextjs";
 import type { Community } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Handshake } from "lucide-react";
@@ -16,6 +17,7 @@ interface CommunityProps {
 const Community = ({ community, data }: CommunityProps) => {
 	const isJoined = data.find(c => c.id === community.id);
 	const queryClient = useQueryClient();
+	const { userId } = useAuth();
 
 	const leaveCommunity = async ({ communityId }: { communityId: string }) => {
 		const res = await fetch(`/api/communities/${communityId}/leave`, {
@@ -32,7 +34,9 @@ const Community = ({ community, data }: CommunityProps) => {
 	const { mutateAsync: leaveCommunityMutaiton } = useMutation({
 		mutationFn: leaveCommunity,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["joinedCommunities"] });
+			queryClient.invalidateQueries({
+				queryKey: ["joinedCommunities", userId],
+			});
 		},
 		onError: error => {
 			console.log(error);

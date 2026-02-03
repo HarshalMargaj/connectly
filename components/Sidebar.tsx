@@ -24,6 +24,7 @@ import { Prisma } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import { useUser } from "@clerk/nextjs";
 import { useSidebar } from "@/store/sidebar.store";
+import { useJoinedCommunitiesQuery } from "@/hooks/useJoinedCommunitiesQuery";
 
 type Community = Prisma.CommunityGetPayload<{
 	include: {
@@ -56,15 +57,14 @@ const Sidebar = () => {
 		return res.json();
 	};
 
-	const getUserJoinedCommunities = async () => {
-		const res = await fetch(`/api/users/${user?.id}/joinedCommunities`);
+	const {
+		data: joinedCommunities = [],
+		isLoading: isJoinedCommunitiesLoading,
+	} = useJoinedCommunitiesQuery({
+		userId: user?.id,
+	});
 
-		if (!res.ok) {
-			toast.error("Failed to fetch user joined communities");
-		}
-
-		return res.json();
-	};
+	console.log(joinedCommunities);
 
 	const { data: communities = [], isLoading } = useQuery({
 		queryFn: getUserCommunities,
@@ -72,17 +72,8 @@ const Sidebar = () => {
 		enabled: !!user?.id,
 	});
 
-	const {
-		data: joinedCommunities = [],
-		isLoading: isJoinedCommunitiesLoading,
-	} = useQuery({
-		queryFn: getUserJoinedCommunities,
-		queryKey: ["joinedCommunities", user?.id],
-		enabled: !!user?.id,
-	});
-
 	return (
-		<div className="relative ">
+		<div className="relative">
 			<div
 				onClick={e => e.preventDefault()}
 				className={`
@@ -195,13 +186,12 @@ const Sidebar = () => {
 									{isJoinedCommunitiesLoading ? (
 										<SkeletonDemo />
 									) : (
-										joinedCommunities?.joinedCommunities
-											?.length > 0 && (
+										joinedCommunities?.length > 0 && (
 											<div className="space-y-2">
 												<div className="p-2 text-sm font-bold text-[#18181B] dark:text-white tracking-wide">
 													JOINED COMMUNITIES
 												</div>
-												{joinedCommunities?.joinedCommunities?.map(
+												{joinedCommunities?.map(
 													(community: Community) => (
 														<CommunityItem
 															community={

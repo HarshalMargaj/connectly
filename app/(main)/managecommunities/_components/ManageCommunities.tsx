@@ -1,33 +1,22 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
+import { useJoinedCommunitiesQuery } from "@/hooks/useJoinedCommunitiesQuery";
+
 import SearchFilter from "./SearchFilter";
 import Community from "./Community";
 import NotFound from "./NotFound";
 import ManageCommunitiesSkeleton from "@/components/skeletons/ManageCommSkeleton";
-import { toast } from "sonner";
+
 import type { Community as CommunityPayload } from "@prisma/client";
 
 const ManageCommunities = () => {
 	const { user } = useUser();
 	const [searchQuery, setSearchQuery] = useState<string>("");
 
-	const getUserJoinedCommunities = async () => {
-		const res = await fetch(`/api/users/${user?.id}/joinedCommunities`);
-
-		if (!res.ok) {
-			toast.error("Failed to fetch user joined communities");
-			console.error("Failed to fetch user joined communities");
-		}
-
-		return res.json();
-	};
-
-	const { data: communities = [], isLoading } = useQuery({
-		queryFn: getUserJoinedCommunities,
-		queryKey: ["joinedCommunities", user?.id],
+	const { data: communities = [], isLoading } = useJoinedCommunitiesQuery({
+		userId: user?.id,
 	});
 
 	const filterCommunities =
