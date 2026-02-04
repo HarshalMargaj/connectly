@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Post } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -45,6 +46,8 @@ const CreatePostForm = ({
 	setOpen,
 }: CreatePostFormProps) => {
 	const { userId } = useAuth();
+	const router = useRouter();
+
 	const {
 		register,
 		handleSubmit,
@@ -104,6 +107,8 @@ const CreatePostForm = ({
 			queryClient.invalidateQueries({ queryKey: ["posts", communityId] });
 			queryClient.invalidateQueries({ queryKey: ["allPosts"] });
 			queryClient.invalidateQueries({ queryKey: ["userPosts", userId] });
+
+			router.refresh();
 
 			setOpen(false);
 			toast.success("Post Created");

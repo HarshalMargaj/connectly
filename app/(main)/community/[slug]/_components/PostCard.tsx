@@ -26,6 +26,7 @@ import CreatePostForm from "./CreatePostForm";
 
 import { toast } from "sonner";
 import { useUserSavedPostsQuery } from "@/hooks/useUserSavedPostsQuery";
+import { useRouter } from "next/navigation";
 
 type PostWithOwner = Prisma.PostGetPayload<{
 	include: {
@@ -53,6 +54,7 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 	const [open, setOpen] = useState<boolean>(false);
 	const { user } = useUser();
 	const queryClient = useQueryClient();
+	const router = useRouter();
 
 	const getPostComments = async () => {
 		const res = await fetch(`/api/posts/comments/${post.id}`);
@@ -126,6 +128,8 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 			queryClient.invalidateQueries({
 				queryKey: ["savedPosts", user?.id],
 			});
+
+			router.refresh();
 		},
 	});
 
