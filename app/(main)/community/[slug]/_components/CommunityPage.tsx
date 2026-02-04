@@ -56,6 +56,10 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 			queryClient.invalidateQueries({
 				queryKey: ["joinedCommunities", user?.id],
 			});
+			toast.success(`You’re now a member of ${community.name}`);
+		},
+		onError: error => {
+			toast.error(error.message);
 		},
 	});
 
