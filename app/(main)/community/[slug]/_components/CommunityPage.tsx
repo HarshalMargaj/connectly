@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { playSound } from "@/lib/PlaySound";
 import { toast } from "sonner";
 import { useJoinedCommunitiesQuery } from "@/hooks/useJoinedCommunitiesQuery";
+import { useLeaveCommunity } from "@/hooks/useLeaveCommunity";
 
 type CommunityWithJoinedByUsers = Prisma.CommunityGetPayload<{
 	include: { joinedBy: true; posts: true };
@@ -58,25 +59,8 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 		},
 	});
 
-	const leaveCommunity = async ({ communityId }: { communityId: string }) => {
-		const res = await fetch(`/api/communities/${communityId}/leave`, {
-			method: "DELETE",
-		});
-
-		if (!res.ok) {
-			toast.error("Failed to leave community");
-		}
-
-		return res.json();
-	};
-
-	const { mutateAsync: leaveCommunityMutation } = useMutation({
-		mutationFn: leaveCommunity,
-		onSuccess: () => {
-			queryClient.invalidateQueries({
-				queryKey: ["joinedCommunities", user?.id],
-			});
-		},
+	const { mutateAsync: leaveCommunityMutation } = useLeaveCommunity({
+		userId: user?.id,
 	});
 
 	return (
@@ -151,6 +135,7 @@ const CommunityPage = ({ community }: CommunityPageProps) => {
 									if (community?.id) {
 										leaveCommunityMutation({
 											communityId: community.id,
+											communityName: community.name,
 										});
 									}
 								},

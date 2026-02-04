@@ -1,13 +1,15 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { playSound } from "@/lib/PlaySound";
-import { useAuth } from "@clerk/nextjs";
-import type { Community } from "@prisma/client";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Handshake } from "lucide-react";
 import React from "react";
-import { toast } from "sonner";
+
+import { Button } from "@/components/ui/button";
+
+import { useLeaveCommunity } from "@/hooks/useLeaveCommunity";
+import { useAuth } from "@clerk/nextjs";
+
+import { playSound } from "@/lib/PlaySound";
+import type { Community } from "@prisma/client";
+import { Handshake } from "lucide-react";
 
 interface CommunityProps {
 	community: Community;
@@ -16,31 +18,12 @@ interface CommunityProps {
 
 const Community = ({ community, data }: CommunityProps) => {
 	const isJoined = data.find(c => c.id === community.id);
-	const queryClient = useQueryClient();
 	const { userId } = useAuth();
 
-	const leaveCommunity = async ({ communityId }: { communityId: string }) => {
-		const res = await fetch(`/api/communities/${communityId}/leave`, {
-			method: "DELETE",
-		});
+	if (!userId) return null;
 
-		if (!res.ok) {
-			toast.error("Failed to leave community");
-		}
-
-		return res.json();
-	};
-
-	const { mutateAsync: leaveCommunityMutaiton } = useMutation({
-		mutationFn: leaveCommunity,
-		onSuccess: () => {
-			queryClient.invalidateQueries({
-				queryKey: ["joinedCommunities", userId],
-			});
-		},
-		onError: error => {
-			console.log(error);
-		},
+	const { mutateAsync: leaveCommunityMutation } = useLeaveCommunity({
+		userId,
 	});
 
 	return (
@@ -61,8 +44,9 @@ const Community = ({ community, data }: CommunityProps) => {
 				onClick={() => {
 					playSound();
 					if (community.id) {
-						leaveCommunityMutaiton({
+						leaveCommunityMutation({
 							communityId: community.id,
+							communityName: community.name,
 						});
 					}
 				}}
