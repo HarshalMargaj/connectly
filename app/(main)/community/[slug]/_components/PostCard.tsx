@@ -88,15 +88,65 @@ const PostCard = ({ post, showUser, showCommunity }: PostCardProps) => {
 	};
 
 	const { mutate: toggleReactionMutation } = useMutation({
-		mutationFn: toggleReaction, // your API
-		onSuccess: () => {
+		mutationFn: toggleReaction,
+
+		onMutate: async (type: "LIKE" | "DISLIKE") => {
+			// Cancel outgoing refetches
+			await queryClient.cancelQueries({ queryKey: ["allPosts"] });
+
+			// Snapshot previous state
+			const previousPosts = queryClient.getQueryData<PostWithOwner[]>([
+				"allPosts",
+			]);
+
+			// Optimistically update
+			queryClient.setQueryData<PostWithOwner[] | undefined>(
+				["allPosts"],
+				(old): PostWithOwner[] | undefined => {
+					if (!old) return old;
+
+					return old.map(p => {
+						if (p.id !== post.id) return p;
+
+						const filtered = p.PostReaction.filter(
+							r => r.userId !== user?.id,
+						);
+
+						const alreadyReacted = p.PostReaction.find(
+							r => r.userId === user?.id && r.type === type,
+						);
+
+						return {
+							...p,
+							PostReaction: alreadyReacted
+								? filtered
+								: [
+										...filtered,
+										{
+											id: crypto.randomUUID(),
+											type,
+											userId: user?.id!,
+											postId: p.id,
+											createdAt: new Date(), // 👈 IMPORTANT
+										},
+									],
+						};
+					});
+				},
+			);
+
+			return { previousPosts };
+		},
+
+		onError: (_err, _vars, context) => {
+			// rollback on error
+			queryClient.setQueryData(["allPosts"], context?.previousPosts);
+			toast.error("Failed to react");
+		},
+
+		onSettled: () => {
+			// final sync with server
 			queryClient.invalidateQueries({ queryKey: ["allPosts"] });
-			queryClient.invalidateQueries({
-				queryKey: ["userPosts", user?.id],
-			});
-			queryClient.invalidateQueries({
-				queryKey: ["savedPosts", user?.id],
-			});
 			queryClient.invalidateQueries({
 				queryKey: ["posts", post.communityId],
 			});
