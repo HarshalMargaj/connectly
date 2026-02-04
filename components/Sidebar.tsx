@@ -64,8 +64,6 @@ const Sidebar = () => {
 		userId: user?.id,
 	});
 
-	console.log(joinedCommunities);
-
 	const { data: communities = [], isLoading } = useQuery({
 		queryFn: getUserCommunities,
 		queryKey: ["communities", user?.id],

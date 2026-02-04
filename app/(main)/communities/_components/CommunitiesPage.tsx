@@ -1,7 +1,5 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-
 import React from "react";
 import Card from "./Card";
 
@@ -9,26 +7,14 @@ import CommunityCardSkeleton from "@/components/skeletons/CommCardSkeleton";
 
 import { useSidebar } from "@/store/sidebar.store";
 import { Prisma } from "@prisma/client";
+import { useCommunitiesQuery } from "@/hooks/useCommunitiesQuery";
 
 type Community = Prisma.CommunityGetPayload<{
 	include: { joinedBy: true };
 }>;
 
 const CommunitiesPage = () => {
-	const getCommunities = async () => {
-		const res = await fetch("api/communities");
-
-		if (!res.ok) {
-			throw new Error("Failed to fetch communities");
-		}
-
-		return res.json();
-	};
-
-	const { data: communities = [], isLoading } = useQuery({
-		queryFn: getCommunities,
-		queryKey: ["allCommunities"],
-	});
+	const { data: communities = [], isLoading } = useCommunitiesQuery();
 
 	const isSidebarOpen = useSidebar(state => state.isSidebarOpen);
 

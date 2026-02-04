@@ -4,7 +4,7 @@ export async function getUserJoinedCommunities(userId?: string) {
 	const res = await fetch(`/api/users/${userId}/joinedCommunities`);
 
 	if (!res.ok) {
-		console.error("Failed to fetch user joined communities");
+		throw new Error("Failed to fetch user joined communities");
 	}
 
 	return res.json();

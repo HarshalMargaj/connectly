@@ -82,7 +82,10 @@ const CommunityForm = ({ setIsOpen }: CommunityFormProps) => {
 	const { mutateAsync: createCommunityMutation } = useMutation({
 		mutationFn: createCommunity,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["communities"] });
+			queryClient.invalidateQueries({ queryKey: ["allCommunities"] });
+			queryClient.invalidateQueries({
+				queryKey: ["communities", user?.id],
+			});
 			setIsOpen(false);
 			toast.success(`${values.name} Community was created!`);
 		},
